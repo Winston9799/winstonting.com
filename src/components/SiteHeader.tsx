@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
 import { NAV, NavItem } from "@/lib/nav";
 
@@ -43,14 +42,14 @@ function MegaMenu({ item, onClose }: { item: NavItem; onClose: () => void }) {
               <ul className="space-y-3">
                 {col.links.map((link) => (
                   <li key={link.href}>
-                    <Link href={link.href} onClick={onClose} className="block group">
+                    <a href={link.href} onClick={onClose} className="block group">
                       <span className="text-[14px] text-[var(--foreground)] group-hover:text-[var(--accent)] transition-colors font-medium leading-tight">
                         {link.label}
                       </span>
                       {link.desc && (
                         <span className="block text-[11px] text-[var(--muted)] mt-0.5">{link.desc}</span>
                       )}
-                    </Link>
+                    </a>
                   </li>
                 ))}
               </ul>
@@ -89,10 +88,10 @@ function MobileDrawer({ onClose }: { onClose: () => void }) {
                           {col.heading}
                         </p>
                         {col.links.map((link) => (
-                          <Link key={link.href} href={link.href} onClick={onClose}
+                          <a key={link.href} href={link.href} onClick={onClose}
                             className="block px-2 py-1.5 text-[14px] text-[var(--foreground)] hover:text-[var(--accent)] transition-colors">
                             {link.label}
-                          </Link>
+                          </a>
                         ))}
                       </div>
                     ))}
@@ -100,10 +99,10 @@ function MobileDrawer({ onClose }: { onClose: () => void }) {
                 )}
               </>
             ) : (
-              <Link href={item.href ?? "/"} onClick={onClose}
+              <a href={item.href ?? "/"} onClick={onClose}
                 className="block py-4 text-[15px] font-medium text-[var(--foreground)] hover:text-[var(--accent)] transition-colors">
                 {item.label}
-              </Link>
+              </a>
             )}
           </div>
         ))}
@@ -172,10 +171,10 @@ export default function SiteHeader() {
                       </svg>
                     </button>
                   ) : (
-                    <Link href={item.href ?? "/"} onMouseEnter={() => setActiveMenu(null)}
+                    <a href={item.href ?? "/"} onMouseEnter={() => setActiveMenu(null)}
                       className="px-4 h-[56px] flex items-center text-[15px] font-medium text-[var(--foreground)] hover:text-[var(--accent)] transition-colors">
                       {item.label}
-                    </Link>
+                    </a>
                   )}
                 </div>
               ))}

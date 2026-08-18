@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { NAV } from "@/lib/nav";
 import { SOCIALS, Social } from "@/lib/socials";
 
@@ -67,10 +66,10 @@ function Sitemap() {
           </p>
 
           {item.href && !item.columns && (
-            <Link href={item.href}
+            <a href={item.href}
               className="block text-[13px] text-white/50 hover:text-white transition-colors mb-1.5">
               Visit page
-            </Link>
+            </a>
           )}
 
           {/* Sub-columns */}
@@ -82,10 +81,10 @@ function Sitemap() {
               <ul className="space-y-1.5">
                 {col.links.map((link) => (
                   <li key={link.href}>
-                    <Link href={link.href}
+                    <a href={link.href}
                       className="text-[13px] text-white/50 hover:text-white transition-colors">
                       {link.label}
-                    </Link>
+                    </a>
                   </li>
                 ))}
               </ul>
@@ -139,10 +138,10 @@ export default function SiteFooter() {
         </p>
         <div className="flex items-center gap-5">
           {LEGAL_LINKS.map((l) => (
-            <Link key={l.href} href={l.href}
+            <a key={l.href} href={l.href}
               className="text-[12px] text-white/30 hover:text-white/70 transition-colors">
               {l.label}
-            </Link>
+            </a>
           ))}
         </div>
       </div>
