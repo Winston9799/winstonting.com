@@ -26,6 +26,6 @@ html {
 body {
   background-color: var(--background);
   color: var(--foreground);
-  font-family: 'Inter', 'Noto Sans SC', system-ui, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
