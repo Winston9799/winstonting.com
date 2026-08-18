@@ -22,7 +22,7 @@ export interface NavItem {
 export const NAV: NavItem[] = [
   {
     label: "Home",
-    href: "https://winston9799.com",
+    href: "/",
   },
   {
     label: "Trip",
