@@ -8,33 +8,39 @@ export default function HomePage() {
   return (
     <>
       {/* ── HERO ──────────────────────────────────────────────────────────── */}
-      <section className="relative w-full bg-gray-900 overflow-hidden"
+      <section className="relative w-full overflow-hidden"
         style={{ minHeight: "min(80vh, 700px)" }}>
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700" />
+        <img
+          src="/hero-chengdu-nightview.jpg"
+          alt=""
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-black/40" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
 
         <div className="relative z-10 flex flex-col items-start justify-end h-full max-w-screen-lg mx-auto px-8 pb-16 pt-40">
-          <span className="text-[11px] tracking-[3px] uppercase text-white/50 mb-4 font-medium">
+          <span className="text-sm sm:text-base tracking-[3px] uppercase text-white font-bold mb-4">
             Upcoming Trip
           </span>
 
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-[1.1] max-w-xl mb-4">
+          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white leading-[1.1] max-w-xl mb-4">
             成都探索之旅
-            <span className="block text-2xl sm:text-3xl font-light text-white/60 mt-2">
+            <span className="block text-3xl sm:text-4xl font-bold text-white/90 mt-2">
               Chengdu 2026
             </span>
           </h1>
 
-          <p className="text-[15px] text-white/60 max-w-sm mb-8 leading-relaxed">
+          <p className="text-lg sm:text-xl font-bold text-white max-w-sm mb-8 leading-relaxed">
             8 days · 12 attractions · JW Marriott · September 2026
           </p>
 
           <div className="flex gap-3 flex-wrap">
             <a href="/trip/chengdu-sep-2026"
-              className="px-7 py-3 bg-white text-[var(--foreground)] text-[13px] font-semibold rounded-full hover:bg-gray-100 transition-colors">
+              className="px-7 py-3 bg-white text-[var(--foreground)] text-base font-bold rounded-full hover:bg-gray-100 transition-colors">
               View Itinerary
             </a>
             <a href="/contact"
-              className="px-7 py-3 border border-white/40 text-white text-[13px] font-semibold rounded-full hover:bg-white/10 transition-colors">
+              className="px-7 py-3 border border-white/40 text-white text-base font-bold rounded-full hover:bg-white/10 transition-colors">
               Contact Me
             </a>
           </div>
