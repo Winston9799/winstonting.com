@@ -175,7 +175,7 @@ export default function SiteHeader() {
         <div className="h-full max-w-screen-lg mx-auto px-6 flex items-center justify-between gap-8">
 
           {/* ── Logo ── */}
-          <Link href="/" className="shrink-0" onClick={() => { setActiveMenu(null); setMobileOpen(false); }}>
+          <Link href="https://winstonting.com" className="shrink-0" onClick={() => { setActiveMenu(null); setMobileOpen(false); }}>
             <span className="text-[18px] font-bold tracking-tight text-[var(--foreground)]">{SITE_NAME}</span>
           </Link>
 
