@@ -141,29 +141,29 @@ export default function SiteHeader() {
         {/* ── Glass bar ── */}
         <div className={`rounded-2xl border transition-all duration-300 ${
           scrolled
-            ? "bg-white/90 backdrop-blur-xl border-black/[0.07] shadow-lg"
-            : "bg-white/70 backdrop-blur-md border-white/60 shadow-md"
+            ? "bg-white/55 backdrop-blur-2xl border-white/50 shadow-lg"
+            : "bg-white/25 backdrop-blur-xl border-white/30 shadow-sm"
         }`}>
-          <div className="max-w-screen-lg mx-auto px-5 flex items-center justify-between gap-6" style={{ height: "52px" }}>
+          <div className="max-w-screen-lg mx-auto px-5 flex items-center justify-between gap-6" style={{ height: "56px" }}>
 
             {/* Logo */}
-            <Link href="https://www.winstonting.com" className="shrink-0"
+            <Link href="https://www.winstonting.com" className="shrink-0 flex items-center"
               onClick={() => { setActiveMenu(null); setMobileOpen(false); }}>
-              <span className="text-[18px] font-bold tracking-tight text-[var(--foreground)]">{SITE_NAME}</span>
+              <span className="text-[15px] font-semibold tracking-tight text-[var(--foreground)]">{SITE_NAME}</span>
             </Link>
 
             {/* Desktop nav */}
-            <nav className="hidden md:flex items-center gap-1 flex-1">
+            <nav className="hidden md:flex items-center flex-1">
               {NAV.map((item) => (
-                <div key={item.label} className="relative">
+                <div key={item.label} className="relative flex items-center">
                   {item.columns ? (
                     <button
                       onMouseEnter={() => setActiveMenu(item.label)}
                       onClick={() => setActiveMenu(activeMenu === item.label ? null : item.label)}
-                      className={`px-4 h-[52px] flex items-center gap-1 text-[13px] font-medium transition-colors border-b-2 ${
+                      className={`px-4 h-[56px] flex items-center gap-1 text-[15px] font-medium transition-colors ${
                         activeMenu === item.label
-                          ? "border-[var(--foreground)] text-[var(--foreground)]"
-                          : "border-transparent text-[var(--foreground)] hover:text-[var(--accent)]"
+                          ? "text-[var(--accent)]"
+                          : "text-[var(--foreground)] hover:text-[var(--accent)]"
                       }`}
                     >
                       {item.label}
@@ -174,7 +174,7 @@ export default function SiteHeader() {
                     </button>
                   ) : (
                     <Link href={item.href ?? "/"} onMouseEnter={() => setActiveMenu(null)}
-                      className="px-4 h-[52px] flex items-center text-[13px] font-medium text-[var(--foreground)] hover:text-[var(--accent)] border-b-2 border-transparent transition-colors">
+                      className="px-4 h-[56px] flex items-center text-[15px] font-medium text-[var(--foreground)] hover:text-[var(--accent)] transition-colors">
                       {item.label}
                     </Link>
                   )}
@@ -185,12 +185,12 @@ export default function SiteHeader() {
             {/* Search bar + mobile hamburger */}
             <div className="flex items-center gap-2">
               {/* Desktop search bar */}
-              <div className="hidden md:flex items-center gap-2 bg-[var(--surface)] rounded-full px-3 h-8 border border-[var(--border)] text-[var(--muted)] focus-within:border-[var(--accent)] focus-within:text-[var(--accent)] transition-colors">
+              <div className="hidden md:flex items-center gap-2 bg-white/40 rounded-full px-3 h-8 border border-white/50 text-[var(--muted)] focus-within:border-[var(--accent)] focus-within:bg-white/60 transition-all">
                 <IconSearch />
                 <input
                   type="text"
                   placeholder="Search"
-                  className="bg-transparent outline-none text-[13px] text-[var(--foreground)] placeholder:text-[var(--muted)] w-24 focus:w-36 transition-[width] duration-200"
+                  className="bg-transparent outline-none text-[14px] text-[var(--foreground)] placeholder:text-[var(--muted)] w-24 focus:w-36 transition-[width] duration-200"
                 />
               </div>
               {/* Mobile hamburger */}
