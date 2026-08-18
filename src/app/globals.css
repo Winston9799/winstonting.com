@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@400;600;700&display=swap');
+
+:root {
+  --ink: #1a1a1a;
+  --paper: #faf9f7;
+  --gold: #d4a017;
+  --muted: #888;
+  --border: #e8e5e0;
+}
+
+body {
+  background-color: var(--paper);
+  color: var(--ink);
+  font-family: 'Noto Sans SC', system-ui, sans-serif;
+}
