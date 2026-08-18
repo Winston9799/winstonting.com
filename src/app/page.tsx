@@ -8,9 +8,16 @@ export default function HomePage() {
   return (
     <>
       {/* ── HERO ──────────────────────────────────────────────────────────── */}
-      <section className="relative w-full bg-gray-900 overflow-hidden"
+      {/* Placeholder background photo — replace src below with your own image,
+          e.g. drop a file in public/images/ and point src at "/images/your-file.jpg" */}
+      <section className="relative w-full overflow-hidden"
         style={{ minHeight: "min(80vh, 700px)" }}>
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700" />
+        <img
+          src="/images/kuanzhai/1.JPG"
+          alt=""
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-black/45" />
 
         <div className="relative z-10 flex flex-col items-start justify-end h-full max-w-screen-lg mx-auto px-8 pb-16 pt-40">
           <span className="text-[11px] tracking-[3px] uppercase text-white/50 mb-4 font-medium">
