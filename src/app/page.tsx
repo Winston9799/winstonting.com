@@ -21,7 +21,7 @@ export default function HomePage() {
 
         <div className="relative z-10 flex flex-col items-start justify-end h-full max-w-screen-lg mx-auto px-8 pb-16 pt-40">
           <span className="text-[11px] tracking-[3px] uppercase text-white/50 mb-4 font-medium">
-            Latest Trip
+            Upcoming Trip
           </span>
 
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-[1.1] max-w-xl mb-4">
