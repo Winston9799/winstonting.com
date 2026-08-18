@@ -147,10 +147,9 @@ export default function SiteHeader() {
           <div className="max-w-screen-lg mx-auto px-5 flex items-center justify-between gap-6" style={{ height: "56px" }}>
 
             {/* Logo */}
-            <Link href="https://www.winstonting.com" className="shrink-0 flex items-center"
-              onClick={() => { setActiveMenu(null); setMobileOpen(false); }}>
+            <a href="/" className="shrink-0 flex items-center">
               <span className="text-[15px] font-semibold tracking-tight text-[var(--foreground)]">{SITE_NAME}</span>
-            </Link>
+            </a>
 
             {/* Desktop nav */}
             <nav className="hidden md:flex items-center flex-1">
