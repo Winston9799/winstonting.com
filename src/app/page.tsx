@@ -15,7 +15,8 @@ export default function HomePage() {
           alt=""
           className="absolute inset-0 w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-black/45" />
+        <div className="absolute inset-0 bg-black/40" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
 
         <div className="relative z-10 flex flex-col items-start justify-end h-full max-w-screen-lg mx-auto px-8 pb-16 pt-40">
           <span className="text-[11px] tracking-[3px] uppercase text-white/50 mb-4 font-medium">
