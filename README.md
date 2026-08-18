@@ -1,1 +1,3 @@
-# Chengdu-trip-2026
+# winstonting.com
+
+Personal travel website — built with Next.js + Tailwind CSS, deployed on Vercel.
