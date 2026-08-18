@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@400;600;700&display=swap');
+
+:root {
+  /* Site palette */
+  --foreground: #1d1d1d;
+  --background: #ffffff;
+  --surface: #f4f4f4;
+  --border: #e4e4e4;
+  --muted: #767676;
+  --accent: #1428A0; /* Samsung-style blue accent */
+
+  /* Trip accent */
+  --gold: #d4a017;
+  --ink: #1a1a1a;
+  --paper: #faf9f7;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: 'Inter', 'Noto Sans SC', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
