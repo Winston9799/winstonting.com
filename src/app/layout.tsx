@@ -1,26 +1,21 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Header from "@/components/Header";
-import NavMenu from "@/components/NavMenu";
-import Footer from "@/components/Footer";
+import SiteHeader from "@/components/SiteHeader";
+import SiteFooter from "@/components/SiteFooter";
 
 export const metadata: Metadata = {
-  title: "成都探索之旅 · 2026金秋",
+  title: { default: "Winston Travels", template: "%s · Winston Travels" },
+  description: "Personal travel reference and itineraries.",
   robots: { index: false, follow: false },
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="zh-CN">
-      <body className="min-h-screen flex flex-col bg-[var(--paper)]">
-        <Header />
-        <NavMenu />
+    <html lang="en">
+      <body className="min-h-screen flex flex-col bg-[var(--background)]">
+        <SiteHeader />
         <main className="flex-1">{children}</main>
-        <Footer />
+        <SiteFooter />
       </body>
     </html>
   );
