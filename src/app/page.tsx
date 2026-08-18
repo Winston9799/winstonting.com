@@ -124,22 +124,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── STATS ROW ─────────────────────────────────────────────────────── */}
-      <section className="max-w-screen-lg mx-auto px-8 py-16">
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 text-center">
-          {[
-            { num: "8",   label: "Days" },
-            { num: "12",  label: "Attractions" },
-            { num: "7",   label: "Nights at JW" },
-            { num: "2",   label: "Travellers" },
-          ].map((stat) => (
-            <div key={stat.label}>
-              <p className="text-5xl font-bold text-[var(--foreground)] leading-none mb-2">{stat.num}</p>
-              <p className="text-[12px] text-[var(--muted)] tracking-widest uppercase">{stat.label}</p>
-            </div>
-          ))}
-        </div>
-      </section>
     </>
   );
 }

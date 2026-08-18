@@ -22,7 +22,7 @@ export interface NavItem {
 export const NAV: NavItem[] = [
   {
     label: "Home",
-    href: "https://winstonting.com",
+    href: "https://www.winstonting.com",
   },
   {
     label: "Trip",
@@ -30,7 +30,7 @@ export const NAV: NavItem[] = [
       {
         heading: "我的行程",
         links: [
-          { label: "Chengdu Sep 2026", href: "/trip", desc: "成都探索之旅 · 8天7夜" },
+          { label: "Chengdu Sep 2026", href: "/trip/chengdu-sep-2026", desc: "成都探索之旅 · 8天7夜" },
         ],
       },
     ],
