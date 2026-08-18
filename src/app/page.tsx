@@ -8,12 +8,10 @@ export default function HomePage() {
   return (
     <>
       {/* ── HERO ──────────────────────────────────────────────────────────── */}
-      {/* Placeholder background photo — replace src below with your own image,
-          e.g. drop a file in public/images/ and point src at "/images/your-file.jpg" */}
       <section className="relative w-full overflow-hidden"
         style={{ minHeight: "min(80vh, 700px)" }}>
         <img
-          src="/images/kuanzhai/1.JPG"
+          src="/hero-chengdu-nightview.jpg"
           alt=""
           className="absolute inset-0 w-full h-full object-cover"
         />
