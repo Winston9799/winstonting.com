@@ -67,16 +67,16 @@ function MobileDrawer({ onClose, scrolled }: { onClose: () => void; scrolled: bo
   const [expanded, setExpanded] = useState<string | null>(null);
   return (
     <div className={`fixed inset-0 top-[72px] backdrop-blur-2xl z-40 overflow-y-auto transition-all duration-300 ${
-      scrolled ? "bg-white/25" : "bg-white/10"
+      scrolled ? "bg-black/75" : "bg-black/60"
     }`}>
       <nav className="max-w-screen-lg mx-auto px-6 py-4">
         {NAV.map((item) => (
-          <div key={item.label} className="border-b border-[var(--border)]">
+          <div key={item.label} className="border-b border-white/15">
             {item.columns ? (
               <>
                 <button
                   onClick={() => setExpanded(expanded === item.label ? null : item.label)}
-                  className="w-full flex items-center justify-between px-2 py-4 rounded-lg text-[15px] font-medium text-[var(--foreground)] hover:bg-[var(--gold)] hover:text-white transition-colors"
+                  className="w-full flex items-center justify-between px-2 py-4 rounded-lg text-[15px] font-medium text-white hover:bg-[var(--gold)] transition-colors"
                 >
                   {item.label}
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
@@ -88,12 +88,12 @@ function MobileDrawer({ onClose, scrolled }: { onClose: () => void; scrolled: bo
                   <div className="pb-4 space-y-5">
                     {item.columns.map((col) => (
                       <div key={col.heading}>
-                        <p className="text-[10px] font-semibold tracking-[2px] uppercase text-[var(--muted)] mb-2 px-2">
+                        <p className="text-[10px] font-semibold tracking-[2px] uppercase text-white/50 mb-2 px-2">
                           {col.heading}
                         </p>
                         {col.links.map((link) => (
                           <a key={link.href} href={link.href} onClick={onClose}
-                            className="block px-2 py-1.5 rounded-lg text-[14px] text-[var(--foreground)] hover:bg-[var(--gold)] hover:text-white transition-colors">
+                            className="block px-2 py-1.5 rounded-lg text-[14px] text-white hover:bg-[var(--gold)] transition-colors">
                             {link.label}
                           </a>
                         ))}
@@ -104,7 +104,7 @@ function MobileDrawer({ onClose, scrolled }: { onClose: () => void; scrolled: bo
               </>
             ) : (
               <a href={item.href ?? "/"} onClick={onClose}
-                className="block px-2 py-4 rounded-lg text-[15px] font-medium text-[var(--foreground)] hover:bg-[var(--gold)] hover:text-white transition-colors">
+                className="block px-2 py-4 rounded-lg text-[15px] font-medium text-white hover:bg-[var(--gold)] transition-colors">
                 {item.label}
               </a>
             )}
