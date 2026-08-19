@@ -140,8 +140,8 @@ export default function SiteHeader() {
         {/* ── Glass bar ── */}
         <div className={`rounded-2xl border transition-all duration-300 ${
           scrolled
-            ? "bg-white/55 backdrop-blur-2xl border-white/50 shadow-lg"
-            : "bg-white/25 backdrop-blur-xl border-white/30 shadow-sm"
+            ? "bg-white/25 backdrop-blur-2xl border-white/30 shadow-lg"
+            : "bg-white/10 backdrop-blur-xl border-white/15 shadow-sm"
         }`}>
           <div className="max-w-screen-lg mx-auto px-5 flex items-center justify-between gap-6" style={{ height: "56px" }}>
 
