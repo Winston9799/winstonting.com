@@ -31,25 +31,25 @@ function MegaMenu({ item, onClose, scrolled }: { item: NavItem; onClose: () => v
   return (
     <>
       <div className="fixed inset-0 top-[72px] bg-black/30 z-30" onClick={onClose} />
-      <div className={`absolute left-3 right-3 top-full mt-1.5 backdrop-blur-xl shadow-xl border rounded-2xl z-40 overflow-hidden transition-all duration-300 ${
-        scrolled ? "bg-white/25 border-white/30" : "bg-white/10 border-white/15"
+      <div className={`absolute left-3 right-3 top-full mt-1.5 backdrop-blur-2xl shadow-xl border rounded-2xl z-40 overflow-hidden transition-all duration-300 ${
+        scrolled ? "bg-black/75 border-white/15" : "bg-black/60 border-white/10"
       }`}>
         <div className="max-w-screen-lg mx-auto px-8 py-8 grid gap-10"
           style={{ gridTemplateColumns: `repeat(${item.columns.length}, minmax(0,1fr))` }}>
           {item.columns.map((col) => (
             <div key={col.heading}>
-              <p className="text-[10px] font-semibold tracking-[2px] uppercase text-[var(--muted)] mb-4">
+              <p className="text-[10px] font-semibold tracking-[2px] uppercase text-white/50 mb-4">
                 {col.heading}
               </p>
               <ul className="space-y-3">
                 {col.links.map((link) => (
                   <li key={link.href}>
                     <a href={link.href} onClick={onClose} className="block group">
-                      <span className="text-[14px] text-[var(--foreground)] group-hover:text-[var(--accent)] transition-colors font-medium leading-tight">
+                      <span className="text-[14px] text-white group-hover:text-[var(--gold)] transition-colors font-medium leading-tight">
                         {link.label}
                       </span>
                       {link.desc && (
-                        <span className="block text-[11px] text-[var(--muted)] mt-0.5">{link.desc}</span>
+                        <span className="block text-[11px] text-white/60 mt-0.5">{link.desc}</span>
                       )}
                     </a>
                   </li>
