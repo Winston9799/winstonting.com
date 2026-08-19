@@ -26,12 +26,14 @@ function IconHamburger({ open }: { open: boolean }) {
   );
 }
 
-function MegaMenu({ item, onClose }: { item: NavItem; onClose: () => void }) {
+function MegaMenu({ item, onClose, scrolled }: { item: NavItem; onClose: () => void; scrolled: boolean }) {
   if (!item.columns) return null;
   return (
     <>
       <div className="fixed inset-0 top-[72px] bg-black/30 z-30" onClick={onClose} />
-      <div className="absolute left-3 right-3 top-full mt-1.5 bg-white/90 backdrop-blur-xl shadow-xl border border-black/[0.06] rounded-2xl z-40 overflow-hidden">
+      <div className={`absolute left-3 right-3 top-full mt-1.5 backdrop-blur-xl shadow-xl border rounded-2xl z-40 overflow-hidden transition-all duration-300 ${
+        scrolled ? "bg-white/25 border-white/30" : "bg-white/10 border-white/15"
+      }`}>
         <div className="max-w-screen-lg mx-auto px-8 py-8 grid gap-10"
           style={{ gridTemplateColumns: `repeat(${item.columns.length}, minmax(0,1fr))` }}>
           {item.columns.map((col) => (
@@ -89,7 +91,7 @@ function MobileDrawer({ onClose }: { onClose: () => void }) {
                         </p>
                         {col.links.map((link) => (
                           <a key={link.href} href={link.href} onClick={onClose}
-                            className="block px-2 py-1.5 text-[14px] text-[var(--foreground)] hover:text-[var(--accent)] transition-colors">
+                            className="block px-2 py-1.5 text-[14px] text-[var(--foreground)] hover:text-[var(--gold)] transition-colors">
                             {link.label}
                           </a>
                         ))}
@@ -100,7 +102,7 @@ function MobileDrawer({ onClose }: { onClose: () => void }) {
               </>
             ) : (
               <a href={item.href ?? "/"} onClick={onClose}
-                className="block py-4 text-[15px] font-medium text-[var(--foreground)] hover:text-[var(--accent)] transition-colors">
+                className="block py-4 text-[15px] font-medium text-[var(--foreground)] hover:text-[var(--gold)] transition-colors">
                 {item.label}
               </a>
             )}
@@ -160,8 +162,8 @@ export default function SiteHeader() {
                       onClick={() => setActiveMenu(activeMenu === item.label ? null : item.label)}
                       className={`px-4 h-[56px] flex items-center gap-1 text-[15px] font-medium transition-colors ${
                         activeMenu === item.label
-                          ? "text-[var(--accent)]"
-                          : "text-[var(--foreground)] hover:text-[var(--accent)]"
+                          ? "text-[var(--gold)]"
+                          : "text-[var(--foreground)] hover:text-[var(--gold)]"
                       }`}
                     >
                       {item.label}
@@ -172,7 +174,7 @@ export default function SiteHeader() {
                     </button>
                   ) : (
                     <a href={item.href ?? "/"} onMouseEnter={() => setActiveMenu(null)}
-                      className="px-4 h-[56px] flex items-center text-[15px] font-medium text-[var(--foreground)] hover:text-[var(--accent)] transition-colors">
+                      className="px-4 h-[56px] flex items-center text-[15px] font-medium text-[var(--foreground)] hover:text-[var(--gold)] transition-colors">
                       {item.label}
                     </a>
                   )}
@@ -207,7 +209,7 @@ export default function SiteHeader() {
         {/* Desktop mega-menu */}
         {activeMenu && activeItem?.columns && (
           <div onMouseLeave={() => setActiveMenu(null)}>
-            <MegaMenu item={activeItem} onClose={() => setActiveMenu(null)} />
+            <MegaMenu item={activeItem} onClose={() => setActiveMenu(null)} scrolled={scrolled} />
           </div>
         )}
 
