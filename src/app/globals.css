@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Google Fonts are loaded via <link> in src/app/layout.tsx */
+/* Google Fonts (Noto Sans SC / Noto Serif SC) are loaded via next/font in src/app/layout.tsx */
 
 :root {
   /* Site palette */
@@ -26,6 +26,6 @@ html {
 body {
   background-color: var(--background);
   color: var(--foreground);
-  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif;
+  font-family: var(--font-open-sans), var(--font-noto-sans-sc), -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
 }

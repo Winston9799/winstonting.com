@@ -9,8 +9,8 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        serif: ['"Noto Serif SC"', 'Georgia', 'serif'],
-        sans: ['"Noto Sans SC"', 'system-ui', 'sans-serif'],
+        serif: ['var(--font-noto-serif-sc)', 'Georgia', 'serif'],
+        sans: ['var(--font-open-sans)', 'var(--font-noto-sans-sc)', 'system-ui', 'sans-serif'],
       },
       colors: {
         ink: "#1a1a1a",
