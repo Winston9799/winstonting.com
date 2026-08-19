@@ -30,7 +30,7 @@ export default function HomePage() {
             </span>
           </h1>
 
-          <p className="text-lg sm:text-xl font-bold text-white max-w-sm mb-8 leading-relaxed">
+          <p className="text-lg sm:text-xl font-normal text-white max-w-sm mb-8 leading-relaxed">
             8 days · 12 attractions · JW Marriott · September 2026
           </p>
 
