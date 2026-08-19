@@ -63,10 +63,12 @@ function MegaMenu({ item, onClose, scrolled }: { item: NavItem; onClose: () => v
   );
 }
 
-function MobileDrawer({ onClose }: { onClose: () => void }) {
+function MobileDrawer({ onClose, scrolled }: { onClose: () => void; scrolled: boolean }) {
   const [expanded, setExpanded] = useState<string | null>(null);
   return (
-    <div className="fixed inset-0 top-[72px] bg-white z-40 overflow-y-auto">
+    <div className={`fixed inset-0 top-[72px] backdrop-blur-2xl z-40 overflow-y-auto transition-all duration-300 ${
+      scrolled ? "bg-white/25" : "bg-white/10"
+    }`}>
       <nav className="max-w-screen-lg mx-auto px-6 py-4">
         {NAV.map((item) => (
           <div key={item.label} className="border-b border-[var(--border)]">
@@ -74,7 +76,7 @@ function MobileDrawer({ onClose }: { onClose: () => void }) {
               <>
                 <button
                   onClick={() => setExpanded(expanded === item.label ? null : item.label)}
-                  className="w-full flex items-center justify-between py-4 text-[15px] font-medium text-[var(--foreground)]"
+                  className="w-full flex items-center justify-between px-2 py-4 rounded-lg text-[15px] font-medium text-[var(--foreground)] hover:bg-[var(--gold)] hover:text-white transition-colors"
                 >
                   {item.label}
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
@@ -91,7 +93,7 @@ function MobileDrawer({ onClose }: { onClose: () => void }) {
                         </p>
                         {col.links.map((link) => (
                           <a key={link.href} href={link.href} onClick={onClose}
-                            className="block px-2 py-1.5 text-[14px] text-[var(--foreground)] hover:text-[var(--gold)] transition-colors">
+                            className="block px-2 py-1.5 rounded-lg text-[14px] text-[var(--foreground)] hover:bg-[var(--gold)] hover:text-white transition-colors">
                             {link.label}
                           </a>
                         ))}
@@ -102,7 +104,7 @@ function MobileDrawer({ onClose }: { onClose: () => void }) {
               </>
             ) : (
               <a href={item.href ?? "/"} onClick={onClose}
-                className="block py-4 text-[15px] font-medium text-[var(--foreground)] hover:text-[var(--gold)] transition-colors">
+                className="block px-2 py-4 rounded-lg text-[15px] font-medium text-[var(--foreground)] hover:bg-[var(--gold)] hover:text-white transition-colors">
                 {item.label}
               </a>
             )}
@@ -153,17 +155,17 @@ export default function SiteHeader() {
             </a>
 
             {/* Desktop nav */}
-            <nav className="hidden md:flex items-center flex-1">
+            <nav className="hidden md:flex items-center gap-1 flex-1">
               {NAV.map((item) => (
-                <div key={item.label} className="relative flex items-center">
+                <div key={item.label} className="relative flex items-center h-[56px]">
                   {item.columns ? (
                     <button
                       onMouseEnter={() => setActiveMenu(item.label)}
                       onClick={() => setActiveMenu(activeMenu === item.label ? null : item.label)}
-                      className={`px-4 h-[56px] flex items-center gap-1 text-[15px] font-medium transition-colors ${
+                      className={`px-4 py-2 rounded-full flex items-center gap-1 text-[15px] font-medium transition-colors ${
                         activeMenu === item.label
-                          ? "text-[var(--gold)]"
-                          : "text-[var(--foreground)] hover:text-[var(--gold)]"
+                          ? "bg-[var(--gold)] text-white"
+                          : "text-[var(--foreground)] hover:bg-[var(--gold)] hover:text-white"
                       }`}
                     >
                       {item.label}
@@ -174,7 +176,7 @@ export default function SiteHeader() {
                     </button>
                   ) : (
                     <a href={item.href ?? "/"} onMouseEnter={() => setActiveMenu(null)}
-                      className="px-4 h-[56px] flex items-center text-[15px] font-medium text-[var(--foreground)] hover:text-[var(--gold)] transition-colors">
+                      className="px-4 py-2 rounded-full flex items-center text-[15px] font-medium text-[var(--foreground)] hover:bg-[var(--gold)] hover:text-white transition-colors">
                       {item.label}
                     </a>
                   )}
@@ -215,7 +217,7 @@ export default function SiteHeader() {
 
       </header>
 
-      {mobileOpen && <MobileDrawer onClose={() => setMobileOpen(false)} />}
+      {mobileOpen && <MobileDrawer onClose={() => setMobileOpen(false)} scrolled={scrolled} />}
     </>
   );
 }
