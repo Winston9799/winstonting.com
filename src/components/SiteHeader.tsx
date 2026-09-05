@@ -9,7 +9,7 @@ const SITE_NAME = "Winston";
 
 function IconSearch() {
   return (
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
       <circle cx="11" cy="11" r="7" /><path d="m21 21-4.35-4.35" />
     </svg>
   );
@@ -25,75 +25,64 @@ function IconHamburger({ open }: { open: boolean }) {
     </svg>
   );
 }
-
-function MegaMenu({ item, onClose, scrolled }: { item: NavItem; onClose: () => void; scrolled: boolean }) {
-  if (!item.columns) return null;
+function IconChevron({ open }: { open: boolean }) {
   return (
-    <>
-      <div className="fixed inset-0 top-[72px] bg-black/30 z-30" onClick={onClose} />
-      <div className={`absolute left-3 right-3 top-full mt-1.5 backdrop-blur-2xl shadow-xl border rounded-2xl z-40 overflow-hidden transition-all duration-300 ${
-        scrolled ? "bg-black/75 border-white/15" : "bg-black/60 border-white/10"
-      }`}>
-        <div className="max-w-screen-lg mx-auto px-8 py-8 grid gap-10"
-          style={{ gridTemplateColumns: `repeat(${item.columns.length}, minmax(0,1fr))` }}>
-          {item.columns.map((col) => (
-            <div key={col.heading}>
-              <p className="text-[10px] font-semibold tracking-[2px] uppercase text-white/50 mb-4">
-                {col.heading}
-              </p>
-              <ul className="space-y-3">
-                {col.links.map((link) => (
-                  <li key={link.href}>
-                    <a href={link.href} onClick={onClose} className="block group">
-                      <span className="text-[14px] text-white group-hover:text-[var(--gold)] transition-colors font-medium leading-tight">
-                        {link.label}
-                      </span>
-                      {link.desc && (
-                        <span className="block text-[11px] text-white/60 mt-0.5">{link.desc}</span>
-                      )}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-      </div>
-    </>
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
+      className={`transition-transform duration-300 ${open ? "rotate-180" : ""}`}>
+      <path d="M19 9l-7 7-7-7" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
   );
 }
 
-function MobileDrawer({ onClose, scrolled }: { onClose: () => void; scrolled: boolean }) {
+function MegaMenu({ item, onClose }: { item: NavItem; onClose: () => void }) {
+  if (!item.columns) return null;
+  return (
+    <div className="absolute left-0 top-full pt-2 z-40">
+      <div className="w-56 py-2 rounded-xl bg-surface border border-white/10 shadow-2xl shadow-black/80 backdrop-blur-xl">
+        {item.columns.map((col) => (
+          <div key={col.heading} className="px-1 py-1">
+            <p className="px-3 pt-2 pb-1 text-[10px] font-semibold tracking-[2px] uppercase text-neutral-500">
+              {col.heading}
+            </p>
+            {col.links.map((link) => (
+              <a key={link.href} href={link.href} onClick={onClose}
+                className="block px-3 py-2 rounded-lg text-[13px] tracking-wide text-neutral-300 hover:text-gold-400 hover:bg-white/5 transition-colors">
+                {link.label}
+              </a>
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function MobileDrawer({ onClose }: { onClose: () => void }) {
   const [expanded, setExpanded] = useState<string | null>(null);
   return (
-    <div className={`fixed inset-0 top-[72px] backdrop-blur-2xl z-40 overflow-y-auto transition-all duration-300 ${
-      scrolled ? "bg-black/75" : "bg-black/60"
-    }`}>
-      <nav className="max-w-screen-lg mx-auto px-6 py-4">
+    <div className="fixed inset-0 top-20 z-40 overflow-y-auto glass-nav">
+      <nav className="max-w-7xl mx-auto px-6 py-4">
         {NAV.map((item) => (
-          <div key={item.label} className="border-b border-white/15">
+          <div key={item.label} className="border-b border-white/[0.08]">
             {item.columns ? (
               <>
                 <button
                   onClick={() => setExpanded(expanded === item.label ? null : item.label)}
-                  className="w-full flex items-center justify-between px-2 py-4 rounded-lg text-[15px] font-medium text-white hover:bg-[var(--gold)] transition-colors"
+                  className="w-full flex items-center justify-between px-2 py-4 rounded-lg text-[15px] font-medium text-white hover:text-gold-400 transition-colors"
                 >
                   {item.label}
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
-                    className={`transition-transform ${expanded === item.label ? "rotate-180" : ""}`}>
-                    <path d="M6 9l6 6 6-6" />
-                  </svg>
+                  <IconChevron open={expanded === item.label} />
                 </button>
                 {expanded === item.label && (
                   <div className="pb-4 space-y-5">
                     {item.columns.map((col) => (
                       <div key={col.heading}>
-                        <p className="text-[10px] font-semibold tracking-[2px] uppercase text-white/50 mb-2 px-2">
+                        <p className="text-[10px] font-semibold tracking-[2px] uppercase text-neutral-500 mb-2 px-2">
                           {col.heading}
                         </p>
                         {col.links.map((link) => (
                           <a key={link.href} href={link.href} onClick={onClose}
-                            className="block px-2 py-1.5 rounded-lg text-[14px] text-white hover:bg-[var(--gold)] transition-colors">
+                            className="block px-2 py-1.5 rounded-lg text-[14px] text-neutral-300 hover:text-gold-400 hover:bg-white/5 transition-colors">
                             {link.label}
                           </a>
                         ))}
@@ -104,7 +93,7 @@ function MobileDrawer({ onClose, scrolled }: { onClose: () => void; scrolled: bo
               </>
             ) : (
               <a href={item.href ?? "/"} onClick={onClose}
-                className="block px-2 py-4 rounded-lg text-[15px] font-medium text-white hover:bg-[var(--gold)] transition-colors">
+                className="block px-2 py-4 rounded-lg text-[15px] font-medium text-white hover:text-gold-400 transition-colors">
                 {item.label}
               </a>
             )}
@@ -118,14 +107,7 @@ function MobileDrawer({ onClose, scrolled }: { onClose: () => void; scrolled: bo
 export default function SiteHeader() {
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const navRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   useEffect(() => {
     function handler(e: MouseEvent) {
@@ -139,85 +121,68 @@ export default function SiteHeader() {
 
   return (
     <>
-      <header ref={navRef} className="sticky top-0 z-50 pt-2.5 px-3">
+      <header ref={navRef} className="sticky top-0 z-50 glass-nav border-b border-white/[0.08]">
+        <div className="max-w-7xl mx-auto px-6 md:px-10 h-20 flex items-center justify-between">
 
-        {/* ── Glass bar ── */}
-        <div className={`rounded-2xl border transition-all duration-300 ${
-          scrolled
-            ? "bg-white/25 backdrop-blur-2xl border-white/30 shadow-lg"
-            : "bg-white/10 backdrop-blur-xl border-white/15 shadow-sm"
-        }`}>
-          <div className="max-w-screen-lg mx-auto px-5 flex items-center justify-between gap-6" style={{ height: "56px" }}>
-
-            {/* Logo */}
-            <a href="/" className="shrink-0 flex items-center">
-              <span className="text-[15px] font-semibold tracking-tight text-[var(--foreground)]">{SITE_NAME}</span>
+          {/* Brand & primary nav */}
+          <div className="flex items-center space-x-12">
+            <a href="/" className="text-xl font-bold tracking-wider text-white hover:text-gold-400 transition-colors">
+              {SITE_NAME}
             </a>
 
-            {/* Desktop nav */}
-            <nav className="hidden md:flex items-center gap-1 flex-1">
+            <nav className="hidden md:flex items-center space-x-8 text-sm font-medium text-neutral-300">
               {NAV.map((item) => (
-                <div key={item.label} className="relative flex items-center h-[56px]">
+                <div key={item.label} className="relative py-2">
                   {item.columns ? (
-                    <button
-                      onMouseEnter={() => setActiveMenu(item.label)}
-                      onClick={() => setActiveMenu(activeMenu === item.label ? null : item.label)}
-                      className={`px-4 py-2 rounded-full flex items-center gap-1 text-[15px] font-medium transition-colors ${
-                        activeMenu === item.label
-                          ? "bg-[var(--gold)] text-white"
-                          : "text-[var(--foreground)] hover:bg-[var(--gold)] hover:text-white"
-                      }`}
-                    >
-                      {item.label}
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
-                        className={`transition-transform ${activeMenu === item.label ? "rotate-180" : ""}`}>
-                        <path d="M6 9l6 6 6-6" />
-                      </svg>
-                    </button>
+                    <>
+                      <button
+                        onMouseEnter={() => setActiveMenu(item.label)}
+                        onClick={() => setActiveMenu(activeMenu === item.label ? null : item.label)}
+                        className="flex items-center gap-1.5 hover:text-gold-400 transition-colors duration-200 text-neutral-300 focus:outline-none"
+                      >
+                        {item.label}
+                        <IconChevron open={activeMenu === item.label} />
+                      </button>
+                      {activeMenu === item.label && (
+                        <div onMouseLeave={() => setActiveMenu(null)}>
+                          <MegaMenu item={item} onClose={() => setActiveMenu(null)} />
+                        </div>
+                      )}
+                    </>
                   ) : (
                     <a href={item.href ?? "/"} onMouseEnter={() => setActiveMenu(null)}
-                      className="px-4 py-2 rounded-full flex items-center text-[15px] font-medium text-[var(--foreground)] hover:bg-[var(--gold)] hover:text-white transition-colors">
+                      className="hover:text-gold-400 transition-colors duration-200">
                       {item.label}
                     </a>
                   )}
                 </div>
               ))}
             </nav>
-
-            {/* Search bar + mobile hamburger */}
-            <div className="flex items-center gap-2">
-              {/* Desktop search bar */}
-              <div className="hidden md:flex items-center gap-2 bg-white/40 rounded-full px-3 h-8 border border-white/50 text-[var(--muted)] focus-within:border-[var(--accent)] focus-within:bg-white/60 transition-all">
-                <IconSearch />
-                <input
-                  type="text"
-                  placeholder="Search"
-                  className="bg-transparent outline-none text-[14px] text-[var(--foreground)] placeholder:text-[var(--muted)] w-24 focus:w-36 transition-[width] duration-200"
-                />
-              </div>
-              {/* Mobile hamburger */}
-              <button
-                className="flex md:hidden p-2 text-[var(--foreground)] rounded-full hover:bg-[var(--surface)] transition-colors"
-                onClick={() => { setMobileOpen((v) => !v); setActiveMenu(null); }}
-                aria-label="Toggle menu"
-              >
-                <IconHamburger open={mobileOpen} />
-              </button>
-            </div>
-
           </div>
+
+          {/* Search + mobile hamburger */}
+          <div className="flex items-center gap-2">
+            <button
+              aria-label="Search"
+              className="hidden md:flex items-center gap-2.5 text-sm text-neutral-400 hover:text-white px-3.5 py-1.5 rounded-full hover:bg-white/5 border border-transparent hover:border-white/10 transition-all duration-200"
+              type="button"
+            >
+              <IconSearch />
+              <span className="text-xs tracking-wide font-normal">Search</span>
+            </button>
+            <button
+              className="flex md:hidden p-2 text-white rounded-full hover:bg-white/5 transition-colors"
+              onClick={() => { setMobileOpen((v) => !v); setActiveMenu(null); }}
+              aria-label="Toggle menu"
+            >
+              <IconHamburger open={mobileOpen} />
+            </button>
+          </div>
+
         </div>
-
-        {/* Desktop mega-menu */}
-        {activeMenu && activeItem?.columns && (
-          <div onMouseLeave={() => setActiveMenu(null)}>
-            <MegaMenu item={activeItem} onClose={() => setActiveMenu(null)} scrolled={scrolled} />
-          </div>
-        )}
-
       </header>
 
-      {mobileOpen && <MobileDrawer onClose={() => setMobileOpen(false)} scrolled={scrolled} />}
+      {mobileOpen && <MobileDrawer onClose={() => setMobileOpen(false)} />}
     </>
   );
 }

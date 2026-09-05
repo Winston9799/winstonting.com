@@ -16,12 +16,21 @@ function nextSrc(src: string): string | null {
 
 // ── FallbackImg: hero thumbnail inside each activity row ──────────────────────
 function FallbackImg({ src, ...rest }: React.ImgHTMLAttributes<HTMLImageElement> & { src: string }) {
-  const [imgSrc, setImgSrc] = useState(src);
+  // Only assign the guessed src after mount — otherwise the browser can start
+  // fetching it straight from the server-rendered HTML before React finishes
+  // attaching onError, and a failed guess never gets retried.
+  const [imgSrc, setImgSrc] = useState<string | null>(null);
   const [hidden, setHidden] = useState(false);
-  if (hidden) return null;
+
+  useEffect(() => {
+    setImgSrc(src);
+  }, [src]);
+
+  if (hidden || !imgSrc) return null;
   return (
     <img
       {...rest}
+      key={imgSrc}
       src={imgSrc}
       loading="lazy"
       alt=""

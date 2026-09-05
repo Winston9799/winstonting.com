@@ -1,11 +1,9 @@
 // ─── HOMEPAGE CONTENT ─────────────────────────────────────────────────────────
-// Replace placeholder text, images, and links below.
-// Section structure mirrors samsung.com/sg:
-//   Hero → Feature cards → Wide promo
+// Dark/gold rebrand — Hero → Explore cards → Hotel showcase.
 // ─────────────────────────────────────────────────────────────────────────────
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const EXTS = ["jpg", "JPG", "jpeg", "JPEG", "png", "PNG"];
 function nextSrc(src: string): string | null {
@@ -16,14 +14,23 @@ function nextSrc(src: string): string | null {
   return i < EXTS.length - 1 ? `${base}.${EXTS[i + 1]}` : null;
 }
 
-function FallbackImg({ src, className }: { src: string; className?: string }) {
-  const [imgSrc, setImgSrc] = useState(src);
+function FallbackImg({ src, className, alt }: { src: string; className?: string; alt?: string }) {
+  // Only assign the guessed src after mount — otherwise the browser can start
+  // fetching it straight from the server-rendered HTML before React finishes
+  // attaching onError, and a failed guess never gets retried.
+  const [imgSrc, setImgSrc] = useState<string | null>(null);
   const [hidden, setHidden] = useState(false);
-  if (hidden) return null;
+
+  useEffect(() => {
+    setImgSrc(src);
+  }, [src]);
+
+  if (hidden || !imgSrc) return null;
   return (
     <img
+      key={imgSrc}
       src={imgSrc}
-      alt=""
+      alt={alt ?? ""}
       loading="lazy"
       className={className}
       onError={() => {
@@ -34,121 +41,161 @@ function FallbackImg({ src, className }: { src: string; className?: string }) {
   );
 }
 
+function ArrowIcon() {
+  return (
+    <svg className="btn-icon w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path d="M14 5l7 7m0 0l-7 7m7-7H3" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} />
+    </svg>
+  );
+}
+
 export default function HomePage() {
   return (
-    <>
+    <div className="bg-midnight">
       {/* ── HERO ──────────────────────────────────────────────────────────── */}
-      <section className="relative w-full overflow-hidden"
-        style={{ minHeight: "min(80vh, 700px)" }}>
-        <img
-          src="/hero-chengdu-nightview.jpg"
-          alt=""
-          className="absolute inset-0 w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-black/40" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
-
-        <div className="relative z-10 flex flex-col items-start justify-end h-full max-w-screen-lg mx-auto px-8 pb-16 pt-40">
-          <span className="text-sm sm:text-base tracking-[3px] uppercase text-white font-bold mb-4">
-            Upcoming Trip
-          </span>
-
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white leading-[1.1] max-w-xl mb-4">
-            成都探索之旅
-            <span className="block text-3xl sm:text-4xl font-bold text-white/90 mt-2">
-              Chengdu 2026
-            </span>
-          </h1>
-
-          <p className="text-lg sm:text-xl font-normal text-white max-w-sm mb-8 leading-relaxed">
-            8 days · 12 attractions · Pagoda Design Hotel · September 2026
-          </p>
-
-          <div className="flex gap-3 flex-wrap">
-            <a href="/trip/chengdu-sep-2026"
-              className="px-7 py-3 bg-white text-[var(--foreground)] text-base font-bold rounded-full hover:bg-gray-100 transition-colors">
-              View Itinerary
-            </a>
-            <a href="/contact"
-              className="px-7 py-3 border border-white/40 text-white text-base font-bold rounded-full hover:bg-white/10 transition-colors">
-              Contact Me
-            </a>
+      <section className="relative -mt-20 min-h-[92vh] flex items-center justify-center overflow-hidden" id="hero-trip">
+        {/* Cinematic background layer */}
+        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+          <div className="w-full h-full animate-hero-bg origin-center transform-gpu">
+            <FallbackImg
+              src="/hero-chengdu-nightview.jpg"
+              alt="Chengdu night view"
+              className="w-full h-full object-cover object-[center_35%] filter brightness-[0.92] contrast-[1.05]"
+            />
           </div>
+          <div className="absolute inset-0 bg-gradient-to-t from-midnight via-midnight/50 to-midnight/40" />
+          <div className="absolute inset-0 bg-gradient-to-b from-midnight/80 via-transparent to-midnight" />
+          <div className="absolute bottom-1/3 left-1/2 -translate-x-1/2 w-[700px] h-[260px] bg-gold-500/15 rounded-full blur-[100px] animate-water-glow pointer-events-none" />
+          <div className="dust-particle w-1.5 h-1.5 bg-gold-400/70 blur-[0.5px] top-[45%] left-[28%]" style={{ animationDelay: "0s" }} />
+          <div className="dust-particle w-2 h-2 bg-gold-300/80 blur-[1px] top-[52%] left-[46%]" style={{ animationDelay: "2.3s" }} />
+          <div className="dust-particle w-1 h-1 bg-gold-500/90 top-[58%] left-[64%]" style={{ animationDelay: "4.1s" }} />
+          <div className="dust-particle w-1.5 h-1.5 bg-amber-200/60 blur-[0.5px] top-[48%] left-[78%]" style={{ animationDelay: "1.5s" }} />
         </div>
-      </section>
 
-      {/* ── FEATURE CARDS ─────────────────────────────────────────────────── */}
-      <section className="max-w-screen-lg mx-auto px-8 py-16">
-        <h2 className="text-[11px] font-semibold tracking-[2px] uppercase text-[var(--muted)] mb-8">
-          Explore
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {[
-            {
-              bg: "bg-[#f0ede8]",
-              tag: "Trip · 2026",
-              title: "成都探索之旅",
-              desc: "8 days across Chengdu's best cultural and nature spots.",
-              href: "/trip/chengdu-sep-2026",
-              cta: "View Trip →",
-            },
-            {
-              bg: "bg-[#eef2f7]",
-              tag: "Coming soon",
-              title: "Next Destination",
-              desc: "Your next adventure goes here. Add a new page in nav.ts.",
-              href: "#",
-              cta: "Learn more →",
-            },
-            {
-              bg: "bg-[#f7f0ee]",
-              tag: "Get in touch",
-              title: "Contact Me",
-              desc: "Questions, collaborations, or just a hello.",
-              href: "/contact",
-              cta: "Reach out →",
-            },
-          ].map((card) => (
-            <a key={card.title} href={card.href}
-              className={`${card.bg} rounded-2xl p-8 flex flex-col gap-3 group hover:shadow-lg transition-shadow`}>
-              <span className="text-[10px] tracking-[2px] uppercase text-[var(--muted)] font-medium">
-                {card.tag}
-              </span>
-              <h3 className="text-[22px] font-bold text-[var(--foreground)] leading-tight">
-                {card.title}
-              </h3>
-              <p className="text-[13px] text-[var(--muted)] leading-relaxed flex-1">
-                {card.desc}
+        <div className="relative z-10 max-w-7xl w-full mx-auto px-6 md:px-10 py-16 flex flex-col justify-end min-h-[75vh]">
+          <div className="max-w-3xl space-y-6">
+            <div className="space-y-6">
+              <h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold text-white tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.9)]">
+                Chengdu Exploration
+              </h1>
+              <p className="text-lg sm:text-xl text-neutral-300 font-light max-w-2xl leading-relaxed">
+                An 8-day journey through Chengdu&rsquo;s timeless heritage, culinary artistry, and modern design culture.
               </p>
-              <span className="text-[13px] font-medium text-[var(--accent)] group-hover:underline">
-                {card.cta}
-              </span>
-            </a>
-          ))}
+            </div>
+            <div className="flex flex-wrap items-center gap-4 pt-8">
+              <a className="btn-luxury-cta px-8 py-3.5" href="/trip/chengdu-sep-2026">
+                <span>View Itinerary</span>
+                <ArrowIcon />
+              </a>
+              <a className="btn-luxury-cta px-8 py-3.5" href="/contact">
+                <span>Contact Me</span>
+                <ArrowIcon />
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-midnight to-transparent pointer-events-none" />
+      </section>
+
+      {/* ── EXPLORE ───────────────────────────────────────────────────────── */}
+      <section className="relative z-10 py-24 bg-midnight border-t border-white/[0.04]" id="explore-section">
+        <div className="absolute top-12 left-1/3 w-96 h-96 bg-gold-500/5 rounded-full blur-[120px] pointer-events-none" />
+        <div className="max-w-7xl mx-auto px-6 md:px-10">
+          <h2 className="text-3xl md:text-4xl font-bold text-white tracking-tight mb-10">
+            旅程专栏与探索
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              {
+                title: "成都探索之旅",
+                desc: "8 days across Chengdu's best cultural and nature spots. Including ancient alleys, giant pandas, and culinary adventures.",
+                href: "/trip/chengdu-sep-2026",
+                cta: "View Trip",
+              },
+              {
+                title: "Next Destination",
+                desc: "Your next adventure goes here. Add a new page in nav.ts to catalog future journeys around the globe.",
+                href: "#",
+                cta: "Learn more",
+              },
+              {
+                title: "Contact Me",
+                desc: "Questions, collaborations, or just a hello. Drop an inquiry or discuss bespoke travel itineraries.",
+                href: "/contact",
+                cta: "Reach out",
+              },
+            ].map((card) => (
+              <article key={card.title}
+                className="relative group rounded-2xl glass-card card-sweep p-8 transition-all duration-300 ease-out hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-gold-500/10 flex flex-col justify-between overflow-hidden">
+                <div className="space-y-4">
+                  <h3 className="text-2xl font-bold text-neutral-100 group-hover:text-gold-300 transition-colors">
+                    {card.title}
+                  </h3>
+                  <p className="text-neutral-400 text-sm leading-relaxed">
+                    {card.desc}
+                  </p>
+                </div>
+                <div className="pt-8">
+                  <a className="btn-luxury-cta px-6 py-2.5" href={card.href}>
+                    <span>{card.cta}</span>
+                    <ArrowIcon />
+                  </a>
+                </div>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* ── WIDE PROMO BANNER ─────────────────────────────────────────────── */}
-      <section className="bg-[#1d1d1d] py-20">
-        <div className="max-w-screen-lg mx-auto px-8 flex flex-col sm:flex-row items-center justify-between gap-8">
-          <div>
-            <p className="text-[11px] tracking-[2px] uppercase text-white/40 font-medium mb-3">
-              September 2026
-            </p>
-            <h2 className="text-3xl sm:text-4xl font-bold text-white leading-tight max-w-md">
-              Pagoda Design Hotel
-              <span className="block font-light text-white/60">成都太古里柏廿设计酒店</span>
-            </h2>
-            <p className="text-[13px] text-white/50 mt-3 max-w-xs leading-relaxed">
-              高楼层城景房 · 2张单人床 · 含每日早餐 · 五星级 · 7晚
-            </p>
-          </div>
-          <div className="w-full sm:w-80 h-48 rounded-2xl overflow-hidden bg-white/5">
-            <FallbackImg src="/images/pagoda-hotel/1.jpg" className="w-full h-full object-cover" />
+      {/* ── HOTEL SHOWCASE ────────────────────────────────────────────────── */}
+      <section className="relative py-24 bg-deepslate border-t border-white/[0.06] overflow-hidden" id="hotel-showcase">
+        <div className="absolute right-10 top-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gold-500/10 rounded-full blur-[140px] pointer-events-none" />
+        <div className="max-w-7xl mx-auto px-6 md:px-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+            <div className="lg:col-span-6 space-y-6">
+              <div className="space-y-2">
+                <h2 className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight leading-tight">
+                  Pagoda Design Hotel
+                </h2>
+                <p className="text-2xl sm:text-3xl font-light text-neutral-300">
+                  成都太古里柏廿设计酒店
+                </p>
+              </div>
+              <div className="grid grid-cols-2 gap-4 pt-2">
+                <div className="p-4 rounded-2xl glass-card backdrop-blur-md border border-white/5">
+                  <div className="text-xs text-neutral-400">地理位置</div>
+                  <div className="text-sm font-semibold text-white mt-1">春熙路 / 太古里商业圈</div>
+                </div>
+                <div className="p-4 rounded-2xl glass-card backdrop-blur-md border border-white/5">
+                  <div className="text-xs text-neutral-400">客房景致</div>
+                  <div className="text-sm font-semibold text-white mt-1">高楼层城景房</div>
+                </div>
+              </div>
+              <div className="pt-4">
+                <a className="btn-luxury-cta px-8 py-3.5" href="/trip/chengdu-sep-2026">
+                  <span>查看完整每日入住安排</span>
+                  <ArrowIcon />
+                </a>
+              </div>
+            </div>
+
+            <div className="lg:col-span-6">
+              <div className="relative group mx-auto max-w-xl lg:max-w-none">
+                <div className="absolute -inset-1.5 bg-gradient-to-r from-gold-500/20 via-white/5 to-cyan-500/20 rounded-[2rem] blur-xl opacity-75 group-hover:opacity-100 transition duration-700" />
+                <div className="relative rounded-3xl overflow-hidden border border-white/15 bg-surface shadow-2xl shadow-black/80 aspect-[16/10]">
+                  <FallbackImg
+                    src="/images/pagoda-hotel/1.jpg"
+                    alt="Pagoda Design Hotel Chengdu Taikoo Li"
+                    className="w-full h-full object-cover object-center filter contrast-[1.05] transition-transform duration-700 ease-out group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-tr from-black/40 via-transparent to-white/10 pointer-events-none group-hover:opacity-30 transition-opacity duration-500" />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
-
-    </>
+    </div>
   );
 }
