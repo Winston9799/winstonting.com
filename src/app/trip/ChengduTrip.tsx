@@ -379,6 +379,7 @@ export default function ChengduTrip() {
   const trackRef = useRef<HTMLDivElement>(null);
   const [atStart, setAtStart] = useState(true);
   const [atEnd, setAtEnd] = useState(false);
+  const [activeDay, setActiveDay] = useState(DAYS[0].num);
 
   const openLb = (imgs: string[], idx: number, cap: string) =>
     setLb({ open: true, imgs, idx, cap });
@@ -403,12 +404,21 @@ export default function ChengduTrip() {
   }, []);
 
   // Itinerary carousel: track scroll position to update arrow disabled state
+  // and which day card is currently leading (used for the gold highlight)
   const updateCarouselState = useCallback(() => {
     const el = trackRef.current;
     if (!el) return;
     const maxScroll = el.scrollWidth - el.clientWidth;
     setAtStart(el.scrollLeft <= 4);
     setAtEnd(el.scrollLeft >= maxScroll - 4);
+
+    const firstCard = el.querySelector<HTMLElement>(".day-card");
+    if (firstCard) {
+      const gap = 24;
+      const step = firstCard.offsetWidth + gap;
+      const index = Math.min(DAYS.length - 1, Math.max(0, Math.round(el.scrollLeft / step)));
+      setActiveDay(DAYS[index].num);
+    }
   }, []);
 
   useEffect(() => {
@@ -524,7 +534,10 @@ export default function ChengduTrip() {
         <div className="carousel-track" ref={trackRef} onScroll={updateCarouselState}>
           {DAYS.map((day) => (
             <div className="day-card" key={day.num}>
-              <div className="day-card-inner glass">
+              <div
+                className={`day-card-inner glass${day.num === activeDay ? " active" : ""}`}
+                onClick={() => setActiveDay(day.num)}
+              >
                 <div className="day-head">
                   <div className="day-head-l">
                     <div className="day-num">{day.num}</div>

@@ -191,7 +191,8 @@
   flex-direction: column;
   gap: 18px;
   flex: 1;
-  transition: border-color .3s ease, box-shadow .3s ease, transform .3s ease;
+  cursor: pointer;
+  transition: border-color .3s ease, box-shadow .3s ease, transform .3s ease, background .3s ease;
 }
 .day-card-inner:hover {
   transform: translateY(-6px);
@@ -213,6 +214,23 @@
   0% { left: -100%; }
   100% { left: 200%; }
 }
+
+/* ── Active day: gold glow ring, dark card stays legible ─────────────────── */
+.day-card-inner.active {
+  background: rgba(30, 24, 10, .75);
+  border: 1.5px solid var(--gold-bright);
+  box-shadow: 0 0 0 1px rgba(246, 190, 57, .25), 0 16px 36px -8px rgba(212, 160, 23, .35), inset 0 1px 0 rgba(246, 190, 57, .15);
+}
+.day-card-inner.active .day-head { border-bottom-color: rgba(246, 190, 57, .2); }
+.day-card-inner.active .day-num { background: var(--gold-bright); border-color: var(--gold-leaf); color: var(--void); font-weight: 900; }
+.day-card-inner.active .day-weekday { color: var(--gold-bright); opacity: 1; font-weight: 700; }
+.day-card-inner.active .day-tag { background: var(--gold-bright); color: var(--void); border-color: var(--gold-leaf); font-weight: 700; }
+.day-card-inner.active .day-sub { color: #d8cdb4; }
+.day-card-inner.active .gphoto { border-color: rgba(246, 190, 57, .3); }
+.day-card-inner.active .a-time { background: var(--gold-bright); color: var(--void); border-color: var(--gold-leaf); font-weight: 700; }
+.day-card-inner.active .a-desc { color: #cfc4ac; }
+.day-card-inner.active .a-badge { background: rgba(246, 190, 57, .16); color: var(--gold-leaf); border-color: rgba(246, 190, 57, .4); }
+
 .day-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; border-bottom: 1px solid var(--border-lo); padding-bottom: 16px; }
 .day-head-l { display: flex; align-items: center; gap: 12px; }
 .day-num {
