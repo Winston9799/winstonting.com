@@ -101,7 +101,7 @@ export default function SiteFooter() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="bg-[#1d1d1d] text-white mt-16">
+    <footer className="bg-[#1d1d1d] text-white">
 
       {/* ── Social row ── */}
       <div className="max-w-screen-lg mx-auto px-8 pt-12 pb-8 border-b border-white/10">
