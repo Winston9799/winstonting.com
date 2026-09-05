@@ -305,7 +305,7 @@ export default function ChengduTrip() {
                 <div className="sc">
                   <div className="act">🍄 爱尚菌·云南野生菌火锅（春熙路太古里店）</div>
                   <div className="addr">📍 成都市锦江区东大街388号香槟广场3楼</div>
-                  <div className="tip">步行约15分钟。菌子季9月食材最新鲜，清鲜汤底暖胃，完美第一晚。人均约¥104。</div>
+                  <div className="tip">步行约6分钟。菌子季9月食材最新鲜，清鲜汤底暖胃，完美第一晚。人均约¥104。</div>
                   <div className="bgs"><span className="tb" style={{ background: "#FFF8E7", color: "#7B5E00", borderColor: "#F0D080" }}>🍄 旺季建议提前大众点评预约</span></div>
                   {P("aishan-hotpot","爱尚菌野生菌火锅")}
                 </div>
@@ -368,7 +368,7 @@ export default function ChengduTrip() {
                 <div className="sc">
                   <div className="act">🏛️ 成都博物馆</div>
                   <div className="addr">📍 成都市青羊区小河街1号（天府广场西侧）</div>
-                  <div className="tip">步行约 10 分钟，免费，需公众号预约</div>
+                  <div className="tip">地铁2号线春熙路站→天府广场站（1站，西1出口直达），或步行约20分钟，免费，需公众号预约</div>
                   <div className="bgs"><span className="tb m">周一闭馆</span></div>
                   {P("chengdu-museum","成都博物馆")}
                 </div>
