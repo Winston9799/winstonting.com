@@ -3,6 +3,36 @@
 // Section structure mirrors samsung.com/sg:
 //   Hero → Feature cards → Wide promo
 // ─────────────────────────────────────────────────────────────────────────────
+"use client";
+
+import { useState } from "react";
+
+const EXTS = ["jpg", "JPG", "jpeg", "JPEG", "png", "PNG"];
+function nextSrc(src: string): string | null {
+  const d = src.lastIndexOf(".");
+  const base = src.slice(0, d);
+  const ext = src.slice(d + 1);
+  const i = EXTS.indexOf(ext);
+  return i < EXTS.length - 1 ? `${base}.${EXTS[i + 1]}` : null;
+}
+
+function FallbackImg({ src, className }: { src: string; className?: string }) {
+  const [imgSrc, setImgSrc] = useState(src);
+  const [hidden, setHidden] = useState(false);
+  if (hidden) return null;
+  return (
+    <img
+      src={imgSrc}
+      alt=""
+      loading="lazy"
+      className={className}
+      onError={() => {
+        const n = nextSrc(imgSrc);
+        n ? setImgSrc(n) : setHidden(true);
+      }}
+    />
+  );
+}
 
 export default function HomePage() {
   return (
@@ -113,8 +143,8 @@ export default function HomePage() {
               高楼层城景房 · 2张单人床 · 含每日早餐 · 五星级 · 7晚
             </p>
           </div>
-          <div className="w-full sm:w-80 h-48 rounded-2xl bg-white/5 flex items-center justify-center text-white/20 text-sm">
-            [ Hotel photo ]
+          <div className="w-full sm:w-80 h-48 rounded-2xl overflow-hidden bg-white/5">
+            <FallbackImg src="/images/pagoda-hotel/1.jpg" className="w-full h-full object-cover" />
           </div>
         </div>
       </section>
