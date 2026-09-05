@@ -160,7 +160,7 @@ export default function ContactClient() {
 
       <main className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 lg:px-16 py-16 md:py-24">
         <div className="mb-14">
-          <h1 className="text-4xl md:text-5xl font-bold text-white tracking-tight mb-4">
+          <h1 className="text-4xl md:text-5xl font-semibold text-white tracking-tight mb-4">
             {CONTACT_HEADING}
           </h1>
           <p className="text-base md:text-lg text-zinc-400 font-light">{CONTACT_SUBTEXT}</p>

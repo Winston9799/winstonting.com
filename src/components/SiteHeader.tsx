@@ -126,7 +126,7 @@ export default function SiteHeader() {
 
           {/* Brand & primary nav */}
           <div className="flex items-center space-x-12">
-            <a href="/" className="text-xl font-bold tracking-wider text-white hover:text-gold-400 transition-colors">
+            <a href="/" className="text-xl font-semibold tracking-wider text-white hover:text-gold-400 transition-colors">
               {SITE_NAME}
             </a>
 

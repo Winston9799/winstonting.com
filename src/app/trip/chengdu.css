@@ -53,7 +53,7 @@
   animation: fu 1s .15s ease both;
 }
 .hero h1 span {
-  font-weight: 700;
+  font-weight: 600;
   background: linear-gradient(120deg, var(--gold-leaf), var(--gold-bright) 45%, var(--gold) 80%);
   -webkit-background-clip: text;
   background-clip: text;
@@ -139,11 +139,11 @@
   background: rgba(212, 160, 23, .1); border: 1px solid rgba(212, 160, 23, .3);
   display: flex; align-items: center; justify-content: center; font-size: 18px;
 }
-.info-title { font-size: 16px; font-weight: 700; color: #fff; letter-spacing: .3px; }
+.info-title { font-size: 16px; font-weight: 600; color: #fff; letter-spacing: .3px; }
 .info-sub { font-size: 11px; color: var(--gold-leaf); opacity: .8; margin-top: 2px; }
 .flight-leg { background: rgba(255,255,255,.04); border: 1px solid var(--border-lo); border-radius: 0.375rem; padding: 10px 12px; display: flex; flex-direction: column; gap: 5px; }
 .flight-leg-top { display: flex; align-items: center; justify-content: space-between; font-size: 11px; }
-.flight-leg-num { font-weight: 700; color: var(--gold-leaf); }
+.flight-leg-num { font-weight: 600; color: var(--gold-leaf); }
 .flight-leg-when { color: var(--outline); font-size: 10px; }
 .flight-leg-route { display: flex; align-items: center; justify-content: space-between; font-size: 13px; font-weight: 500; color: var(--on-surface); }
 .info-list { display: flex; flex-direction: column; gap: 8px; font-size: 12px; color: var(--on-surface-variant); }
@@ -222,12 +222,12 @@
   box-shadow: 0 0 0 1px rgba(246, 190, 57, .25), 0 16px 36px -8px rgba(212, 160, 23, .35), inset 0 1px 0 rgba(246, 190, 57, .15);
 }
 .day-card-inner.active .day-head { border-bottom-color: rgba(246, 190, 57, .2); }
-.day-card-inner.active .day-num { background: var(--gold-bright); border-color: var(--gold-leaf); color: var(--void); font-weight: 900; }
-.day-card-inner.active .day-weekday { color: var(--gold-bright); opacity: 1; font-weight: 700; }
-.day-card-inner.active .day-tag { background: var(--gold-bright); color: var(--void); border-color: var(--gold-leaf); font-weight: 700; }
+.day-card-inner.active .day-num { background: var(--gold-bright); border-color: var(--gold-leaf); color: var(--void); font-weight: 600; }
+.day-card-inner.active .day-weekday { color: var(--gold-bright); opacity: 1; font-weight: 600; }
+.day-card-inner.active .day-tag { background: var(--gold-bright); color: var(--void); border-color: var(--gold-leaf); font-weight: 600; }
 .day-card-inner.active .day-sub { color: #d8cdb4; }
 .day-card-inner.active .gphoto { border-color: rgba(246, 190, 57, .3); }
-.day-card-inner.active .a-time { background: var(--gold-bright); color: var(--void); border-color: var(--gold-leaf); font-weight: 700; }
+.day-card-inner.active .a-time { background: var(--gold-bright); color: var(--void); border-color: var(--gold-leaf); font-weight: 600; }
 .day-card-inner.active .a-desc { color: #cfc4ac; }
 .day-card-inner.active .a-badge { background: rgba(246, 190, 57, .16); color: var(--gold-leaf); border-color: rgba(246, 190, 57, .4); }
 
@@ -237,12 +237,12 @@
   width: 38px; height: 38px; border-radius: 9999px; flex-shrink: 0;
   background: rgba(212, 160, 23, .12); border: 1px solid rgba(212, 160, 23, .5);
   display: flex; align-items: center; justify-content: center;
-  font-size: 15px; font-weight: 700; color: var(--gold-leaf);
+  font-size: 15px; font-weight: 600; color: var(--gold-leaf);
 }
-.day-date { font-size: 17px; font-weight: 700; color: #fff; }
+.day-date { font-size: 17px; font-weight: 600; color: #fff; }
 .day-weekday { font-size: 11px; color: var(--gold-leaf); opacity: .8; font-weight: 500; }
 .day-tag { flex-shrink: 0; padding: 4px 12px; border-radius: 9999px; font-size: 11px; font-weight: 500; background: rgba(255,255,255,.05); color: var(--on-surface-variant); border: 1px solid rgba(255,255,255,.1); }
-.day-title { font-size: 19px; font-weight: 700; color: #fff; line-height: 1.3; }
+.day-title { font-size: 19px; font-weight: 600; color: #fff; line-height: 1.3; }
 .day-sub { font-size: 12px; color: var(--outline); margin-top: 4px; line-height: 1.6; }
 
 .day-gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
@@ -254,7 +254,7 @@
 .activities { display: flex; flex-direction: column; gap: 16px; padding-top: 4px; }
 .activity { display: flex; flex-direction: column; gap: 6px; }
 .a-time { display: inline-flex; align-self: flex-start; font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 0.25rem; background: rgba(212, 160, 23, .1); color: var(--gold-leaf); border: 1px solid rgba(212, 160, 23, .2); margin-bottom: 2px; }
-.a-title { font-weight: 700; color: var(--on-surface); font-size: 13.5px; }
+.a-title { font-weight: 600; color: var(--on-surface); font-size: 13.5px; }
 .a-addr { font-size: 11px; color: var(--outline); }
 .a-desc { font-size: 12px; color: var(--on-surface-variant); line-height: 1.6; }
 .a-badges { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 2px; }
@@ -266,7 +266,7 @@
 .fc, .tc { padding: 20px; display: flex; flex-direction: column; gap: 14px; justify-content: space-between; }
 .fc-head, .tc-head { display: flex; align-items: center; gap: 12px; }
 .fi { width: 36px; height: 36px; border-radius: 0.375rem; flex-shrink: 0; background: rgba(212, 160, 23, .12); border: 1px solid rgba(212, 160, 23, .3); display: flex; align-items: center; justify-content: center; font-size: 16px; }
-.fc h3, .tc h3 { font-size: 15px; font-weight: 700; color: #fff; }
+.fc h3, .tc h3 { font-size: 15px; font-weight: 600; color: #fff; }
 .fc p, .tc p { font-size: 12px; color: var(--on-surface-variant); line-height: 1.7; }
 .tc ul { font-size: 12px; color: var(--on-surface-variant); line-height: 1.8; padding-left: 16px; }
 .card-foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding-top: 12px; border-top: 1px solid var(--border-lo); font-size: 11px; }
@@ -285,7 +285,7 @@
   content: '成都';
   position: absolute;
   font-size: 200px;
-  font-weight: 900;
+  font-weight: 600;
   color: rgba(255,255,255,.03);
   top: 50%;
   left: 50%;
