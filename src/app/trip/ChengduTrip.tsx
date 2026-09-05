@@ -1,3 +1,10 @@
+// ─── CHENGDU ITINERARY PAGE ───────────────────────────────────────────────────
+// Full single-page trip layout: hero, flight/hotel summary cards, the
+// day-by-day carousel (DAYS below), a food list, travel tips, and a lightbox
+// for the per-day photo galleries. Styled by ./chengdu.css — see design.md
+// for the "Obsidian & Gilded Journey" palette this page follows.
+// To edit trip content (dates, activities, photos), edit the DAYS array below.
+// ─────────────────────────────────────────────────────────────────────────────
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";

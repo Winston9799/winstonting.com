@@ -1,22 +1,19 @@
+/* ─── GLOBAL STYLES ──────────────────────────────────────────────────────────
+   Site-wide base styles plus the dark/gold decorative primitives shared by
+   the homepage and site chrome (glass-card, btn-luxury-cta, dust particles).
+   Page-specific styling (the itinerary page) lives in its own scoped
+   src/app/trip/chengdu.css instead of here.
+   ────────────────────────────────────────────────────────────────────────── */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Google Fonts (Noto Sans SC / Noto Serif SC) are loaded via next/font in src/app/layout.tsx */
+/* Noto Sans SC (Chinese glyphs) is loaded via next/font in src/app/layout.tsx */
 
 :root {
-  /* Site palette */
+  /* Base page colors — read by body below and by the bg-[var(--background)] class in layout.tsx */
   --foreground: #1d1d1d;
   --background: #ffffff;
-  --surface: #f4f4f4;
-  --border: #e4e4e4;
-  --muted: #767676;
-  --accent: #1428A0; /* Samsung-style blue accent */
-
-  /* Trip accent */
-  --gold: #d4a017;
-  --ink: #1a1a1a;
-  --paper: #faf9f7;
 }
 
 html {
@@ -89,6 +86,8 @@ body {
   border-color: rgba(229, 169, 60, 0.35);
 }
 
+/* Shared pill CTA button (homepage hero/explore/hotel sections) — dark glass
+   at rest, flips to a gold gradient on hover/active. */
 .btn-luxury-cta {
   position: relative;
   display: inline-flex;

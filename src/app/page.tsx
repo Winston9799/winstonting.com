@@ -75,7 +75,7 @@ export default function HomePage() {
         <div className="relative z-10 max-w-7xl w-full mx-auto px-6 md:px-10 py-16 flex flex-col justify-end min-h-[75vh]">
           <div className="max-w-3xl space-y-6">
             <div className="space-y-6">
-              <h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold text-white tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.9)]">
+              <h1 className="text-5xl sm:text-6xl md:text-7xl font-semibold text-white tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.9)]">
                 Chengdu Exploration
               </h1>
               <p className="text-lg sm:text-xl text-neutral-300 font-light max-w-2xl leading-relaxed">
@@ -102,7 +102,7 @@ export default function HomePage() {
       <section className="relative z-10 py-24 bg-midnight border-t border-white/[0.04] overflow-hidden" id="explore-section">
         <div className="absolute top-12 left-1/3 w-96 h-96 bg-gold-500/5 rounded-full blur-[120px] pointer-events-none" />
         <div className="max-w-7xl mx-auto px-6 md:px-10">
-          <h2 className="text-3xl md:text-4xl font-bold text-white tracking-tight mb-10">
+          <h2 className="text-3xl md:text-4xl font-semibold text-white tracking-tight mb-10">
             旅程专栏与探索
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -129,7 +129,7 @@ export default function HomePage() {
               <article key={card.title}
                 className="relative group rounded-2xl glass-card card-sweep p-8 transition-all duration-300 ease-out hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-gold-500/10 flex flex-col justify-between overflow-hidden">
                 <div className="space-y-4">
-                  <h3 className="text-2xl font-bold text-neutral-100 group-hover:text-gold-300 transition-colors">
+                  <h3 className="text-2xl font-semibold text-neutral-100 group-hover:text-gold-300 transition-colors">
                     {card.title}
                   </h3>
                   <p className="text-neutral-400 text-sm leading-relaxed">
@@ -155,7 +155,7 @@ export default function HomePage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
             <div className="lg:col-span-6 space-y-6">
               <div className="space-y-2">
-                <h2 className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight leading-tight">
+                <h2 className="text-4xl sm:text-5xl font-semibold text-white tracking-tight leading-tight">
                   Pagoda Design Hotel
                 </h2>
                 <p className="text-2xl sm:text-3xl font-light text-neutral-300">

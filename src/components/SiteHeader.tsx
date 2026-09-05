@@ -1,3 +1,9 @@
+// ─── SITE HEADER ──────────────────────────────────────────────────────────────
+// Sticky top nav rendered on every page (see src/app/layout.tsx). Menu items
+// and mega-menu columns come from NAV (src/lib/nav.ts) — edit that file to
+// change links, not this one. Handles three layouts: desktop mega-menu
+// dropdowns, the mobile hamburger drawer, and the sticky glass background.
+// ─────────────────────────────────────────────────────────────────────────────
 "use client";
 
 import { useState, useRef, useEffect } from "react";
@@ -117,8 +123,6 @@ export default function SiteHeader() {
     return () => document.removeEventListener("mousedown", handler);
   }, []);
 
-  const activeItem = NAV.find((n) => n.label === activeMenu);
-
   return (
     <>
       <header ref={navRef} className="sticky top-0 z-50 glass-nav border-b border-white/[0.08]">
@@ -126,7 +130,7 @@ export default function SiteHeader() {
 
           {/* Brand & primary nav */}
           <div className="flex items-center space-x-12">
-            <a href="/" className="text-xl font-bold tracking-wider text-white hover:text-gold-400 transition-colors">
+            <a href="/" className="text-xl font-semibold tracking-wider text-white hover:text-gold-400 transition-colors">
               {SITE_NAME}
             </a>
 

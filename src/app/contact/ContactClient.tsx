@@ -1,3 +1,10 @@
+// ─── CONTACT PAGE ─────────────────────────────────────────────────────────────
+// There's no backend: the form validates client-side, then hands off to the
+// user's mail client via a `mailto:` link (see handleSubmit). That's why there
+// is no server action, API route, or fetch() call here — nothing to send it to.
+// Split out from page.tsx (a Server Component, for the page <Metadata>) since
+// this needs "use client" for form state.
+// ─────────────────────────────────────────────────────────────────────────────
 "use client";
 
 import { useRef, useState } from "react";
@@ -7,7 +14,7 @@ import { SOCIALS } from "@/lib/socials";
 const CONTACT_EMAIL   = "your@email.com";     // replace with your email
 const CONTACT_HEADING = "Get in Touch";
 const CONTACT_SUBTEXT = "Drop me a message, follow along, or just say hi.";
-const MIN_MESSAGE_LENGTH = 100;
+const MIN_MESSAGE_LENGTH = 100;               // guards against one-line "hi" spam via mailto
 // ──────────────────────────────────────────────────────────────────────────
 
 // Social icon SVGs (same set as SiteFooter)
@@ -75,6 +82,9 @@ export default function ContactClient() {
   const [submitted, setSubmitted] = useState(false);
   const [sent, setSent] = useState(false);
 
+  // Briefly flags a field as "shaking" (see .shake-error keyframes below) to
+  // draw the eye to it, then clears the flag so the CSS animation can replay
+  // on the next invalid submit.
   function triggerShake(field: "name" | "subject" | "message") {
     setShake((s) => ({ ...s, [field]: true }));
     setTimeout(() => setShake((s) => ({ ...s, [field]: false })), 450);
@@ -125,10 +135,12 @@ export default function ContactClient() {
     }
 
     if (hasError) {
-      firstInvalid?.focus();
+      firstInvalid?.focus(); // jump to the first bad field, top to bottom
       return;
     }
 
+    // No backend to POST to — build a mailto: link and let the visitor's own
+    // mail client send it. This opens their mail app; it does not confirm delivery.
     const mailSubject = encodeURIComponent(`${subjectVal} — from ${nameVal}`);
     const mailBody = encodeURIComponent(`${messageVal}${emailVal ? `\n\n— ${nameVal} (${emailVal})` : `\n\n— ${nameVal}`}`);
     window.location.href = `mailto:${CONTACT_EMAIL}?subject=${mailSubject}&body=${mailBody}`;
@@ -160,7 +172,7 @@ export default function ContactClient() {
 
       <main className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 lg:px-16 py-16 md:py-24">
         <div className="mb-14">
-          <h1 className="text-4xl md:text-5xl font-bold text-white tracking-tight mb-4">
+          <h1 className="text-4xl md:text-5xl font-semibold text-white tracking-tight mb-4">
             {CONTACT_HEADING}
           </h1>
           <p className="text-base md:text-lg text-zinc-400 font-light">{CONTACT_SUBTEXT}</p>

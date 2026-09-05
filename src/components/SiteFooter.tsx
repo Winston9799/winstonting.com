@@ -1,8 +1,12 @@
+// ─── SITE FOOTER ──────────────────────────────────────────────────────────────
+// Rendered on every page (see src/app/layout.tsx). Sitemap columns come from
+// NAV (src/lib/nav.ts) and the social icon row comes from SOCIALS (src/lib/socials.ts) —
+// edit those files to change links, not this one.
+// ─────────────────────────────────────────────────────────────────────────────
 import { NAV } from "@/lib/nav";
 import { SOCIALS, Social } from "@/lib/socials";
 
 // ─── EDIT FOOTER INFO ────────────────────────────────────────────────────────
-const SITE_NAME    = "Winston Travels";
 const COPYRIGHT    = "Winston";
 const LEGAL_LINKS  = [
   { label: "Privacy",  href: "#" },
