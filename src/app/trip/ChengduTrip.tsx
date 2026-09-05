@@ -204,7 +204,7 @@ export default function ChengduTrip() {
         <div className="vdeco r">天府之国 · 美食天堂 · 慢生活圣地</div>
         <p className="eyebrow">2026 · 金秋 · 天府之国</p>
         <h1>成都<span>探索之旅</span></h1>
-        <p>Singapore Airlines · JW Marriott · 8天7夜深度游</p>
+        <p>Singapore Airlines · Pagoda Design Hotel · 8天7夜深度游</p>
         <div className="pills">
           <span className="pill">SQ842 · 9月17日 出发</span>
           <span style={{ color: "rgba(255,255,255,.3)" }}>——</span>
@@ -246,19 +246,19 @@ export default function ChengduTrip() {
         <div className="hinner">
           <div style={{ fontSize: 26 }}>🏨</div>
           <div className="hinfo">
-            <h3>JW Marriott Hotel Chengdu · 成都茂业JW万豪酒店</h3>
-            <p>锦江区东御街19号 · 9月17–24日（7晚）· Check-in 14:00 · Check-out 12:00</p>
+            <h3>Pagoda Design Hotel Chengdu · 成都太古里柏廿设计酒店</h3>
+            <p>锦江区华兴东街16号 · 9月17–24日（7晚）· Check-in 15:00 · Check-out 12:00</p>
             <p style={{ marginTop: 4, fontSize: 12, color: "var(--muted)" }}>
-              🛏️ 高楼层景房 · 2张大床 &nbsp;·&nbsp; 🍳 含每日早餐 &nbsp;·&nbsp; ⭐ 五星级
+              🛏️ 高楼层城景房 · 2张单人床 &nbsp;·&nbsp; 🍳 含每日早餐 &nbsp;·&nbsp; ⭐ 五星级
             </p>
           </div>
-          <span className="hbadge">⭐ 五星 · 春熙路 1.3km</span>
+          <span className="hbadge">⭐ 五星 · 太古里 步行可达</span>
         </div>
       </div>
 
       {/* ══ OVERVIEW STATS ════════════════════════════════════════════════════ */}
       <div className="ovw">
-        {[["8","天 · 行程"],["7","晚 · JW Marriott"],["12","个 · 景点"],["20°","早晚凉爽"],["🐼","国宝必看"]].map(([n,l]) => (
+        {[["8","天 · 行程"],["7","晚 · Pagoda Hotel"],["12","个 · 景点"],["20°","早晚凉爽"],["🐼","国宝必看"]].map(([n,l]) => (
           <div className="ovw-i" key={l}><div className="n">{n}</div><div className="l">{l}</div></div>
         ))}
       </div>
@@ -266,8 +266,8 @@ export default function ChengduTrip() {
       {/* ══ TICKER ════════════════════════════════════════════════════════════ */}
       <div className="ticker-wrap">
         <div className="ticker-track">
-          {["成都探索之旅","2026 · 金秋","JW Marriott","大熊猫繁育基地","三星堆博物馆","都江堰 · 青城山","黄龙溪古镇","武侯祠 · 锦里","天府之国","SQ 842",
-            "成都探索之旅","2026 · 金秋","JW Marriott","大熊猫繁育基地","三星堆博物馆","都江堰 · 青城山","黄龙溪古镇","武侯祠 · 锦里","天府之国","SQ 842"].map((t, i) => (
+          {["成都探索之旅","2026 · 金秋","Pagoda Design Hotel","大熊猫繁育基地","三星堆博物馆","都江堰 · 青城山","黄龙溪古镇","武侯祠 · 锦里","天府之国","SQ 842",
+            "成都探索之旅","2026 · 金秋","Pagoda Design Hotel","大熊猫繁育基地","三星堆博物馆","都江堰 · 青城山","黄龙溪古镇","武侯祠 · 锦里","天府之国","SQ 842"].map((t, i) => (
             <span key={i}><span className="ti">{t}</span><span className="ts">✦</span></span>
           ))}
         </div>
@@ -293,11 +293,11 @@ export default function ChengduTrip() {
                 </div>
               </div>
               <div className="sr">
-                <div className="si"><FallbackImg src="/images/jw-marriott/1.jpg" /><span>🏨</span><span className="tlabel">傍晚</span></div>
+                <div className="si"><FallbackImg src="/images/pagoda-hotel/1.jpg" /><span>🏨</span><span className="tlabel">傍晚</span></div>
                 <div className="sc">
-                  <div className="act">🏨 入住 JW Marriott Chengdu</div>
+                  <div className="act">🏨 入住 Pagoda Design Hotel Chengdu</div>
                   <div className="tip">机场至酒店约 50km，打车约 50 分钟（¥120–150），或预订酒店商务车 ¥300</div>
-                  {P("jw-marriott","JW Marriott Chengdu")}
+                  {P("pagoda-hotel","Pagoda Design Hotel Chengdu")}
                 </div>
               </div>
               <div className="sr">
@@ -537,10 +537,10 @@ export default function ChengduTrip() {
         <div className="sec-h"><div className="ln" /><span style={{ fontSize: 22 }}>💡</span><h2>出行锦囊</h2><div className="ln" /></div>
         <div className="tg">
           <div className="tc"><h3>✈️ 航班提示</h3><p>SQ842/843 直飞 TFU，约 4h 45m，两地同为 UTC+8 无时差。</p></div>
-          <div className="tc"><h3>🏨 JW Marriott 小贴士</h3><ul><li>步行至天府广场 6 分钟、春熙路约 15 分钟</li><li>Check-in 14:00 · Check-out 12:00</li><li>机场商务车 ¥300 单程，礼宾部预订</li></ul></div>
+          <div className="tc"><h3>🏨 Pagoda Design Hotel 小贴士</h3><ul><li>步行即达太古里 · 春熙路商圈</li><li>Check-in 15:00 · Check-out 12:00</li><li>机场商务车 ¥300 单程，礼宾部预订</li></ul></div>
           <div className="tc"><h3>🎟️ 熊猫基地预约</h3><p>提前 <strong>14天</strong> 在"成都大熊猫繁育研究基地"公众号购票，选上午场。</p></div>
           <div className="tc"><h3>🏺 三星堆抢票</h3><p>提前 <strong>5天</strong> 官方小程序抢票，9月旺季票秒没，调好闹钟。</p></div>
-          <div className="tc"><h3>🚇 市内交通</h3><p>支付宝/微信乘车码直接刷地铁。JW Marriott 附近天府广场站（1/2号线）。</p></div>
+          <div className="tc"><h3>🚇 市内交通</h3><p>支付宝/微信乘车码直接刷地铁。酒店附近春熙路站（2/3号线）。</p></div>
           <div className="tc"><h3>👟 天气与穿着</h3><p>20–28°C，备晴雨伞（华西秋雨），每天约 2 万步，平底鞋 + 薄外套标配。</p></div>
         </div>
       </div>
