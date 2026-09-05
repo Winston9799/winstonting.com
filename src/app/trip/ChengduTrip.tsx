@@ -441,10 +441,6 @@ export default function ChengduTrip() {
       {/* ══ HERO ══════════════════════════════════════════════════════════════ */}
       <section className="hero">
         <div className="hero-bg" />
-        <div className="ink-orb" /><div className="ink-orb" /><div className="ink-orb" />
-        <div className="vdeco l">金秋成都 · 探索之旅 · 二〇二六年</div>
-        <div className="vdeco r">天府之国 · 美食天堂 · 慢生活圣地</div>
-        <p className="eyebrow">2026 · 金秋 · 天府之国</p>
         <h1>成都<span>探索之旅</span></h1>
         <div className="pills">
           <span className="pill">SQ842 · 9月17日 出发</span>
