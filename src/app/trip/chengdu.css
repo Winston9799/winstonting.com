@@ -183,7 +183,36 @@
 @media (min-width: 640px) { .day-card { width: calc((100% - 24px) / 2); } }
 @media (min-width: 1024px) { .day-card { width: calc((100% - 48px) / 3); } }
 
-.day-card-inner { padding: 24px; display: flex; flex-direction: column; gap: 18px; flex: 1; }
+.day-card-inner {
+  position: relative;
+  overflow: hidden;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  flex: 1;
+  transition: border-color .3s ease, box-shadow .3s ease, transform .3s ease;
+}
+.day-card-inner:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, .8), 0 0 20px 1px rgba(212, 160, 23, .1);
+}
+.day-card-inner:hover::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(245, 192, 101, 0.1), transparent);
+  transform: skewX(-20deg);
+  animation: glassSweep 1.2s ease forwards;
+  pointer-events: none;
+}
+@keyframes glassSweep {
+  0% { left: -100%; }
+  100% { left: 200%; }
+}
 .day-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; border-bottom: 1px solid var(--border-lo); padding-bottom: 16px; }
 .day-head-l { display: flex; align-items: center; gap: 12px; }
 .day-num {

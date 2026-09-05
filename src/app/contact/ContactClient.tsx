@@ -176,8 +176,8 @@ export default function ContactClient() {
                   <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} />
                 </svg>
                 <div>
-                  <p className="font-medium text-white">Thanks! Your email app should have opened.</p>
-                  <p className="text-xs text-zinc-400 mt-0.5">Send it from there and I&rsquo;ll get back to you as soon as possible.</p>
+                  <p className="font-medium text-white">Thank you for your submission.</p>
+                  <p className="text-xs text-zinc-400 mt-0.5">We will get in touch with you shortly.</p>
                 </div>
               </div>
             )}
