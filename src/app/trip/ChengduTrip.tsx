@@ -406,7 +406,7 @@ export default function ChengduTrip() {
           {/* Day 4 */}
           <div className="dc" id="day-4">
             <div className="dot">四</div>
-            <div className="dh"><span className="ddate">9月20日（周日）</span><span className="dtitle">都江堰 · 青城山</span><span className="dtag">郊游</span></div>
+            <div className="dh"><span className="ddate">9月20日（周日）</span><span className="dtitle">都江堰 · 青城山 · 蜀境雅韵宴</span><span className="dtag">郊游</span></div>
             <div className="db">
               <div className="sr">
                 <div className="si"><FallbackImg src="/images/dujiangyan-qingcheng/1.jpg" /><span>⛰️</span><span className="tlabel">全天</span></div>
@@ -415,6 +415,14 @@ export default function ChengduTrip() {
                   <div className="addr">📍 都江堰：四川省都江堰市都江堰景区 · 青城山：都江堰市青城山镇</div>
                   <div className="tip">成灌快铁犀浦站出发约 40 分钟，两景区打车串联约 ¥60。青城山有超萌自拍熊猫！</div>
                   {P("dujiangyan-qingcheng","都江堰 · 青城山")}
+                </div>
+              </div>
+              <div className="sr">
+                <div className="si"><FallbackImg src="/images/shu-gong-yan-dinner/1.jpg" /><span>🍷</span><span className="tlabel">晚上</span></div>
+                <div className="sc">
+                  <div className="act">🍷 蜀境雅韵宴 · 晚宴</div>
+                  <div className="tip">19:00 开宴，预选座位 第一排-1-22 · 第一排-1-23。总价 ¥996（定金 ¥200 已支付）。</div>
+                  {P("shu-gong-yan-dinner","蜀境雅韵宴 · 晚宴")}
                 </div>
               </div>
             </div>
