@@ -61,13 +61,13 @@ function Sitemap() {
       {NAV.map((item) => (
         <div key={item.label}>
           {/* Top-level label */}
-          <p className="text-[11px] font-semibold tracking-[2px] uppercase text-white mb-4">
+          <p className="text-xs font-semibold tracking-[0.2em] text-neutral-300 uppercase mb-4">
             {item.label}
           </p>
 
           {item.href && !item.columns && (
             <a href={item.href}
-              className="block text-[13px] text-white/50 hover:text-white transition-colors mb-1.5">
+              className="block text-sm text-neutral-400 hover:text-gold-300 transition-colors mb-1.5">
               Visit page
             </a>
           )}
@@ -75,14 +75,14 @@ function Sitemap() {
           {/* Sub-columns */}
           {item.columns?.map((col) => (
             <div key={col.heading} className="mb-5">
-              <p className="text-[10px] tracking-widest uppercase text-white/30 mb-2">
+              <p className="text-[10px] tracking-widest uppercase text-neutral-500 mb-2">
                 {col.heading}
               </p>
               <ul className="space-y-1.5">
                 {col.links.map((link) => (
                   <li key={link.href}>
                     <a href={link.href}
-                      className="text-[13px] text-white/50 hover:text-white transition-colors">
+                      className="text-sm text-neutral-400 hover:text-gold-300 transition-colors">
                       {link.label}
                     </a>
                   </li>
@@ -101,15 +101,15 @@ export default function SiteFooter() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="bg-[#1d1d1d] text-white">
+    <footer className="relative bg-midnight border-t border-white/10 pt-16 pb-10">
+      <div className="max-w-7xl mx-auto px-6 md:px-10">
 
-      {/* ── Social row ── */}
-      <div className="max-w-screen-lg mx-auto px-8 pt-12 pb-8 border-b border-white/10">
-        <div className="flex flex-col sm:flex-row sm:items-center gap-5">
-          <p className="text-[11px] font-semibold tracking-[2px] uppercase text-white/40 shrink-0">
+        {/* ── Social row ── */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-10 border-b border-white/[0.08] gap-6">
+          <p className="text-xs font-semibold tracking-[0.25em] text-neutral-400 uppercase shrink-0">
             Follow Me
           </p>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center space-x-6 text-neutral-400">
             {SOCIALS.map((s) => (
               <a
                 key={s.name}
@@ -117,32 +117,32 @@ export default function SiteFooter() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={s.name}
-                className="text-white/40 hover:text-white transition-colors p-1.5 rounded-full hover:bg-white/10"
+                className="hover:text-gold-400 hover:scale-110 transition-all duration-200"
               >
                 <SocialIcon icon={s.icon} />
               </a>
             ))}
           </div>
         </div>
-      </div>
 
-      {/* ── Auto sitemap ── */}
-      <div className="max-w-screen-lg mx-auto px-8 py-10 border-b border-white/10">
-        <Sitemap />
-      </div>
+        {/* ── Auto sitemap ── */}
+        <div className="py-10 border-b border-white/[0.08]">
+          <Sitemap />
+        </div>
 
-      {/* ── Bottom bar ── */}
-      <div className="max-w-screen-lg mx-auto px-8 py-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-        <p className="text-[12px] text-white/30">
-          &copy; {year} {COPYRIGHT} · Private travel reference
-        </p>
-        <div className="flex items-center gap-5">
-          {LEGAL_LINKS.map((l) => (
-            <a key={l.href} href={l.href}
-              className="text-[12px] text-white/30 hover:text-white/70 transition-colors">
-              {l.label}
-            </a>
-          ))}
+        {/* ── Bottom bar ── */}
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-neutral-400 gap-4">
+          <p className="">
+            &copy; {year} {COPYRIGHT} · Private travel reference
+          </p>
+          <div className="flex items-center space-x-6">
+            {LEGAL_LINKS.map((l) => (
+              <a key={l.href} href={l.href}
+                className="hover:text-neutral-200 transition-colors">
+                {l.label}
+              </a>
+            ))}
+          </div>
         </div>
       </div>
     </footer>
