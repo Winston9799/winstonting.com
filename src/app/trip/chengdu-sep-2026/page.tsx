@@ -1,3 +1,5 @@
+// Thin server wrapper so this route can export page <Metadata> — the actual
+// itinerary UI lives in ../ChengduTrip.tsx, which needs "use client" for state.
 import type { Metadata } from "next";
 import ChengduTrip from "../ChengduTrip";
 
