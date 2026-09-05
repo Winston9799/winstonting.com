@@ -57,7 +57,7 @@ const NAV_ITEMS: MenuItem[] = [
   {
     label: "住宿",
     children: [
-      { label: "JW Marriott · 万豪酒店", href: "#hotel" },
+      { label: "Pagoda Design Hotel", href: "#hotel" },
       { label: "房间详情", href: "#hotel-room" },
       { label: "周边地图", href: "#hotel-map" },
     ],

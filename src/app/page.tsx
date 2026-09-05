@@ -31,7 +31,7 @@ export default function HomePage() {
           </h1>
 
           <p className="text-lg sm:text-xl font-normal text-white max-w-sm mb-8 leading-relaxed">
-            8 days · 12 attractions · JW Marriott · September 2026
+            8 days · 12 attractions · Pagoda Design Hotel · September 2026
           </p>
 
           <div className="flex gap-3 flex-wrap">
@@ -106,11 +106,11 @@ export default function HomePage() {
               September 2026
             </p>
             <h2 className="text-3xl sm:text-4xl font-bold text-white leading-tight max-w-md">
-              JW Marriott
-              <span className="block font-light text-white/60">成都茂业万豪</span>
+              Pagoda Design Hotel
+              <span className="block font-light text-white/60">成都太古里柏廿设计酒店</span>
             </h2>
             <p className="text-[13px] text-white/50 mt-3 max-w-xs leading-relaxed">
-              高楼层景房 · 2张大床 · 含每日早餐 · 五星级 · 7晚
+              高楼层城景房 · 2张单人床 · 含每日早餐 · 五星级 · 7晚
             </p>
           </div>
           <div className="w-full sm:w-80 h-48 rounded-2xl bg-white/5 flex items-center justify-center text-white/20 text-sm">

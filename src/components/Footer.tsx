@@ -1,8 +1,8 @@
 // ─── EDIT THESE VALUES ───────────────────────────────────────────────────────
 const MADE_BY      = "Winston";
 const TRIP_YEAR    = "2026";
-const HOTEL_NAME   = "JW Marriott Hotel Chengdu";
-const HOTEL_ADDR   = "锦江区东御街19号";
+const HOTEL_NAME   = "Pagoda Design Hotel Chengdu";
+const HOTEL_ADDR   = "锦江区华兴东街16号";
 const CONTACT_NOTE = "";                            // optional note; leave "" to hide
 const FOOTER_LINKS: { label: string; href: string }[] = [
   // add any links here, e.g. { label: "地图", href: "https://..." }
