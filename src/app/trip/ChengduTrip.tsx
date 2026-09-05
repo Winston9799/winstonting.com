@@ -377,7 +377,6 @@ const DAYS: DayData[] = [
 export default function ChengduTrip() {
   const [lb, setLb] = useState({ open: false, imgs: [] as string[], idx: 0, cap: "" });
   const trackRef = useRef<HTMLDivElement>(null);
-  const [carouselStatus, setCarouselStatus] = useState("DAY 1 / 8");
   const [atStart, setAtStart] = useState(true);
   const [atEnd, setAtEnd] = useState(false);
 
@@ -403,22 +402,13 @@ export default function ChengduTrip() {
     return () => document.removeEventListener("keydown", onKey);
   }, []);
 
-  // Itinerary carousel: track scroll position to update arrow state + status label
+  // Itinerary carousel: track scroll position to update arrow disabled state
   const updateCarouselState = useCallback(() => {
     const el = trackRef.current;
     if (!el) return;
     const maxScroll = el.scrollWidth - el.clientWidth;
     setAtStart(el.scrollLeft <= 4);
     setAtEnd(el.scrollLeft >= maxScroll - 4);
-
-    const firstCard = el.querySelector<HTMLElement>(".day-card");
-    if (firstCard) {
-      const cardWidth = firstCard.offsetWidth;
-      const visibleCount = window.innerWidth >= 1024 ? 3 : window.innerWidth >= 640 ? 2 : 1;
-      const start = Math.min(DAYS.length, Math.max(1, Math.round(el.scrollLeft / cardWidth) + 1));
-      const end = Math.min(DAYS.length, start + visibleCount - 1);
-      setCarouselStatus(start === end ? `DAY ${start} / ${DAYS.length}` : `DAY ${start} - ${end} / ${DAYS.length}`);
-    }
   }, []);
 
   useEffect(() => {
@@ -526,7 +516,6 @@ export default function ChengduTrip() {
             <p style={{ fontSize: 12, color: "var(--outline)", marginTop: 6 }}>一览 8 天 7 夜精彩安排 · 支持左右平滑滑动浏览</p>
           </div>
           <div className="carousel-controls">
-            <span className="carousel-status">{carouselStatus}</span>
             <button aria-label="上一页行程" className="nav-arrow" disabled={atStart} onClick={() => scrollCarousel(-1)}>‹</button>
             <button aria-label="下一页行程" className="nav-arrow" disabled={atEnd} onClick={() => scrollCarousel(1)}>›</button>
           </div>
