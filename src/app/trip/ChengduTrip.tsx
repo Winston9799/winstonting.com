@@ -264,7 +264,6 @@ const DAYS: DayData[] = [
     sub: "千年水利工程灌溉天府，道教发源幽静山林，夜宿蜀宴汉唐乐舞盛典",
     photos: [
       { folder: "dujiangyan-qingcheng", slot: 1, caption: "都江堰 · 青城山" },
-      { folder: "dujiangyan-qingcheng", slot: 2, caption: "都江堰 · 青城山" },
       { folder: "shu-gong-yan-dinner", slot: 1, caption: "蜀境雅韵宴" },
     ],
     activities: [
@@ -291,7 +290,6 @@ const DAYS: DayData[] = [
     photos: [
       { folder: "huanglongxi", slot: 1, caption: "黄龙溪古镇" },
       { folder: "wuhouci-jinli", slot: 1, caption: "武侯祠 · 锦里" },
-      { folder: "wuhouci-jinli", slot: 2, caption: "武侯祠 · 锦里" },
     ],
     activities: [
       {
@@ -317,8 +315,6 @@ const DAYS: DayData[] = [
     sub: "沉睡三千年，一醒惊天下。青铜神树、金面具与纵目面具的神秘凝视",
     photos: [
       { folder: "sanxingdui", slot: 1, caption: "三星堆博物馆" },
-      { folder: "sanxingdui", slot: 2, caption: "三星堆博物馆" },
-      { folder: "sanxingdui", slot: 3, caption: "三星堆博物馆" },
     ],
     activities: [
       {
@@ -339,8 +335,6 @@ const DAYS: DayData[] = [
     sub: "深入老成都社区肌理，穿梭文艺独立书店、精品咖啡与隐秘小巷",
     photos: [
       { folder: "fangcao-citywalk", slot: 1, caption: "芳草街 · 华姿路" },
-      { folder: "fangcao-citywalk", slot: 2, caption: "芳草街 · 华姿路" },
-      { folder: "fangcao-citywalk", slot: 3, caption: "芳草街 · 华姿路" },
     ],
     activities: [
       {
