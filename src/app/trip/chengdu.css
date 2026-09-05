@@ -175,7 +175,10 @@
 }
 .nav-arrow:disabled { opacity: .3; cursor: not-allowed; border-color: rgba(255,255,255,.1); color: var(--outline); }
 
-.carousel-track { display: flex; gap: 24px; overflow-x: auto; scroll-snap-type: x proximity; scroll-behavior: smooth; padding-bottom: 8px; }
+/* padding-top gives the :hover translateY(-6px) lift room, so the active
+   card's top border/glow ring doesn't get clipped by the scroll boundary.
+   mandatory (not proximity) makes a swipe always settle on exactly one card. */
+.carousel-track { display: flex; gap: 24px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; padding-top: 8px; padding-bottom: 8px; }
 .carousel-track::-webkit-scrollbar { display: none; }
 .carousel-track { scrollbar-width: none; -ms-overflow-style: none; }
 
