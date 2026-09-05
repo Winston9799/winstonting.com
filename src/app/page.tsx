@@ -99,7 +99,7 @@ export default function HomePage() {
       </section>
 
       {/* ── EXPLORE ───────────────────────────────────────────────────────── */}
-      <section className="relative z-10 py-24 bg-midnight border-t border-white/[0.04]" id="explore-section">
+      <section className="relative z-10 py-24 bg-midnight border-t border-white/[0.04] overflow-hidden" id="explore-section">
         <div className="absolute top-12 left-1/3 w-96 h-96 bg-gold-500/5 rounded-full blur-[120px] pointer-events-none" />
         <div className="max-w-7xl mx-auto px-6 md:px-10">
           <h2 className="text-3xl md:text-4xl font-bold text-white tracking-tight mb-10">
