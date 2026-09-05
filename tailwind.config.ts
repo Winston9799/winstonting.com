@@ -10,9 +10,9 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        // CJK-capable stack: Open Sans for Latin glyphs, Noto Sans SC fills
+        // CJK-capable stack: Lato for Latin glyphs, Noto Sans SC fills
         // in the Chinese characters (see src/app/layout.tsx for font loading).
-        sans: ['var(--font-open-sans)', 'var(--font-noto-sans-sc)', 'system-ui', 'sans-serif'],
+        sans: ['var(--font-lato)', 'var(--font-noto-sans-sc)', 'system-ui', 'sans-serif'],
       },
       colors: {
         // "Obsidian & Gilded Journey" dark/gold palette — see /design.md.

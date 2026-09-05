@@ -22,7 +22,7 @@
 .trip-page {
   background: var(--void);
   color: var(--on-surface);
-  font-family: var(--font-noto-sans-sc), var(--font-open-sans), -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: var(--font-lato), var(--font-noto-sans-sc), -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 /* ── Hero ─────────────────────────────────────────────────────────────────── */
