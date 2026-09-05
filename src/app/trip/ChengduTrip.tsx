@@ -446,22 +446,11 @@ export default function ChengduTrip() {
         <div className="vdeco r">天府之国 · 美食天堂 · 慢生活圣地</div>
         <p className="eyebrow">2026 · 金秋 · 天府之国</p>
         <h1>成都<span>探索之旅</span></h1>
-        <p>Singapore Airlines · Pagoda Design Hotel · 8天7夜深度游</p>
         <div className="pills">
           <span className="pill">SQ842 · 9月17日 出发</span>
           <span style={{ color: "rgba(255,255,255,.2)" }}>——</span>
           <span className="pill">SQ843 · 9月24日 返程</span>
         </div>
-        <div style={{ marginTop: 32, display: "flex", alignItems: "center", gap: 20, position: "relative", animation: "fu 1s .6s ease both" }}>
-          {["Winston", "Andy"].map((name, i) => (
-            <div key={name} style={{ display: "flex", alignItems: "center", gap: 10 }}>
-              {i > 0 && <span style={{ color: "rgba(255,255,255,.2)", fontSize: 18 }}>·</span>}
-              <div style={{ width: 42, height: 42, borderRadius: "50%", background: "rgba(212,160,23,.15)", border: "2px solid rgba(212,160,23,.5)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18 }}>👨</div>
-              <span style={{ color: "var(--on-surface-variant)", fontSize: 14, letterSpacing: 1 }}>{name}</span>
-            </div>
-          ))}
-        </div>
-        <div className="scrollhint"><div className="sline" /><span>向下滑动</span></div>
       </section>
 
       {/* ══ FLIGHT & HOTEL CARDS ══════════════════════════════════════════════ */}
@@ -530,23 +519,6 @@ export default function ChengduTrip() {
             </div>
             <span style={{ color: "var(--gold-leaf)", opacity: .9 }}>近春熙路地铁站 (2/3号线)</span>
           </div>
-        </div>
-      </div>
-
-      {/* ══ OVERVIEW STATS ════════════════════════════════════════════════════ */}
-      <div className="ovw">
-        {[["8","天 · 行程"],["7","晚 · Pagoda Hotel"],["12","个 · 景点"],["20°","早晚凉爽"],["🐼","国宝必看"]].map(([n,l]) => (
-          <div className="ovw-i" key={l}><div className="n">{n}</div><div className="l">{l}</div></div>
-        ))}
-      </div>
-
-      {/* ══ TICKER ════════════════════════════════════════════════════════════ */}
-      <div className="ticker-wrap">
-        <div className="ticker-track">
-          {["成都探索之旅","2026 · 金秋","Pagoda Design Hotel","大熊猫繁育基地","三星堆博物馆","都江堰 · 青城山","黄龙溪古镇","武侯祠 · 锦里","天府之国","SQ 842",
-            "成都探索之旅","2026 · 金秋","Pagoda Design Hotel","大熊猫繁育基地","三星堆博物馆","都江堰 · 青城山","黄龙溪古镇","武侯祠 · 锦里","天府之国","SQ 842"].map((t, i) => (
-            <span key={i}><span className="ti">{t}</span><span className="ts">✦</span></span>
-          ))}
         </div>
       </div>
 
@@ -676,22 +648,6 @@ export default function ChengduTrip() {
           在这座永远不急不慢的城市里，<br />
           把每一天都过成"巴适得板"。
         </blockquote>
-        <p className="auth">— SQ842 · 2026年9月17日 · Winston &amp; Andy · 成都金秋之旅</p>
-        <br /><br />
-        <span className="spice">🌶️ 请提前表态：中辣 还是 微辣？</span>
-        <br /><br />
-        <a
-          href="https://chat.whatsapp.com/JTxs04lAvFd3npGYLnqaEW?mode=gi_t"
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{ display: "inline-flex", alignItems: "center", gap: 10, background: "#25D366", color: "#fff", padding: "12px 28px", borderRadius: 40, fontSize: 14, letterSpacing: 1, textDecoration: "none", marginTop: 8 }}
-        >
-          <svg viewBox="0 0 24 24" style={{ width: 20, height: 20, fill: "#fff", flexShrink: 0 }}>
-            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
-            <path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.532 5.859L.057 23.899l6.22-1.635A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.001-1.368l-.36-.214-3.713.976.992-3.622-.234-.373A9.818 9.818 0 1112 21.818z" />
-          </svg>
-          加入旅行 WhatsApp 群组
-        </a>
       </div>
 
       {/* ══ LIGHTBOX ══════════════════════════════════════════════════════════ */}
