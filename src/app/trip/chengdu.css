@@ -43,42 +43,6 @@
   inset: 0;
   background: radial-gradient(circle at 50% 18%, rgba(212, 160, 23, .14) 0%, rgba(13, 14, 17, .6) 45%, var(--void) 85%);
 }
-.ink-orb {
-  position: absolute;
-  border-radius: 50%;
-  opacity: .12;
-  filter: blur(2px);
-  animation: float 8s ease-in-out infinite;
-}
-.ink-orb:nth-child(1) { width: 600px; height: 600px; top: -100px; right: -150px; background: var(--gold); }
-.ink-orb:nth-child(2) { width: 400px; height: 400px; bottom: -50px; left: -80px; background: var(--brass); animation-delay: 3s; }
-.ink-orb:nth-child(3) { width: 250px; height: 250px; top: 40%; left: 5%; background: var(--gold); animation-delay: 5s; }
-@keyframes float {
-  0%, 100% { transform: translateY(0) scale(1); }
-  50% { transform: translateY(-20px) scale(1.03); }
-}
-.vdeco {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  padding: 40px 0;
-  font-size: 11px;
-  letter-spacing: 4px;
-  color: rgba(212, 160, 23, .3);
-  writing-mode: vertical-rl;
-  pointer-events: none;
-}
-.vdeco.l { left: 28px; }
-.vdeco.r { right: 28px; }
-.eyebrow {
-  font-size: 11px;
-  letter-spacing: 6px;
-  color: var(--gold-bright);
-  opacity: .85;
-  margin-bottom: 24px;
-  position: relative;
-  animation: fu 1s ease both;
-}
 .hero h1 {
   font-size: clamp(48px, 10vw, 88px);
   font-weight: 300;
@@ -322,5 +286,4 @@ hr.div { border: none; border-top: 1px solid var(--border-lo); max-width: 1100px
 /* ── Responsive ───────────────────────────────────────────────────────────── */
 @media (max-width: 768px) {
   .fh-grid { grid-template-columns: 1fr; margin-top: -24px; }
-  .vdeco { display: none; }
 }
