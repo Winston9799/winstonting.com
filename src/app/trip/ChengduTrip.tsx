@@ -428,10 +428,26 @@ export default function ChengduTrip() {
     }
   }, []);
 
+  // The browser fires "scroll" many times per frame during a touch drag —
+  // calling setState on every one competes with the drag for the main
+  // thread and makes the swipe feel janky. Coalesce to at most one state
+  // update per animation frame instead.
+  const scrollRaf = useRef<number | null>(null);
+  const onTrackScroll = useCallback(() => {
+    if (scrollRaf.current !== null) return;
+    scrollRaf.current = requestAnimationFrame(() => {
+      scrollRaf.current = null;
+      updateCarouselState();
+    });
+  }, [updateCarouselState]);
+
   useEffect(() => {
     updateCarouselState();
     window.addEventListener("resize", updateCarouselState);
-    return () => window.removeEventListener("resize", updateCarouselState);
+    return () => {
+      window.removeEventListener("resize", updateCarouselState);
+      if (scrollRaf.current !== null) cancelAnimationFrame(scrollRaf.current);
+    };
   }, [updateCarouselState]);
 
   function scrollCarousel(dir: 1 | -1) {
@@ -538,7 +554,7 @@ export default function ChengduTrip() {
           </div>
         </div>
 
-        <div className="carousel-track" ref={trackRef} onScroll={updateCarouselState}>
+        <div className="carousel-track" ref={trackRef} onScroll={onTrackScroll}>
           {DAYS.map((day) => (
             <div className="day-card" key={day.num}>
               <div

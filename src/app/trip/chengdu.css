@@ -177,8 +177,16 @@
 
 /* padding-top gives the :hover translateY(-6px) lift room, so the active
    card's top border/glow ring doesn't get clipped by the scroll boundary.
-   mandatory (not proximity) makes a swipe always settle on exactly one card. */
-.carousel-track { display: flex; gap: 24px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; padding-top: 8px; padding-bottom: 8px; }
+   mandatory (not proximity) makes a swipe always settle on exactly one card.
+   -webkit-overflow-scrolling/touch-action keep the drag itself smooth on iOS
+   (native momentum instead of a janky synthetic scroll). */
+.carousel-track {
+  display: flex; gap: 24px; overflow-x: auto;
+  scroll-snap-type: x mandatory; scroll-behavior: smooth;
+  padding-top: 8px; padding-bottom: 8px;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x;
+}
 .carousel-track::-webkit-scrollbar { display: none; }
 .carousel-track { scrollbar-width: none; -ms-overflow-style: none; }
 
