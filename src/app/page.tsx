@@ -102,9 +102,14 @@ export default function HomePage() {
       <section className="relative z-10 py-24 bg-midnight border-t border-white/[0.04] overflow-hidden" id="explore-section">
         <div className="absolute top-12 left-1/3 w-96 h-96 bg-gold-500/5 rounded-full blur-[120px] pointer-events-none" />
         <div className="max-w-7xl mx-auto px-6 md:px-10">
-          <h2 className="text-3xl md:text-4xl font-semibold tracking-tight mb-10 bg-[linear-gradient(120deg,#f3e7c4,#f6be39_45%,#d4a017_80%)] bg-clip-text text-transparent">
-            旅程专栏与探索
-          </h2>
+          <div className="text-center mb-10">
+            <h2 className="text-3xl md:text-4xl font-semibold tracking-tight bg-[linear-gradient(120deg,#f3e7c4,#f6be39_45%,#d4a017_80%)] bg-clip-text text-transparent">
+              旅程专栏与探索
+            </h2>
+            <p className="text-sm text-neutral-400 mt-3">
+              记录旅程灵感，探索下一段值得期待的旅行
+            </p>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
               {
