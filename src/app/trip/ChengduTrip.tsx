@@ -680,6 +680,11 @@ export default function ChengduTrip() {
         <div className="sec-h"><h2>出行锦囊与实用小贴士</h2><p>细致考量，令每一刻旅途安心惬意</p></div>
         <div className="tg">
           <div className="tc glass">
+            <div className="tc-head"><div className="fi">🥐</div><h3>熊猫基地 · 三星堆探索一日游</h3></div>
+            <p style={{ flex: 1 }}>集合时间极早，来不及吃酒店早餐——记得前一晚先买好点心，路上垫肚子当早餐。</p>
+            <div className="card-foot"><span className="card-foot-l">早餐记得自备点心</span><span className="info-chip">集合时间较早</span></div>
+          </div>
+          <div className="tc glass">
             <div className="tc-head"><div className="fi">🚇</div><h3>市内交通出行</h3></div>
             <p style={{ flex: 1 }}>支付宝或微信乘车码直接扫码乘坐地铁与公交，短途也可叫滴滴打车，方便又实惠。酒店近春熙路站（2号/3号线交汇），出行极便捷。</p>
             <div className="card-foot"><span className="card-foot-l">直接刷乘车码</span><span className="info-chip">春熙路站</span></div>
