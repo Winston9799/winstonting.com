@@ -156,11 +156,8 @@ export default function HomePage() {
             <div className="lg:col-span-6 space-y-6">
               <div className="space-y-2">
                 <h2 className="text-3xl md:text-4xl font-semibold tracking-tight leading-tight bg-[linear-gradient(120deg,#f3e7c4,#f6be39_45%,#d4a017_80%)] bg-clip-text text-transparent">
-                  Pagoda Design Hotel
-                </h2>
-                <p className="text-2xl sm:text-3xl font-light text-neutral-300">
                   Pagoda君亭设计酒店 (成都春熙路太古里店)
-                </p>
+                </h2>
               </div>
               <div className="grid grid-cols-2 gap-4 pt-2">
                 <div className="p-4 rounded-2xl glass-card backdrop-blur-md border border-white/5">
