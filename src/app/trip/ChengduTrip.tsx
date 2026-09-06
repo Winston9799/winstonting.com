@@ -649,7 +649,7 @@ export default function ChengduTrip() {
       <div className="sec">
         <div className="carousel-bar">
           <div>
-            <h2 style={{ fontSize: 28, fontWeight: 500, color: "#fff" }}>每日行程规划</h2>
+            <h2 className="carousel-h2">每日行程规划</h2>
             <p style={{ fontSize: 12, color: "var(--outline)", marginTop: 6 }}>一览 8 天 7 夜精彩安排 · 支持左右平滑滑动浏览</p>
           </div>
           <div className="carousel-controls">
@@ -680,7 +680,7 @@ export default function ChengduTrip() {
       <div className="sec">
         <div className="carousel-bar">
           <div>
-            <h2 style={{ fontSize: 28, fontWeight: 500, color: "#fff" }}>必吃美食清单</h2>
+            <h2 className="carousel-h2">必吃美食清单</h2>
             <p style={{ fontSize: 12, color: "var(--outline)", marginTop: 6 }}>辣而不燥、鲜香醇厚的天府味觉探索 · 支持左右滑动浏览</p>
           </div>
           <div className="carousel-controls">
