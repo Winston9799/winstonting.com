@@ -159,7 +159,7 @@ export default function HomePage() {
                   Pagoda Design Hotel
                 </h2>
                 <p className="text-2xl sm:text-3xl font-light text-neutral-300">
-                  成都太古里柏廿设计酒店
+                  Pagoda君亭设计酒店 (成都春熙路太古里店)
                 </p>
               </div>
               <div className="grid grid-cols-2 gap-4 pt-2">

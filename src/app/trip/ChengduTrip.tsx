@@ -155,7 +155,7 @@ const DAYS: DayData[] = [
     weekday: "周四 · 启程抵蓉",
     tag: "轻松漫游",
     title: "飞抵成都 · 初见繁华夜景",
-    sub: "入住太古里柏廿设计酒店，品尝野生菌火锅，漫步锦江之夜",
+    sub: "入住Pagoda君亭设计酒店，品尝野生菌火锅，漫步锦江之夜",
     photos: [
       { folder: "changi", slot: 1, caption: "SQ842 启航" },
       { folder: "pagoda-hotel", slot: 1, caption: "Pagoda 酒店" },
@@ -170,7 +170,7 @@ const DAYS: DayData[] = [
       },
       {
         time: "傍晚",
-        title: "🏨 入住 Pagoda Design Hotel (太古里店)",
+        title: "🏨 入住 Pagoda Design Hotel (成都春熙路太古里店)",
         desc: "机场至酒店约 50km，打车约 50 分钟（¥120–150），或预订酒店商务车 ¥300。办理入住高楼层城景双床房。",
       },
       {
@@ -520,7 +520,7 @@ export default function ChengduTrip() {
             <div className="info-head-l">
               <span className="info-icon">🏨</span>
               <div>
-                <div className="info-title">成都太古里柏廿设计酒店</div>
+                <div className="info-title">Pagoda君亭设计酒店 (成都春熙路太古里店)</div>
                 <div className="info-sub">Pagoda Design Hotel Chengdu</div>
               </div>
             </div>
