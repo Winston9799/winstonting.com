@@ -135,6 +135,7 @@ type Activity = {
   addr?: string;
   desc: string;
   badges?: { text: string; warn?: boolean }[];
+  link?: { label: string; href: string };
 };
 
 type DayData = {
@@ -193,32 +194,27 @@ const DAYS: DayData[] = [
     date: "9月18日",
     weekday: "周五 · 必看必玩",
     tag: "核心必游",
-    title: "大熊猫基地 · 东郊记忆 · 天府双子塔",
-    sub: "清晨看萌宝吃竹嬉戏，下午探复古厂区潮流，入夜赏交子公园天际灯光秀",
+    title: "熊猫基地 · 三星堆探索一日游",
+    sub: "清晨看萌宝吃竹嬉戏，专车直达广汉，探秘三千年前的古蜀文明",
     photos: [
       { folder: "panda-base", slot: 1, caption: "国宝大熊猫" },
-      { folder: "dongjiaojiyi", slot: 1, caption: "东郊记忆文创" },
-      { folder: "skp", slot: 1, caption: "双子塔光影秀" },
+      { folder: "sanxingdui", slot: 1, caption: "三星堆博物馆" },
     ],
     activities: [
       {
         time: "早上",
         title: "🐼 成都大熊猫繁育研究基地",
         addr: "📍 成都市成华区熊猫大道1375号",
-        desc: "8:00 前入园，上午熊猫最活跃。打车约 20 分钟。",
-        badges: [{ text: "⚠️ 提前14天公众号预约", warn: true }],
+        desc: "Klook 一日游领队接送，上午入园看熊猫吃竹嬉戏，比自由行更省心。",
+        badges: [{ text: "👥 导游接送一日团" }],
       },
       {
         time: "下午",
-        title: "🎨 东郊记忆文创园",
-        addr: "📍 成都市成华区建设南路4号",
-        desc: "旧工厂改造文艺街区，壁画打卡、手冲咖啡。",
-      },
-      {
-        time: "夜晚",
-        title: "🌊 成都 SKP · 音乐喷泉 + 双子塔灯光秀",
-        addr: "📍 成都市武侯区武侯大道199号（地铁3/7号线武侯大道站）",
-        desc: "SKP 广场音乐喷泉水柱表演后，前往交子公园观赏双子塔灯光秀，色彩变幻绚烂，建议 21:00 后观看。",
+        title: "🏺 广汉三星堆博物馆",
+        addr: "📍 四川省德阳市广汉市三星堆镇真武村三星堆路",
+        desc: "熊猫基地后专车直达广汉，参观青铜神树、纵目面具，感受古蜀文明震撼首选。",
+        badges: [{ text: "💰 新币 113.10（2人）" }, { text: "✅ 已付款" }],
+        link: { label: "查看 Klook 行程详情 →", href: "https://www.klook.com/add-upcoming-trip/?id=6fe36721-ac5c-491e-50ec-1f935a168428" },
       },
     ],
   },
@@ -316,20 +312,26 @@ const DAYS: DayData[] = [
   {
     num: 6,
     date: "9月22日",
-    weekday: "周二 · 震撼视界",
-    tag: "世界奇迹",
-    title: "广汉三星堆新馆 · 沉睡数千年的古蜀文明",
-    sub: "沉睡三千年，一醒惊天下。青铜神树、金面具与纵目面具的神秘凝视",
+    weekday: "周二 · 潮流夜色",
+    tag: "潮流打卡",
+    title: "东郊记忆 · 天府双子塔",
+    sub: "下午探复古厂区潮流文创，入夜赏交子公园天际双子塔灯光秀",
     photos: [
-      { folder: "sanxingdui", slot: 1, caption: "三星堆博物馆" },
+      { folder: "dongjiaojiyi", slot: 1, caption: "东郊记忆文创" },
+      { folder: "skp", slot: 1, caption: "双子塔光影秀" },
     ],
     activities: [
       {
-        time: "全天",
-        title: "🏺 三星堆博物馆（广汉）",
-        addr: "📍 四川省德阳市广汉市三星堆镇真武村三星堆路",
-        desc: "青铜神树、纵目面具，古蜀文明震撼首选。成都北站高铁约 20 分钟至广汉。",
-        badges: [{ text: "⚠️ 提前5天官方小程序抢票！", warn: true }],
+        time: "下午",
+        title: "🎨 东郊记忆文创园",
+        addr: "📍 成都市成华区建设南路4号",
+        desc: "旧工厂改造文艺街区，壁画打卡、手冲咖啡。",
+      },
+      {
+        time: "夜晚",
+        title: "🌊 成都 SKP · 音乐喷泉 + 双子塔灯光秀",
+        addr: "📍 成都市武侯区武侯大道199号（地铁3/7号线武侯大道站）",
+        desc: "SKP 广场音乐喷泉水柱表演后，前往交子公园观赏双子塔灯光秀，色彩变幻绚烂，建议 21:00 后观看。",
       },
     ],
   },
@@ -597,6 +599,11 @@ export default function ChengduTrip() {
                           ))}
                         </div>
                       )}
+                      {a.link && (
+                        <a className="a-link" href={a.link.href} target="_blank" rel="noopener noreferrer">
+                          {a.link.label}
+                        </a>
+                      )}
                     </div>
                   ))}
                 </div>
@@ -644,14 +651,9 @@ export default function ChengduTrip() {
             <div className="card-foot"><span className="card-foot-l">太古里核心商圈</span><span className="info-chip">高层城景</span></div>
           </div>
           <div className="tc glass">
-            <div className="tc-head"><div className="fi">🎟️</div><h3>熊猫基地预约</h3></div>
-            <p style={{ flex: 1 }}>提前 14 天在“成都大熊猫繁育研究基地”微信公众号实名购票，务必选上午场看萌宝活跃进食。</p>
-            <div className="card-foot"><span className="card-foot-l">提前 14 天预约</span><span className="info-chip">晨间进场</span></div>
-          </div>
-          <div className="tc glass">
-            <div className="tc-head"><div className="fi">🏺</div><h3>三星堆抢票</h3></div>
-            <p style={{ flex: 1 }}>提前 5 天官方小程序抢票，9月旺季常秒空，务必调好闹钟提前填好信息。</p>
-            <div className="card-foot"><span className="card-foot-l">提前5天抢票</span><span className="info-chip">9月旺季</span></div>
+            <div className="tc-head"><div className="fi">🎟️</div><h3>熊猫 + 三星堆一日团</h3></div>
+            <p style={{ flex: 1 }}>已通过 Klook 预订接送一日团（含熊猫基地与三星堆门票），无需再自行抢票，按集合时间赴约即可。</p>
+            <div className="card-foot"><span className="card-foot-l">Klook 已付款</span><span className="info-chip">无需自行购票</span></div>
           </div>
           <div className="tc glass">
             <div className="tc-head"><div className="fi">🚇</div><h3>市内交通出行</h3></div>

@@ -280,6 +280,8 @@
 .a-badges { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 2px; }
 .a-badge { font-size: 10px; padding: 2px 8px; border-radius: 0.25rem; background: rgba(255,255,255,.05); color: var(--on-surface-variant); border: 1px solid rgba(255,255,255,.1); }
 .a-badge.warn { background: rgba(212, 160, 23, .1); color: var(--gold-leaf); border-color: rgba(212, 160, 23, .25); }
+.a-link { display: inline-block; margin-top: 2px; font-size: 11px; font-weight: 600; color: var(--gold-leaf); text-decoration: underline; text-underline-offset: 2px; }
+.a-link:hover { color: var(--gold-bright); }
 
 /* ── Food & tips grids ────────────────────────────────────────────────────── */
 .fg, .tg { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
