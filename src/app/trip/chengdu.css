@@ -158,8 +158,17 @@
 .sec-h p { font-size: 12px; color: var(--outline); margin-top: 8px; }
 
 /* ── Itinerary carousel ───────────────────────────────────────────────────── */
-.carousel-bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
-.carousel-controls { display: flex; align-items: center; gap: 12px; }
+/* Centered heading/subtitle to match .sec-h elsewhere on the page. On
+   narrow screens the arrows sit centered below the text — pinning them to
+   the right edge here would collide with the (also centered) subtitle.
+   From 640px up there's enough spare width to pin them to the right
+   instead, alongside the centered text. */
+.carousel-bar { text-align: center; margin-bottom: 24px; }
+.carousel-controls { display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 16px; }
+@media (min-width: 640px) {
+  .carousel-bar { position: relative; }
+  .carousel-controls { position: absolute; right: 0; top: 50%; transform: translateY(-50%); margin-top: 0; }
+}
 .nav-arrow {
   width: 44px; height: 44px; border-radius: 9999px; flex-shrink: 0;
   display: flex; align-items: center; justify-content: center;
