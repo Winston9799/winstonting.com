@@ -38,10 +38,22 @@
   background: var(--void);
   overflow: hidden;
 }
-.hero-bg {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 50% 18%, rgba(212, 160, 23, .14) 0%, rgba(13, 14, 17, .6) 45%, var(--void) 85%);
+/* Photo hero, matching the homepage's: a slow-zoom photo (.animate-hero-bg
+   is a shared keyframe from globals.css, loaded site-wide via layout.tsx)
+   under a gold glow wash and a top/bottom dark fade for text legibility. */
+.hero-bg { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.hero-bg-frame { width: 100%; height: 100%; }
+.hero-bg-img {
+  width: 100%; height: 100%; object-fit: cover; object-position: center 35%;
+  filter: brightness(.55) contrast(1.05);
+}
+.hero-bg-glow {
+  position: absolute; inset: 0;
+  background: radial-gradient(circle at 50% 18%, rgba(212, 160, 23, .2) 0%, rgba(13, 14, 17, .3) 45%, transparent 85%);
+}
+.hero-bg-fade {
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, rgba(10, 11, 14, .85) 0%, rgba(10, 11, 14, .15) 45%, var(--void) 100%);
 }
 .hero h1 {
   font-size: clamp(48px, 10vw, 88px);
@@ -72,8 +84,8 @@
   margin-top: 36px;
   display: flex;
   align-items: center;
-  gap: 16px;
-  flex-wrap: wrap;
+  gap: 12px;
+  flex-wrap: nowrap;
   justify-content: center;
   position: relative;
   animation: fu 1s .45s ease both;
@@ -86,6 +98,13 @@
   border-radius: 9999px;
   font-size: 13px;
   letter-spacing: 1.5px;
+  white-space: nowrap;
+}
+/* Shorter pill text + tighter padding keep both pills on one row even on
+   the narrowest phones, instead of wrapping to two uneven lines. */
+@media (max-width: 400px) {
+  .pills { gap: 8px; }
+  .pill { padding: 7px 14px; font-size: 11.5px; letter-spacing: 1px; }
 }
 @keyframes fu {
   from { opacity: 0; transform: translateY(24px); }
@@ -121,13 +140,14 @@
 }
 
 /* ── Flight & hotel cards ─────────────────────────────────────────────────── */
-/* Negative top margin pulls this whole section (heading included) up to
-   float over the hero's bottom fade — kept on the outer wrapper so the
-   heading and the card grid move together as one unit. */
+/* No overlap with the hero here — pulling the heading up into the hero's own
+   space (the old -40px trick, back when this had no heading) left it
+   exposed above the fold on first load, which none of the page's other
+   section headings do. Normal flow, with generous top padding instead. */
 .fh-section {
   max-width: 1100px;
-  margin: -40px auto 0;
-  padding: 0 20px;
+  margin: 0 auto;
+  padding: 56px 20px 0;
   position: relative;
   z-index: 5;
 }
@@ -155,8 +175,24 @@
 /* ── Sections ─────────────────────────────────────────────────────────────── */
 .sec { max-width: 1100px; margin: 0 auto; padding: 60px 24px; }
 .sec-h { text-align: center; margin-bottom: 40px; }
-.sec-h h2 { font-size: 28px; font-weight: 500; letter-spacing: -0.01em; color: #fff; }
-.sec-h p { font-size: 12px; color: var(--outline); margin-top: 8px; }
+/* Same gold gradient text as the hero's "探索之旅" — shared here and by
+   .carousel-h2 (the two carousel-bar headings, which aren't inside .sec-h)
+   so every section heading on the page reads consistently. Sizes match the
+   homepage's equivalent headings/subtitles (text-3xl md:text-4xl
+   font-semibold / text-sm) for the same reason. */
+.sec-h h2, .carousel-h2 {
+  font-size: 30px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  background: linear-gradient(120deg, var(--gold-leaf), var(--gold-bright) 45%, var(--gold) 80%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+@media (min-width: 768px) {
+  .sec-h h2, .carousel-h2 { font-size: 36px; }
+}
+.sec-h p { font-size: 14px; color: var(--outline); margin-top: 8px; }
 
 /* ── Itinerary carousel ───────────────────────────────────────────────────── */
 /* Centered heading/subtitle to match .sec-h elsewhere on the page. On
@@ -413,6 +449,6 @@ hr.div { border: none; border-top: 1px solid var(--border-lo); max-width: 1100px
 
 /* ── Responsive ───────────────────────────────────────────────────────────── */
 @media (max-width: 768px) {
-  .fh-section { margin-top: -24px; }
+  .fh-section { padding-top: 40px; }
   .fh-grid { grid-template-columns: 1fr; }
 }

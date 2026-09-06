@@ -7,7 +7,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, memo } from "react";
 import "./chengdu.css";
 
 // ── Image extension fallback ──────────────────────────────────────────────────
@@ -382,6 +382,84 @@ const DAYS: DayData[] = [
   },
 ];
 
+// ── One day's card, memoized ────────────────────────────────────────────────
+// The itinerary carousel updates activeDay on every scroll frame that
+// crosses a card boundary (see useCarousel's onLeadingIndexChange below).
+// Without memo, that re-renders all 8 cards — galleries, activity lists,
+// badges, CTA buttons — on every one of those updates, which is heavy
+// enough to make the swipe itself feel janky. memo() skips re-rendering the
+// cards whose props didn't actually change, so only the two cards whose
+// `active` state flips (old and new) re-render. This only pays off because
+// `day` (from the module-level DAYS array), `onSelect`, and `openLb` are all
+// referentially stable across renders — a fresh inline function for any of
+// those would defeat memo() the same way not having it at all would.
+const DayCard = memo(function DayCard({
+  day,
+  isActive,
+  onSelect,
+  openLb,
+}: {
+  day: DayData;
+  isActive: boolean;
+  onSelect: (num: number) => void;
+  openLb: (imgs: string[], idx: number, cap: string) => void;
+}) {
+  return (
+    <div className="day-card">
+      <div
+        className={`day-card-inner glass${isActive ? " active" : ""}`}
+        onClick={() => onSelect(day.num)}
+      >
+        <div className="day-head">
+          <div className="day-head-l">
+            <div className="day-num">{day.num}</div>
+            <div>
+              <div className="day-date">{day.date}</div>
+              <div className="day-weekday">{day.weekday}</div>
+            </div>
+          </div>
+          <span className="day-tag">{day.tag}</span>
+        </div>
+
+        <div>
+          <div className="day-title">{day.title}</div>
+          <div className="day-sub">{day.sub}</div>
+        </div>
+
+        <DayGallery items={day.photos} openLb={openLb} />
+
+        <div className="activities">
+          {day.activities.map((a, i) => (
+            <div className="activity" key={i}>
+              <span className="a-time">{a.time}</span>
+              <div className="a-title">{a.title}</div>
+              {a.addr && <div className="a-addr">{a.addr}</div>}
+              <div className="a-desc">{a.desc}</div>
+              {a.badges && (
+                <div className="a-badges">
+                  {a.badges.map((b) => (
+                    <span key={b.text} className={`a-badge${b.warn ? " warn" : ""}`}>{b.text}</span>
+                  ))}
+                </div>
+              )}
+              {a.link && (
+                <a className="a-cta" href={a.link.href} target="_blank" rel="noopener noreferrer">
+                  <span>{a.link.label}</span>
+                  <svg className="a-cta-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.25} strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" />
+                    <path d="M15 3h6v6" />
+                    <path d="M10 14L21 3" />
+                  </svg>
+                </a>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+});
+
 // ── Shared snap-scroll carousel behavior (used by both the day carousel and
 // the food-list carousel below) ────────────────────────────────────────────
 const CAROUSEL_GAP = 24;
@@ -449,9 +527,13 @@ export default function ChengduTrip() {
   }, []);
   const { trackRef, atStart, atEnd, onScroll: onTrackScroll, scrollByPage: scrollCarousel } = useCarousel(".day-card", onDayIndexChange);
   const { trackRef: foodTrackRef, atStart: foodAtStart, atEnd: foodAtEnd, onScroll: onFoodTrackScroll, scrollByPage: scrollFoodCarousel } = useCarousel(".food-card");
+  // Stable references so DayCard's memo() actually bails out re-rendering
+  // unaffected cards — an inline arrow function recreated on every render
+  // would defeat it just as much as skipping memo() entirely.
+  const onSelectDay = useCallback((num: number) => setActiveDay(num), []);
 
-  const openLb = (imgs: string[], idx: number, cap: string) =>
-    setLb({ open: true, imgs, idx, cap });
+  const openLb = useCallback((imgs: string[], idx: number, cap: string) =>
+    setLb({ open: true, imgs, idx, cap }), []);
   const closeLb = () => setLb((s) => ({ ...s, open: false }));
   const navLb = (d: number) =>
     setLb((s) => ({ ...s, idx: (s.idx + d + s.imgs.length) % s.imgs.length }));
@@ -476,12 +558,18 @@ export default function ChengduTrip() {
     <div className="trip-page">
       {/* ══ HERO ══════════════════════════════════════════════════════════════ */}
       <section className="hero">
-        <div className="hero-bg" />
+        <div className="hero-bg">
+          <div className="hero-bg-frame animate-hero-bg">
+            <img src="/hero-chengdu-nightview.jpg" alt="成都夜景" className="hero-bg-img" />
+          </div>
+          <div className="hero-bg-glow" />
+          <div className="hero-bg-fade" />
+        </div>
         <h1>成都<span>探索之旅</span></h1>
         <div className="pills">
-          <span className="pill">SQ842 · 9月17日 出发</span>
+          <span className="pill">9月17日 出发</span>
           <span style={{ color: "rgba(255,255,255,.2)" }}>——</span>
-          <span className="pill">SQ843 · 9月24日 返程</span>
+          <span className="pill">9月24日 返程</span>
         </div>
       </section>
 
@@ -561,8 +649,8 @@ export default function ChengduTrip() {
       <div className="sec">
         <div className="carousel-bar">
           <div>
-            <h2 style={{ fontSize: 28, fontWeight: 500, color: "#fff" }}>每日行程规划</h2>
-            <p style={{ fontSize: 12, color: "var(--outline)", marginTop: 6 }}>一览 8 天 7 夜精彩安排 · 支持左右平滑滑动浏览</p>
+            <h2 className="carousel-h2">每日行程规划</h2>
+            <p style={{ fontSize: 14, color: "var(--outline)", marginTop: 6 }}>一览 8 天 7 夜精彩安排 · 支持左右平滑滑动浏览</p>
           </div>
           <div className="carousel-controls">
             <button aria-label="上一页行程" className="nav-arrow" disabled={atStart} onClick={() => scrollCarousel(-1)}>
@@ -576,58 +664,13 @@ export default function ChengduTrip() {
 
         <div className="carousel-track" ref={trackRef} onScroll={onTrackScroll}>
           {DAYS.map((day) => (
-            <div className="day-card" key={day.num}>
-              <div
-                className={`day-card-inner glass${day.num === activeDay ? " active" : ""}`}
-                onClick={() => setActiveDay(day.num)}
-              >
-                <div className="day-head">
-                  <div className="day-head-l">
-                    <div className="day-num">{day.num}</div>
-                    <div>
-                      <div className="day-date">{day.date}</div>
-                      <div className="day-weekday">{day.weekday}</div>
-                    </div>
-                  </div>
-                  <span className="day-tag">{day.tag}</span>
-                </div>
-
-                <div>
-                  <div className="day-title">{day.title}</div>
-                  <div className="day-sub">{day.sub}</div>
-                </div>
-
-                <DayGallery items={day.photos} openLb={openLb} />
-
-                <div className="activities">
-                  {day.activities.map((a, i) => (
-                    <div className="activity" key={i}>
-                      <span className="a-time">{a.time}</span>
-                      <div className="a-title">{a.title}</div>
-                      {a.addr && <div className="a-addr">{a.addr}</div>}
-                      <div className="a-desc">{a.desc}</div>
-                      {a.badges && (
-                        <div className="a-badges">
-                          {a.badges.map((b) => (
-                            <span key={b.text} className={`a-badge${b.warn ? " warn" : ""}`}>{b.text}</span>
-                          ))}
-                        </div>
-                      )}
-                      {a.link && (
-                        <a className="a-cta" href={a.link.href} target="_blank" rel="noopener noreferrer">
-                          <span>{a.link.label}</span>
-                          <svg className="a-cta-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.25} strokeLinecap="round" strokeLinejoin="round">
-                            <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" />
-                            <path d="M15 3h6v6" />
-                            <path d="M10 14L21 3" />
-                          </svg>
-                        </a>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
+            <DayCard
+              key={day.num}
+              day={day}
+              isActive={day.num === activeDay}
+              onSelect={onSelectDay}
+              openLb={openLb}
+            />
           ))}
         </div>
       </div>
@@ -637,8 +680,8 @@ export default function ChengduTrip() {
       <div className="sec">
         <div className="carousel-bar">
           <div>
-            <h2 style={{ fontSize: 28, fontWeight: 500, color: "#fff" }}>必吃美食清单</h2>
-            <p style={{ fontSize: 12, color: "var(--outline)", marginTop: 6 }}>辣而不燥、鲜香醇厚的天府味觉探索 · 支持左右滑动浏览</p>
+            <h2 className="carousel-h2">必吃美食清单</h2>
+            <p style={{ fontSize: 14, color: "var(--outline)", marginTop: 6 }}>辣而不燥、鲜香醇厚的天府味觉探索 · 支持左右滑动浏览</p>
           </div>
           <div className="carousel-controls">
             <button aria-label="上一组美食" className="nav-arrow" disabled={foodAtStart} onClick={() => scrollFoodCarousel(-1)}>
