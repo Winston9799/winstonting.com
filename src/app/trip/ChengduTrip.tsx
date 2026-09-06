@@ -486,7 +486,9 @@ export default function ChengduTrip() {
       </section>
 
       {/* ══ FLIGHT & HOTEL CARDS ══════════════════════════════════════════════ */}
-      <div className="fh-grid">
+      <div className="fh-section">
+        <div className="sec-h"><h2>航班酒店已准备就绪</h2><p>往返航班与入住信息，均已确认到位</p></div>
+        <div className="fh-grid">
         <div className="info-card glass">
           <div className="info-head">
             <div className="info-head-l">
@@ -551,6 +553,7 @@ export default function ChengduTrip() {
             </div>
             <span style={{ color: "var(--gold-leaf)", opacity: .9 }}>近春熙路地铁站 (2/3号线)</span>
           </div>
+        </div>
         </div>
       </div>
 

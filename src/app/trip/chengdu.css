@@ -121,16 +121,17 @@
 }
 
 /* ── Flight & hotel cards ─────────────────────────────────────────────────── */
-.fh-grid {
+/* Negative top margin pulls this whole section (heading included) up to
+   float over the hero's bottom fade — kept on the outer wrapper so the
+   heading and the card grid move together as one unit. */
+.fh-section {
   max-width: 1100px;
   margin: -40px auto 0;
   padding: 0 20px;
   position: relative;
   z-index: 5;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
 }
+.fh-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 .info-card { padding: 24px; display: flex; flex-direction: column; gap: 18px; }
 .info-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--border-lo); padding-bottom: 14px; }
 .info-head-l { display: flex; align-items: center; gap: 12px; }
@@ -408,5 +409,6 @@ hr.div { border: none; border-top: 1px solid var(--border-lo); max-width: 1100px
 
 /* ── Responsive ───────────────────────────────────────────────────────────── */
 @media (max-width: 768px) {
-  .fh-grid { grid-template-columns: 1fr; margin-top: -24px; }
+  .fh-section { margin-top: -24px; }
+  .fh-grid { grid-template-columns: 1fr; }
 }
