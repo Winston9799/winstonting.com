@@ -177,17 +177,22 @@
 .sec-h { text-align: center; margin-bottom: 40px; }
 /* Same gold gradient text as the hero's "探索之旅" — shared here and by
    .carousel-h2 (the two carousel-bar headings, which aren't inside .sec-h)
-   so every section heading on the page reads consistently. */
+   so every section heading on the page reads consistently. Sizes match the
+   homepage's equivalent headings/subtitles (text-3xl md:text-4xl
+   font-semibold / text-sm) for the same reason. */
 .sec-h h2, .carousel-h2 {
-  font-size: 28px;
-  font-weight: 500;
+  font-size: 30px;
+  font-weight: 600;
   letter-spacing: -0.01em;
   background: linear-gradient(120deg, var(--gold-leaf), var(--gold-bright) 45%, var(--gold) 80%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
-.sec-h p { font-size: 12px; color: var(--outline); margin-top: 8px; }
+@media (min-width: 768px) {
+  .sec-h h2, .carousel-h2 { font-size: 36px; }
+}
+.sec-h p { font-size: 14px; color: var(--outline); margin-top: 8px; }
 
 /* ── Itinerary carousel ───────────────────────────────────────────────────── */
 /* Centered heading/subtitle to match .sec-h elsewhere on the page. On
