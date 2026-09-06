@@ -86,6 +86,14 @@ body {
   border-color: rgba(229, 169, 60, 0.35);
 }
 
+/* Hotel showcase photo — no card frame; a radial alpha mask fades the
+   photo's own edges to transparent so it dissolves straight into the
+   section's flat background color instead of sitting in a hard box. */
+.hotel-photo-blend {
+  -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 85%);
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 85%);
+}
+
 /* Shared pill CTA button (homepage hero/explore/hotel sections) — dark glass
    at rest, flips to a gold gradient on hover/active. */
 .btn-luxury-cta {

@@ -155,7 +155,7 @@ export default function HomePage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
             <div className="lg:col-span-6 space-y-6">
               <div className="space-y-2">
-                <h2 className="text-4xl sm:text-5xl font-semibold tracking-tight leading-tight bg-[linear-gradient(120deg,#f3e7c4,#f6be39_45%,#d4a017_80%)] bg-clip-text text-transparent">
+                <h2 className="text-3xl md:text-4xl font-semibold tracking-tight leading-tight bg-[linear-gradient(120deg,#f3e7c4,#f6be39_45%,#d4a017_80%)] bg-clip-text text-transparent">
                   Pagoda Design Hotel
                 </h2>
                 <p className="text-2xl sm:text-3xl font-light text-neutral-300">
@@ -181,17 +181,12 @@ export default function HomePage() {
             </div>
 
             <div className="lg:col-span-6">
-              <div className="relative group mx-auto max-w-xl lg:max-w-none">
-                <div className="absolute -inset-1.5 bg-gradient-to-r from-gold-500/20 via-white/5 to-cyan-500/20 rounded-[2rem] blur-xl opacity-75 group-hover:opacity-100 transition duration-700" />
-                <div className="relative rounded-3xl overflow-hidden border border-white/15 bg-surface shadow-2xl shadow-black/80 aspect-[16/10]">
-                  <FallbackImg
-                    src="/images/pagoda-hotel/1.jpg"
-                    alt="Pagoda Design Hotel Chengdu Taikoo Li"
-                    className="w-full h-full object-cover object-center filter contrast-[1.05] transition-transform duration-700 ease-out group-hover:scale-105"
-                  />
-                  <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-deepslate via-deepslate/50 to-transparent pointer-events-none" />
-                  <div className="absolute inset-0 bg-gradient-to-tr from-black/40 via-transparent to-white/10 pointer-events-none group-hover:opacity-30 transition-opacity duration-500" />
-                </div>
+              <div className="relative group mx-auto max-w-xl lg:max-w-none aspect-[16/10]">
+                <FallbackImg
+                  src="/images/pagoda-hotel/1.jpg"
+                  alt="Pagoda Design Hotel Chengdu Taikoo Li"
+                  className="hotel-photo-blend w-full h-full object-cover object-center filter contrast-[1.05] transition-transform duration-700 ease-out group-hover:scale-105"
+                />
               </div>
             </div>
           </div>
