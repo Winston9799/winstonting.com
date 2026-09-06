@@ -677,23 +677,8 @@ export default function ChengduTrip() {
         <div className="sec-h"><h2>出行锦囊与实用小贴士</h2><p>细致考量，令每一刻旅途安心惬意</p></div>
         <div className="tg">
           <div className="tc glass">
-            <div className="tc-head"><div className="fi">✈️</div><h3>航班提示</h3></div>
-            <p style={{ flex: 1 }}>SQ842/843 直飞成都天府国际机场 (TFU)，航程约 4h 45m。两地同为 UTC+8，无时差无颠倒。</p>
-            <div className="card-foot"><span className="card-foot-l">直飞无时差</span><span className="info-chip">新航 A350</span></div>
-          </div>
-          <div className="tc glass">
-            <div className="tc-head"><div className="fi">🏨</div><h3>Pagoda Hotel 小贴士</h3></div>
-            <p style={{ flex: 1 }}>步行即达太古里 · 春熙路商圈。Check-in 15:00 · Check-out 12:00；已确认机场商务专车接驳。</p>
-            <div className="card-foot"><span className="card-foot-l">太古里核心商圈</span><span className="info-chip">高层城景</span></div>
-          </div>
-          <div className="tc glass">
-            <div className="tc-head"><div className="fi">🎟️</div><h3>熊猫 + 三星堆一日团</h3></div>
-            <p style={{ flex: 1 }}>已通过 Klook 预订接送一日团（含熊猫基地与三星堆门票），无需再自行抢票，按集合时间赴约即可。</p>
-            <div className="card-foot"><span className="card-foot-l">Klook 已付款</span><span className="info-chip">无需自行购票</span></div>
-          </div>
-          <div className="tc glass">
             <div className="tc-head"><div className="fi">🚇</div><h3>市内交通出行</h3></div>
-            <p style={{ flex: 1 }}>支付宝或微信乘车码直接扫码乘坐地铁与公交。酒店近春熙路站（2号/3号线交汇），出行极便捷。</p>
+            <p style={{ flex: 1 }}>支付宝或微信乘车码直接扫码乘坐地铁与公交，短途也可叫滴滴打车，方便又实惠。酒店近春熙路站（2号/3号线交汇），出行极便捷。</p>
             <div className="card-foot"><span className="card-foot-l">直接刷乘车码</span><span className="info-chip">春熙路站</span></div>
           </div>
           <div className="tc glass">
