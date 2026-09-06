@@ -632,13 +632,13 @@ export default function ChengduTrip() {
             ["🐰","深夜江湖夜宵","双流老妈兔头、奎星楼街冒脑花与特色烤脑花。成都夜宵是另一种市井信仰。","越夜越巴适","午夜江湖"],
           ].map(([icon, name, desc, foot, chip]) => (
             <div className="fc glass" key={name}>
+              <div className="fc-head"><div className="fi">{icon}</div><h3>{name}</h3></div>
+              <p style={{ flex: 1 }}>{desc}</p>
               <div className="fc-gallery">
                 <div className="fc-photo-tile" />
                 <div className="fc-photo-tile" />
                 <div className="fc-photo-tile" />
               </div>
-              <div className="fc-head"><div className="fi">{icon}</div><h3>{name}</h3></div>
-              <p style={{ flex: 1 }}>{desc}</p>
               <div className="card-foot"><span className="card-foot-l">{foot}</span><span className="info-chip">{chip}</span></div>
             </div>
           ))}
