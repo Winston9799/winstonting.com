@@ -558,12 +558,18 @@ export default function ChengduTrip() {
     <div className="trip-page">
       {/* ══ HERO ══════════════════════════════════════════════════════════════ */}
       <section className="hero">
-        <div className="hero-bg" />
+        <div className="hero-bg">
+          <div className="hero-bg-frame animate-hero-bg">
+            <img src="/hero-chengdu-nightview.jpg" alt="成都夜景" className="hero-bg-img" />
+          </div>
+          <div className="hero-bg-glow" />
+          <div className="hero-bg-fade" />
+        </div>
         <h1>成都<span>探索之旅</span></h1>
         <div className="pills">
-          <span className="pill">SQ842 · 9月17日 出发</span>
+          <span className="pill">9月17日 出发</span>
           <span style={{ color: "rgba(255,255,255,.2)" }}>——</span>
-          <span className="pill">SQ843 · 9月24日 返程</span>
+          <span className="pill">9月24日 返程</span>
         </div>
       </section>
 

@@ -38,10 +38,22 @@
   background: var(--void);
   overflow: hidden;
 }
-.hero-bg {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 50% 18%, rgba(212, 160, 23, .14) 0%, rgba(13, 14, 17, .6) 45%, var(--void) 85%);
+/* Photo hero, matching the homepage's: a slow-zoom photo (.animate-hero-bg
+   is a shared keyframe from globals.css, loaded site-wide via layout.tsx)
+   under a gold glow wash and a top/bottom dark fade for text legibility. */
+.hero-bg { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.hero-bg-frame { width: 100%; height: 100%; }
+.hero-bg-img {
+  width: 100%; height: 100%; object-fit: cover; object-position: center 35%;
+  filter: brightness(.55) contrast(1.05);
+}
+.hero-bg-glow {
+  position: absolute; inset: 0;
+  background: radial-gradient(circle at 50% 18%, rgba(212, 160, 23, .2) 0%, rgba(13, 14, 17, .3) 45%, transparent 85%);
+}
+.hero-bg-fade {
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, rgba(10, 11, 14, .85) 0%, rgba(10, 11, 14, .15) 45%, var(--void) 100%);
 }
 .hero h1 {
   font-size: clamp(48px, 10vw, 88px);
@@ -72,8 +84,8 @@
   margin-top: 36px;
   display: flex;
   align-items: center;
-  gap: 16px;
-  flex-wrap: wrap;
+  gap: 12px;
+  flex-wrap: nowrap;
   justify-content: center;
   position: relative;
   animation: fu 1s .45s ease both;
@@ -86,6 +98,13 @@
   border-radius: 9999px;
   font-size: 13px;
   letter-spacing: 1.5px;
+  white-space: nowrap;
+}
+/* Shorter pill text + tighter padding keep both pills on one row even on
+   the narrowest phones, instead of wrapping to two uneven lines. */
+@media (max-width: 400px) {
+  .pills { gap: 8px; }
+  .pill { padding: 7px 14px; font-size: 11.5px; letter-spacing: 1px; }
 }
 @keyframes fu {
   from { opacity: 0; transform: translateY(24px); }
