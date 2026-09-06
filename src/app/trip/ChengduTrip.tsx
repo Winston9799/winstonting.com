@@ -382,13 +382,73 @@ const DAYS: DayData[] = [
   },
 ];
 
-// ── Main ChengduTrip component ────────────────────────────────────────────────
-export default function ChengduTrip() {
-  const [lb, setLb] = useState({ open: false, imgs: [] as string[], idx: 0, cap: "" });
+// ── Shared snap-scroll carousel behavior (used by both the day carousel and
+// the food-list carousel below) ────────────────────────────────────────────
+const CAROUSEL_GAP = 24;
+
+function useCarousel(itemSelector: string, onLeadingIndexChange?: (index: number) => void) {
   const trackRef = useRef<HTMLDivElement>(null);
   const [atStart, setAtStart] = useState(true);
   const [atEnd, setAtEnd] = useState(false);
+
+  const update = useCallback(() => {
+    const el = trackRef.current;
+    if (!el) return;
+    const maxScroll = el.scrollWidth - el.clientWidth;
+    setAtStart(el.scrollLeft <= 4);
+    setAtEnd(el.scrollLeft >= maxScroll - 4);
+
+    if (onLeadingIndexChange) {
+      const firstItem = el.querySelector<HTMLElement>(itemSelector);
+      if (firstItem) {
+        const step = firstItem.offsetWidth + CAROUSEL_GAP;
+        onLeadingIndexChange(Math.max(0, Math.round(el.scrollLeft / step)));
+      }
+    }
+  }, [itemSelector, onLeadingIndexChange]);
+
+  // The browser fires "scroll" many times per frame during a touch drag —
+  // calling setState on every one competes with the drag for the main
+  // thread and makes the swipe feel janky. Coalesce to at most one state
+  // update per animation frame instead.
+  const raf = useRef<number | null>(null);
+  const onScroll = useCallback(() => {
+    if (raf.current !== null) return;
+    raf.current = requestAnimationFrame(() => {
+      raf.current = null;
+      update();
+    });
+  }, [update]);
+
+  useEffect(() => {
+    update();
+    window.addEventListener("resize", update);
+    return () => {
+      window.removeEventListener("resize", update);
+      if (raf.current !== null) cancelAnimationFrame(raf.current);
+    };
+  }, [update]);
+
+  function scrollByPage(dir: 1 | -1) {
+    const el = trackRef.current;
+    if (!el) return;
+    const firstItem = el.querySelector<HTMLElement>(itemSelector);
+    const step = ((firstItem?.offsetWidth ?? 350) + CAROUSEL_GAP) * (window.innerWidth >= 1024 ? 2 : 1);
+    el.scrollBy({ left: dir * step, behavior: "smooth" });
+  }
+
+  return { trackRef, atStart, atEnd, onScroll, scrollByPage };
+}
+
+// ── Main ChengduTrip component ────────────────────────────────────────────────
+export default function ChengduTrip() {
+  const [lb, setLb] = useState({ open: false, imgs: [] as string[], idx: 0, cap: "" });
   const [activeDay, setActiveDay] = useState(DAYS[0].num);
+  const onDayIndexChange = useCallback((index: number) => {
+    setActiveDay(DAYS[Math.min(DAYS.length - 1, index)].num);
+  }, []);
+  const { trackRef, atStart, atEnd, onScroll: onTrackScroll, scrollByPage: scrollCarousel } = useCarousel(".day-card", onDayIndexChange);
+  const { trackRef: foodTrackRef, atStart: foodAtStart, atEnd: foodAtEnd, onScroll: onFoodTrackScroll, scrollByPage: scrollFoodCarousel } = useCarousel(".food-card");
 
   const openLb = (imgs: string[], idx: number, cap: string) =>
     setLb({ open: true, imgs, idx, cap });
@@ -411,55 +471,6 @@ export default function ChengduTrip() {
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
   }, []);
-
-  // Itinerary carousel: track scroll position to update arrow disabled state
-  // and which day card is currently leading (used for the gold highlight)
-  const updateCarouselState = useCallback(() => {
-    const el = trackRef.current;
-    if (!el) return;
-    const maxScroll = el.scrollWidth - el.clientWidth;
-    setAtStart(el.scrollLeft <= 4);
-    setAtEnd(el.scrollLeft >= maxScroll - 4);
-
-    const firstCard = el.querySelector<HTMLElement>(".day-card");
-    if (firstCard) {
-      const gap = 24;
-      const step = firstCard.offsetWidth + gap;
-      const index = Math.min(DAYS.length - 1, Math.max(0, Math.round(el.scrollLeft / step)));
-      setActiveDay(DAYS[index].num);
-    }
-  }, []);
-
-  // The browser fires "scroll" many times per frame during a touch drag —
-  // calling setState on every one competes with the drag for the main
-  // thread and makes the swipe feel janky. Coalesce to at most one state
-  // update per animation frame instead.
-  const scrollRaf = useRef<number | null>(null);
-  const onTrackScroll = useCallback(() => {
-    if (scrollRaf.current !== null) return;
-    scrollRaf.current = requestAnimationFrame(() => {
-      scrollRaf.current = null;
-      updateCarouselState();
-    });
-  }, [updateCarouselState]);
-
-  useEffect(() => {
-    updateCarouselState();
-    window.addEventListener("resize", updateCarouselState);
-    return () => {
-      window.removeEventListener("resize", updateCarouselState);
-      if (scrollRaf.current !== null) cancelAnimationFrame(scrollRaf.current);
-    };
-  }, [updateCarouselState]);
-
-  function scrollCarousel(dir: 1 | -1) {
-    const el = trackRef.current;
-    if (!el) return;
-    const firstCard = el.querySelector<HTMLElement>(".day-card");
-    const gap = 24;
-    const step = ((firstCard?.offsetWidth ?? 350) + gap) * (window.innerWidth >= 1024 ? 2 : 1);
-    el.scrollBy({ left: dir * step, behavior: "smooth" });
-  }
 
   return (
     <div className="trip-page">
@@ -621,8 +632,21 @@ export default function ChengduTrip() {
       {/* ══ FOOD LIST ═════════════════════════════════════════════════════════ */}
       <hr className="div" />
       <div className="sec">
-        <div className="sec-h"><h2>必吃美食清单</h2><p>辣而不燥、鲜香醇厚的天府味觉探索</p></div>
-        <div className="fg">
+        <div className="carousel-bar">
+          <div>
+            <h2 style={{ fontSize: 28, fontWeight: 500, color: "#fff" }}>必吃美食清单</h2>
+            <p style={{ fontSize: 12, color: "var(--outline)", marginTop: 6 }}>辣而不燥、鲜香醇厚的天府味觉探索 · 支持左右滑动浏览</p>
+          </div>
+          <div className="carousel-controls">
+            <button aria-label="上一组美食" className="nav-arrow" disabled={foodAtStart} onClick={() => scrollFoodCarousel(-1)}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round"><path d="M15 6l-6 6 6 6" /></svg>
+            </button>
+            <button aria-label="下一组美食" className="nav-arrow" disabled={foodAtEnd} onClick={() => scrollFoodCarousel(1)}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 6l6 6-6 6" /></svg>
+            </button>
+          </div>
+        </div>
+        <div className="carousel-track" ref={foodTrackRef} onScroll={onFoodTrackScroll}>
           {[
             ["🍄","爱尚菌野生菌火锅","17号晚首选！菌子季鲜味绝顶，清鲜暖胃，香槟广场3楼。","首夜暖胃必选","香槟广场"],
             ["🫕","地道正宗火锅","电台巷、巴蜀大将，挑巷子里人多的那家准没错。牛油香浓，中辣 or 微辣？","老成都经典麻辣","街巷老店"],
@@ -631,15 +655,17 @@ export default function ChengduTrip() {
             ["🍲","正宗川菜佳肴","陶德砂锅、吃客餐厅、陈麻婆豆腐。层次丰富、百菜百味，回味悠长。","醇厚天府滋味","老字号"],
             ["🐰","深夜江湖夜宵","双流老妈兔头、奎星楼街冒脑花与特色烤脑花。成都夜宵是另一种市井信仰。","越夜越巴适","午夜江湖"],
           ].map(([icon, name, desc, foot, chip]) => (
-            <div className="fc glass" key={name}>
-              <div className="fc-head"><div className="fi">{icon}</div><h3>{name}</h3></div>
-              <p style={{ flex: 1 }}>{desc}</p>
-              <div className="fc-gallery">
-                <div className="fc-photo-tile" />
-                <div className="fc-photo-tile" />
-                <div className="fc-photo-tile" />
+            <div className="food-card" key={name}>
+              <div className="fc glass">
+                <div className="fc-head"><div className="fi">{icon}</div><h3>{name}</h3></div>
+                <p style={{ flex: 1 }}>{desc}</p>
+                <div className="fc-gallery">
+                  <div className="fc-photo-tile" />
+                  <div className="fc-photo-tile" />
+                  <div className="fc-photo-tile" />
+                </div>
+                <div className="card-foot"><span className="card-foot-l">{foot}</span><span className="info-chip">{chip}</span></div>
               </div>
-              <div className="card-foot"><span className="card-foot-l">{foot}</span><span className="info-chip">{chip}</span></div>
             </div>
           ))}
         </div>

@@ -203,6 +203,13 @@
 @media (min-width: 640px) { .day-card { width: calc((100% - 24px) / 2); } }
 @media (min-width: 1024px) { .day-card { width: calc((100% - 48px) / 3); } }
 
+/* Food-list carousel item wrapper — same 1/2/3-per-row breakpoints as
+   .day-card, sharing the .carousel-track/.carousel-bar/.nav-arrow styles above. */
+.food-card { scroll-snap-align: start; flex-shrink: 0; width: 100%; display: flex; }
+@media (min-width: 640px) { .food-card { width: calc((100% - 24px) / 2); } }
+@media (min-width: 1024px) { .food-card { width: calc((100% - 48px) / 3); } }
+.food-card .fc { flex: 1; }
+
 .day-card-inner {
   position: relative;
   overflow: hidden;
@@ -303,7 +310,7 @@
 .a-cta:hover .a-cta-icon { transform: translate(2px, -2px); }
 
 /* ── Food & tips grids ────────────────────────────────────────────────────── */
-.fg, .tg { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+.tg { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
 .fc, .tc { padding: 20px; display: flex; flex-direction: column; gap: 14px; justify-content: space-between; }
 /* 3-photo strip per card, same grid pattern as the day cards' .day-gallery.
    No real food photos yet — each of the 3 tiles gets its own CSS-only
