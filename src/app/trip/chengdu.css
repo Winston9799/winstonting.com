@@ -121,13 +121,14 @@
 }
 
 /* ── Flight & hotel cards ─────────────────────────────────────────────────── */
-/* Negative top margin pulls this whole section (heading included) up to
-   float over the hero's bottom fade — kept on the outer wrapper so the
-   heading and the card grid move together as one unit. */
+/* No overlap with the hero here — pulling the heading up into the hero's own
+   space (the old -40px trick, back when this had no heading) left it
+   exposed above the fold on first load, which none of the page's other
+   section headings do. Normal flow, with generous top padding instead. */
 .fh-section {
   max-width: 1100px;
-  margin: -40px auto 0;
-  padding: 0 20px;
+  margin: 0 auto;
+  padding: 56px 20px 0;
   position: relative;
   z-index: 5;
 }
@@ -413,6 +414,6 @@ hr.div { border: none; border-top: 1px solid var(--border-lo); max-width: 1100px
 
 /* ── Responsive ───────────────────────────────────────────────────────────── */
 @media (max-width: 768px) {
-  .fh-section { margin-top: -24px; }
+  .fh-section { padding-top: 40px; }
   .fh-grid { grid-template-columns: 1fr; }
 }
