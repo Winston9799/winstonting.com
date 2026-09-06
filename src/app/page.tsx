@@ -163,7 +163,7 @@ export default function HomePage() {
                 <h2 className="text-3xl md:text-4xl font-semibold tracking-tight leading-tight bg-[linear-gradient(120deg,#f3e7c4,#f6be39_45%,#d4a017_80%)] bg-clip-text text-transparent">
                   Pagoda君亭设计酒店
                 </h2>
-                <p className="text-lg sm:text-xl font-light text-neutral-400">
+                <p className="text-sm text-neutral-400">
                   成都春熙路太古里店
                 </p>
               </div>
