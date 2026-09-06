@@ -382,13 +382,73 @@ const DAYS: DayData[] = [
   },
 ];
 
-// ── Main ChengduTrip component ────────────────────────────────────────────────
-export default function ChengduTrip() {
-  const [lb, setLb] = useState({ open: false, imgs: [] as string[], idx: 0, cap: "" });
+// ── Shared snap-scroll carousel behavior (used by both the day carousel and
+// the food-list carousel below) ────────────────────────────────────────────
+const CAROUSEL_GAP = 24;
+
+function useCarousel(itemSelector: string, onLeadingIndexChange?: (index: number) => void) {
   const trackRef = useRef<HTMLDivElement>(null);
   const [atStart, setAtStart] = useState(true);
   const [atEnd, setAtEnd] = useState(false);
+
+  const update = useCallback(() => {
+    const el = trackRef.current;
+    if (!el) return;
+    const maxScroll = el.scrollWidth - el.clientWidth;
+    setAtStart(el.scrollLeft <= 4);
+    setAtEnd(el.scrollLeft >= maxScroll - 4);
+
+    if (onLeadingIndexChange) {
+      const firstItem = el.querySelector<HTMLElement>(itemSelector);
+      if (firstItem) {
+        const step = firstItem.offsetWidth + CAROUSEL_GAP;
+        onLeadingIndexChange(Math.max(0, Math.round(el.scrollLeft / step)));
+      }
+    }
+  }, [itemSelector, onLeadingIndexChange]);
+
+  // The browser fires "scroll" many times per frame during a touch drag —
+  // calling setState on every one competes with the drag for the main
+  // thread and makes the swipe feel janky. Coalesce to at most one state
+  // update per animation frame instead.
+  const raf = useRef<number | null>(null);
+  const onScroll = useCallback(() => {
+    if (raf.current !== null) return;
+    raf.current = requestAnimationFrame(() => {
+      raf.current = null;
+      update();
+    });
+  }, [update]);
+
+  useEffect(() => {
+    update();
+    window.addEventListener("resize", update);
+    return () => {
+      window.removeEventListener("resize", update);
+      if (raf.current !== null) cancelAnimationFrame(raf.current);
+    };
+  }, [update]);
+
+  function scrollByPage(dir: 1 | -1) {
+    const el = trackRef.current;
+    if (!el) return;
+    const firstItem = el.querySelector<HTMLElement>(itemSelector);
+    const step = ((firstItem?.offsetWidth ?? 350) + CAROUSEL_GAP) * (window.innerWidth >= 1024 ? 2 : 1);
+    el.scrollBy({ left: dir * step, behavior: "smooth" });
+  }
+
+  return { trackRef, atStart, atEnd, onScroll, scrollByPage };
+}
+
+// ── Main ChengduTrip component ────────────────────────────────────────────────
+export default function ChengduTrip() {
+  const [lb, setLb] = useState({ open: false, imgs: [] as string[], idx: 0, cap: "" });
   const [activeDay, setActiveDay] = useState(DAYS[0].num);
+  const onDayIndexChange = useCallback((index: number) => {
+    setActiveDay(DAYS[Math.min(DAYS.length - 1, index)].num);
+  }, []);
+  const { trackRef, atStart, atEnd, onScroll: onTrackScroll, scrollByPage: scrollCarousel } = useCarousel(".day-card", onDayIndexChange);
+  const { trackRef: foodTrackRef, atStart: foodAtStart, atEnd: foodAtEnd, onScroll: onFoodTrackScroll, scrollByPage: scrollFoodCarousel } = useCarousel(".food-card");
 
   const openLb = (imgs: string[], idx: number, cap: string) =>
     setLb({ open: true, imgs, idx, cap });
@@ -412,55 +472,6 @@ export default function ChengduTrip() {
     return () => document.removeEventListener("keydown", onKey);
   }, []);
 
-  // Itinerary carousel: track scroll position to update arrow disabled state
-  // and which day card is currently leading (used for the gold highlight)
-  const updateCarouselState = useCallback(() => {
-    const el = trackRef.current;
-    if (!el) return;
-    const maxScroll = el.scrollWidth - el.clientWidth;
-    setAtStart(el.scrollLeft <= 4);
-    setAtEnd(el.scrollLeft >= maxScroll - 4);
-
-    const firstCard = el.querySelector<HTMLElement>(".day-card");
-    if (firstCard) {
-      const gap = 24;
-      const step = firstCard.offsetWidth + gap;
-      const index = Math.min(DAYS.length - 1, Math.max(0, Math.round(el.scrollLeft / step)));
-      setActiveDay(DAYS[index].num);
-    }
-  }, []);
-
-  // The browser fires "scroll" many times per frame during a touch drag —
-  // calling setState on every one competes with the drag for the main
-  // thread and makes the swipe feel janky. Coalesce to at most one state
-  // update per animation frame instead.
-  const scrollRaf = useRef<number | null>(null);
-  const onTrackScroll = useCallback(() => {
-    if (scrollRaf.current !== null) return;
-    scrollRaf.current = requestAnimationFrame(() => {
-      scrollRaf.current = null;
-      updateCarouselState();
-    });
-  }, [updateCarouselState]);
-
-  useEffect(() => {
-    updateCarouselState();
-    window.addEventListener("resize", updateCarouselState);
-    return () => {
-      window.removeEventListener("resize", updateCarouselState);
-      if (scrollRaf.current !== null) cancelAnimationFrame(scrollRaf.current);
-    };
-  }, [updateCarouselState]);
-
-  function scrollCarousel(dir: 1 | -1) {
-    const el = trackRef.current;
-    if (!el) return;
-    const firstCard = el.querySelector<HTMLElement>(".day-card");
-    const gap = 24;
-    const step = ((firstCard?.offsetWidth ?? 350) + gap) * (window.innerWidth >= 1024 ? 2 : 1);
-    el.scrollBy({ left: dir * step, behavior: "smooth" });
-  }
-
   return (
     <div className="trip-page">
       {/* ══ HERO ══════════════════════════════════════════════════════════════ */}
@@ -475,7 +486,9 @@ export default function ChengduTrip() {
       </section>
 
       {/* ══ FLIGHT & HOTEL CARDS ══════════════════════════════════════════════ */}
-      <div className="fh-grid">
+      <div className="fh-section">
+        <div className="sec-h"><h2>航班酒店已准备就绪</h2><p>往返航班与入住信息，均已确认到位</p></div>
+        <div className="fh-grid">
         <div className="info-card glass">
           <div className="info-head">
             <div className="info-head-l">
@@ -540,6 +553,7 @@ export default function ChengduTrip() {
             </div>
             <span style={{ color: "var(--gold-leaf)", opacity: .9 }}>近春熙路地铁站 (2/3号线)</span>
           </div>
+        </div>
         </div>
       </div>
 
@@ -621,8 +635,21 @@ export default function ChengduTrip() {
       {/* ══ FOOD LIST ═════════════════════════════════════════════════════════ */}
       <hr className="div" />
       <div className="sec">
-        <div className="sec-h"><h2>必吃美食清单</h2><p>辣而不燥、鲜香醇厚的天府味觉探索</p></div>
-        <div className="fg">
+        <div className="carousel-bar">
+          <div>
+            <h2 style={{ fontSize: 28, fontWeight: 500, color: "#fff" }}>必吃美食清单</h2>
+            <p style={{ fontSize: 12, color: "var(--outline)", marginTop: 6 }}>辣而不燥、鲜香醇厚的天府味觉探索 · 支持左右滑动浏览</p>
+          </div>
+          <div className="carousel-controls">
+            <button aria-label="上一组美食" className="nav-arrow" disabled={foodAtStart} onClick={() => scrollFoodCarousel(-1)}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round"><path d="M15 6l-6 6 6 6" /></svg>
+            </button>
+            <button aria-label="下一组美食" className="nav-arrow" disabled={foodAtEnd} onClick={() => scrollFoodCarousel(1)}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 6l6 6-6 6" /></svg>
+            </button>
+          </div>
+        </div>
+        <div className="carousel-track" ref={foodTrackRef} onScroll={onFoodTrackScroll}>
           {[
             ["🍄","爱尚菌野生菌火锅","17号晚首选！菌子季鲜味绝顶，清鲜暖胃，香槟广场3楼。","首夜暖胃必选","香槟广场"],
             ["🫕","地道正宗火锅","电台巷、巴蜀大将，挑巷子里人多的那家准没错。牛油香浓，中辣 or 微辣？","老成都经典麻辣","街巷老店"],
@@ -631,10 +658,17 @@ export default function ChengduTrip() {
             ["🍲","正宗川菜佳肴","陶德砂锅、吃客餐厅、陈麻婆豆腐。层次丰富、百菜百味，回味悠长。","醇厚天府滋味","老字号"],
             ["🐰","深夜江湖夜宵","双流老妈兔头、奎星楼街冒脑花与特色烤脑花。成都夜宵是另一种市井信仰。","越夜越巴适","午夜江湖"],
           ].map(([icon, name, desc, foot, chip]) => (
-            <div className="fc glass" key={name}>
-              <div className="fc-head"><div className="fi">{icon}</div><h3>{name}</h3></div>
-              <p style={{ flex: 1 }}>{desc}</p>
-              <div className="card-foot"><span className="card-foot-l">{foot}</span><span className="info-chip">{chip}</span></div>
+            <div className="food-card" key={name}>
+              <div className="fc glass">
+                <div className="fc-head"><div className="fi">{icon}</div><h3>{name}</h3></div>
+                <p style={{ flex: 1 }}>{desc}</p>
+                <div className="fc-gallery">
+                  <div className="fc-photo-tile" />
+                  <div className="fc-photo-tile" />
+                  <div className="fc-photo-tile" />
+                </div>
+                <div className="card-foot"><span className="card-foot-l">{foot}</span><span className="info-chip">{chip}</span></div>
+              </div>
             </div>
           ))}
         </div>
@@ -646,23 +680,13 @@ export default function ChengduTrip() {
         <div className="sec-h"><h2>出行锦囊与实用小贴士</h2><p>细致考量，令每一刻旅途安心惬意</p></div>
         <div className="tg">
           <div className="tc glass">
-            <div className="tc-head"><div className="fi">✈️</div><h3>航班提示</h3></div>
-            <p style={{ flex: 1 }}>SQ842/843 直飞成都天府国际机场 (TFU)，航程约 4h 45m。两地同为 UTC+8，无时差无颠倒。</p>
-            <div className="card-foot"><span className="card-foot-l">直飞无时差</span><span className="info-chip">新航 A350</span></div>
-          </div>
-          <div className="tc glass">
-            <div className="tc-head"><div className="fi">🏨</div><h3>Pagoda Hotel 小贴士</h3></div>
-            <p style={{ flex: 1 }}>步行即达太古里 · 春熙路商圈。Check-in 15:00 · Check-out 12:00；已确认机场商务专车接驳。</p>
-            <div className="card-foot"><span className="card-foot-l">太古里核心商圈</span><span className="info-chip">高层城景</span></div>
-          </div>
-          <div className="tc glass">
-            <div className="tc-head"><div className="fi">🎟️</div><h3>熊猫 + 三星堆一日团</h3></div>
-            <p style={{ flex: 1 }}>已通过 Klook 预订接送一日团（含熊猫基地与三星堆门票），无需再自行抢票，按集合时间赴约即可。</p>
-            <div className="card-foot"><span className="card-foot-l">Klook 已付款</span><span className="info-chip">无需自行购票</span></div>
+            <div className="tc-head"><div className="fi">🥐</div><h3>熊猫基地 · 三星堆探索一日游</h3></div>
+            <p style={{ flex: 1 }}>集合时间极早，来不及吃酒店早餐——记得前一晚先买好点心，路上垫肚子当早餐。</p>
+            <div className="card-foot"><span className="card-foot-l">早餐记得自备点心</span><span className="info-chip">集合时间较早</span></div>
           </div>
           <div className="tc glass">
             <div className="tc-head"><div className="fi">🚇</div><h3>市内交通出行</h3></div>
-            <p style={{ flex: 1 }}>支付宝或微信乘车码直接扫码乘坐地铁与公交。酒店近春熙路站（2号/3号线交汇），出行极便捷。</p>
+            <p style={{ flex: 1 }}>支付宝或微信乘车码直接扫码乘坐地铁与公交，短途也可叫滴滴打车，方便又实惠。酒店近春熙路站（2号/3号线交汇），出行极便捷。</p>
             <div className="card-foot"><span className="card-foot-l">直接刷乘车码</span><span className="info-chip">春熙路站</span></div>
           </div>
           <div className="tc glass">

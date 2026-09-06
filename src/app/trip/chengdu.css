@@ -121,16 +121,17 @@
 }
 
 /* ── Flight & hotel cards ─────────────────────────────────────────────────── */
-.fh-grid {
+/* Negative top margin pulls this whole section (heading included) up to
+   float over the hero's bottom fade — kept on the outer wrapper so the
+   heading and the card grid move together as one unit. */
+.fh-section {
   max-width: 1100px;
   margin: -40px auto 0;
   padding: 0 20px;
   position: relative;
   z-index: 5;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
 }
+.fh-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 .info-card { padding: 24px; display: flex; flex-direction: column; gap: 18px; }
 .info-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--border-lo); padding-bottom: 14px; }
 .info-head-l { display: flex; align-items: center; gap: 12px; }
@@ -187,14 +188,18 @@
 /* padding-top gives the :hover translateY(-6px) lift room, so the active
    card's top border/glow ring doesn't get clipped by the scroll boundary.
    mandatory (not proximity) makes a swipe always settle on exactly one card.
-   -webkit-overflow-scrolling/touch-action keep the drag itself smooth on iOS
-   (native momentum instead of a janky synthetic scroll). */
+   -webkit-overflow-scrolling keeps the drag itself smooth on iOS (native
+   momentum instead of a janky synthetic scroll). touch-action allows BOTH
+   pan-x and pan-y — pan-x alone blocks a vertical swipe from ever reaching
+   the page when the gesture starts on a card, trapping the whole page from
+   scrolling on mobile; with both allowed the browser picks the axis from
+   the gesture's actual direction. */
 .carousel-track {
   display: flex; gap: 24px; overflow-x: auto;
   scroll-snap-type: x mandatory; scroll-behavior: smooth;
   padding-top: 8px; padding-bottom: 8px;
   -webkit-overflow-scrolling: touch;
-  touch-action: pan-x;
+  touch-action: pan-x pan-y;
 }
 .carousel-track::-webkit-scrollbar { display: none; }
 .carousel-track { scrollbar-width: none; -ms-overflow-style: none; }
@@ -202,6 +207,13 @@
 .day-card { scroll-snap-align: start; flex-shrink: 0; width: 100%; display: flex; }
 @media (min-width: 640px) { .day-card { width: calc((100% - 24px) / 2); } }
 @media (min-width: 1024px) { .day-card { width: calc((100% - 48px) / 3); } }
+
+/* Food-list carousel item wrapper — same 1/2/3-per-row breakpoints as
+   .day-card, sharing the .carousel-track/.carousel-bar/.nav-arrow styles above. */
+.food-card { scroll-snap-align: start; flex-shrink: 0; width: 100%; display: flex; }
+@media (min-width: 640px) { .food-card { width: calc((100% - 24px) / 2); } }
+@media (min-width: 1024px) { .food-card { width: calc((100% - 48px) / 3); } }
+.food-card .fc { flex: 1; }
 
 .day-card-inner {
   position: relative;
@@ -303,8 +315,36 @@
 .a-cta:hover .a-cta-icon { transform: translate(2px, -2px); }
 
 /* ── Food & tips grids ────────────────────────────────────────────────────── */
-.fg, .tg { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+.tg { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
 .fc, .tc { padding: 20px; display: flex; flex-direction: column; gap: 14px; justify-content: space-between; }
+/* 3-photo strip per card, same grid pattern as the day cards' .day-gallery.
+   No real food photos yet — each of the 3 tiles gets its own CSS-only
+   placeholder pattern (no image file, so no licensing/asset dependency),
+   loosely echoing three different abstract-gold/blue reference looks but
+   recolored into this page's own navy/gold palette so they sit quietly
+   next to the gold badges and icons rather than clashing. Swap each tile
+   for a real <img> (same fallback pattern as DayGallery) once photos exist. */
+.fc-gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; flex-shrink: 0; }
+.fc-photo-tile { height: 68px; border-radius: 0.5rem; border: 1px solid rgba(255,255,255,.1); }
+
+/* Tile 1 — soft rounded glow shapes on near-black */
+.fc-photo-tile:nth-child(1) {
+  background:
+    radial-gradient(circle at 30% 120%, rgba(212, 160, 23, .35) 0%, transparent 55%),
+    radial-gradient(circle at 85% -20%, rgba(155, 143, 122, .3) 0%, transparent 50%),
+    var(--void);
+}
+/* Tile 2 — diagonal gold streak on brushed-dark ground */
+.fc-photo-tile:nth-child(2) {
+  background:
+    linear-gradient(115deg, transparent 42%, rgba(212, 160, 23, .55) 49%, var(--gold-bright) 50%, rgba(212, 160, 23, .55) 51%, transparent 58%),
+    linear-gradient(115deg, var(--void) 0%, var(--surface-container) 35%, var(--void) 50%, var(--surface-container) 65%, var(--void) 100%);
+}
+/* Tile 3 — soft warm wave, recolored from a red/blue reference to stay
+   inside this page's palette */
+.fc-photo-tile:nth-child(3) {
+  background: linear-gradient(135deg, var(--void) 0%, var(--void) 40%, rgba(212, 160, 23, .5) 62%, rgba(155, 143, 122, .25) 78%, var(--void) 100%);
+}
 .fc-head, .tc-head { display: flex; align-items: center; gap: 12px; }
 .fi { width: 36px; height: 36px; border-radius: 0.375rem; flex-shrink: 0; background: rgba(212, 160, 23, .12); border: 1px solid rgba(212, 160, 23, .3); display: flex; align-items: center; justify-content: center; font-size: 16px; }
 .fc h3, .tc h3 { font-size: 15px; font-weight: 600; color: #fff; }
@@ -373,5 +413,6 @@ hr.div { border: none; border-top: 1px solid var(--border-lo); max-width: 1100px
 
 /* ── Responsive ───────────────────────────────────────────────────────────── */
 @media (max-width: 768px) {
-  .fh-grid { grid-template-columns: 1fr; margin-top: -24px; }
+  .fh-section { margin-top: -24px; }
+  .fh-grid { grid-template-columns: 1fr; }
 }
