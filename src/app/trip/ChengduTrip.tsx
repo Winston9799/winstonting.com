@@ -214,7 +214,7 @@ const DAYS: DayData[] = [
         addr: "📍 四川省德阳市广汉市三星堆镇真武村三星堆路",
         desc: "熊猫基地后专车直达广汉，参观青铜神树、纵目面具，感受古蜀文明震撼首选。",
         badges: [{ text: "💰 新币 113.10（2人）" }, { text: "✅ 已付款" }],
-        link: { label: "查看 Klook 行程详情 →", href: "https://www.klook.com/add-upcoming-trip/?id=6fe36721-ac5c-491e-50ec-1f935a168428" },
+        link: { label: "查看 Klook 行程详情", href: "https://www.klook.com/add-upcoming-trip/?id=6fe36721-ac5c-491e-50ec-1f935a168428" },
       },
     ],
   },
@@ -600,8 +600,13 @@ export default function ChengduTrip() {
                         </div>
                       )}
                       {a.link && (
-                        <a className="a-link" href={a.link.href} target="_blank" rel="noopener noreferrer">
-                          {a.link.label}
+                        <a className="a-cta" href={a.link.href} target="_blank" rel="noopener noreferrer">
+                          <span>{a.link.label}</span>
+                          <svg className="a-cta-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.25} strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" />
+                            <path d="M15 3h6v6" />
+                            <path d="M10 14L21 3" />
+                          </svg>
                         </a>
                       )}
                     </div>
