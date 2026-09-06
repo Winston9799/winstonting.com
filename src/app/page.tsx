@@ -103,7 +103,7 @@ export default function HomePage() {
         <div className="absolute top-12 left-1/3 w-96 h-96 bg-gold-500/5 rounded-full blur-[120px] pointer-events-none" />
         <div className="max-w-7xl mx-auto px-6 md:px-10">
           <div className="text-center mb-10">
-            <h2 className="text-3xl md:text-4xl font-semibold tracking-tight bg-[linear-gradient(120deg,#f3e7c4,#f6be39_45%,#d4a017_80%)] bg-clip-text text-transparent">
+            <h2 className="text-3xl md:text-4xl font-semibold tracking-tight bg-[linear-gradient(120deg,#fff_0%,#f3e7c4_25%,#f6be39_60%,#d4a017_90%)] bg-clip-text text-transparent">
               旅程专栏与探索
             </h2>
             <p className="text-sm text-neutral-400 mt-3">
@@ -160,7 +160,7 @@ export default function HomePage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
             <div className="lg:col-span-6 space-y-6">
               <div className="space-y-2">
-                <h2 className="text-3xl md:text-4xl font-semibold tracking-tight leading-tight bg-[linear-gradient(120deg,#f3e7c4,#f6be39_45%,#d4a017_80%)] bg-clip-text text-transparent">
+                <h2 className="text-3xl md:text-4xl font-semibold tracking-tight leading-tight bg-[linear-gradient(120deg,#fff_0%,#f3e7c4_25%,#f6be39_60%,#d4a017_90%)] bg-clip-text text-transparent">
                   Pagoda君亭设计酒店
                 </h2>
                 <p className="text-sm text-neutral-400">

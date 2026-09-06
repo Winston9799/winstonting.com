@@ -17,6 +17,10 @@
   --brass: #fabc4d;
   --border-hi: rgba(212, 160, 23, .18);
   --border-lo: rgba(255, 255, 255, .04);
+  /* Shared gold-text gradient (hero span, section headings) — starts from
+     true white so even a short heading shows a visible white-to-gold sweep,
+     not just a flat gold tone. */
+  --gold-text-gradient: linear-gradient(120deg, #fff 0%, var(--gold-leaf) 25%, var(--gold-bright) 60%, var(--gold) 90%);
 }
 
 .trip-page {
@@ -66,7 +70,7 @@
 }
 .hero h1 span {
   font-weight: 600;
-  background: linear-gradient(120deg, var(--gold-leaf), var(--gold-bright) 45%, var(--gold) 80%);
+  background: var(--gold-text-gradient);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -184,7 +188,7 @@
   font-size: 30px;
   font-weight: 600;
   letter-spacing: -0.01em;
-  background: linear-gradient(120deg, var(--gold-leaf), var(--gold-bright) 45%, var(--gold) 80%);
+  background: var(--gold-text-gradient);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
