@@ -285,7 +285,7 @@
 .a-cta {
   display: inline-flex; align-items: center; gap: 6px;
   align-self: flex-start;
-  margin-top: 4px; padding: 7px 14px;
+  margin-top: 12px; padding: 7px 14px;
   border-radius: 9999px; font-size: 11.5px; font-weight: 600;
   color: var(--gold-leaf);
   background: rgba(212, 160, 23, .08);
