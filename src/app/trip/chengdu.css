@@ -280,6 +280,27 @@
 .a-badges { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 2px; }
 .a-badge { font-size: 10px; padding: 2px 8px; border-radius: 0.25rem; background: rgba(255,255,255,.05); color: var(--on-surface-variant); border: 1px solid rgba(255,255,255,.1); }
 .a-badge.warn { background: rgba(212, 160, 23, .1); color: var(--gold-leaf); border-color: rgba(212, 160, 23, .25); }
+/* Booking-reference CTA (e.g. a Klook link) — same dark-glass-to-gold-gradient
+   language as the site's .btn-luxury-cta, scoped to this page's own tokens. */
+.a-cta {
+  display: inline-flex; align-items: center; gap: 6px;
+  align-self: flex-start;
+  margin-top: 20px; padding: 7px 14px;
+  border-radius: 9999px; font-size: 11.5px; font-weight: 600;
+  color: var(--gold-leaf);
+  background: rgba(212, 160, 23, .08);
+  border: 1px solid rgba(212, 160, 23, .3);
+  transition: all .3s cubic-bezier(.16,1,.3,1);
+  cursor: pointer;
+}
+.a-cta:hover {
+  background: linear-gradient(135deg, var(--gold-leaf) 0%, var(--gold-bright) 50%, var(--gold) 100%);
+  color: var(--void); border-color: var(--gold-leaf);
+  box-shadow: 0 8px 20px -4px rgba(212, 160, 23, .4);
+  transform: translateY(-2px);
+}
+.a-cta-icon { transition: transform .3s cubic-bezier(.16,1,.3,1); }
+.a-cta:hover .a-cta-icon { transform: translate(2px, -2px); }
 
 /* ── Food & tips grids ────────────────────────────────────────────────────── */
 .fg, .tg { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
