@@ -469,6 +469,21 @@ function useCarousel(itemSelector: string, onLeadingIndexChange?: (index: number
   const [atStart, setAtStart] = useState(true);
   const [atEnd, setAtEnd] = useState(false);
 
+  // Card width only ever changes at a CSS breakpoint (resize), never during
+  // a scroll — but the scroll-driven update() below runs on every animation
+  // frame while dragging. Querying the DOM (querySelector) and reading
+  // offsetWidth (which forces a synchronous layout) there was expensive
+  // enough, sustained at up to 60 times/sec, to show up as jank specifically
+  // on a fast/hard swipe (more scroll events fire per second the faster the
+  // fling, so this per-frame cost scaled with swipe speed). Measuring the
+  // step once here and caching it keeps the hot path free of DOM reads.
+  const stepRef = useRef(350);
+  const measureStep = useCallback(() => {
+    const el = trackRef.current;
+    const firstItem = el?.querySelector<HTMLElement>(itemSelector);
+    if (firstItem) stepRef.current = firstItem.offsetWidth + CAROUSEL_GAP;
+  }, [itemSelector]);
+
   const update = useCallback(() => {
     const el = trackRef.current;
     if (!el) return;
@@ -477,13 +492,9 @@ function useCarousel(itemSelector: string, onLeadingIndexChange?: (index: number
     setAtEnd(el.scrollLeft >= maxScroll - 4);
 
     if (onLeadingIndexChange) {
-      const firstItem = el.querySelector<HTMLElement>(itemSelector);
-      if (firstItem) {
-        const step = firstItem.offsetWidth + CAROUSEL_GAP;
-        onLeadingIndexChange(Math.max(0, Math.round(el.scrollLeft / step)));
-      }
+      onLeadingIndexChange(Math.max(0, Math.round(el.scrollLeft / stepRef.current)));
     }
-  }, [itemSelector, onLeadingIndexChange]);
+  }, [onLeadingIndexChange]);
 
   // The browser fires "scroll" many times per frame during a touch drag —
   // calling setState on every one competes with the drag for the main
@@ -499,19 +510,20 @@ function useCarousel(itemSelector: string, onLeadingIndexChange?: (index: number
   }, [update]);
 
   useEffect(() => {
+    measureStep();
     update();
-    window.addEventListener("resize", update);
+    const onResize = () => { measureStep(); update(); };
+    window.addEventListener("resize", onResize);
     return () => {
-      window.removeEventListener("resize", update);
+      window.removeEventListener("resize", onResize);
       if (raf.current !== null) cancelAnimationFrame(raf.current);
     };
-  }, [update]);
+  }, [measureStep, update]);
 
   function scrollByPage(dir: 1 | -1) {
     const el = trackRef.current;
     if (!el) return;
-    const firstItem = el.querySelector<HTMLElement>(itemSelector);
-    const step = ((firstItem?.offsetWidth ?? 350) + CAROUSEL_GAP) * (window.innerWidth >= 1024 ? 2 : 1);
+    const step = stepRef.current * (window.innerWidth >= 1024 ? 2 : 1);
     el.scrollBy({ left: dir * step, behavior: "smooth" });
   }
 
