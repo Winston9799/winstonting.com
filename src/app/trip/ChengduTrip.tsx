@@ -499,7 +499,11 @@ function useCarousel(itemSelector: string, onLeadingIndexChange?: (index: number
   // be at instead of snapping to a card (reported as a swipe landing
   // between two cards and staying there). Debouncing this to fire only
   // once scroll events have gone quiet — i.e. after the snap has actually
-  // settled — keeps that mutation from ever landing mid-animation.
+  // settled — keeps that mutation from ever landing mid-animation. Scroll
+  // events keep firing throughout the settle animation itself, not just
+  // during the finger-drag, so the timer's countdown only truly starts
+  // once that animation is essentially done — 60ms is enough margin past
+  // that without the gold ring visibly lagging behind the swipe.
   const indexTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const updateIndex = useCallback(() => {
     const el = trackRef.current;
@@ -519,7 +523,7 @@ function useCarousel(itemSelector: string, onLeadingIndexChange?: (index: number
       update();
     });
     if (indexTimer.current !== null) clearTimeout(indexTimer.current);
-    indexTimer.current = setTimeout(updateIndex, 120);
+    indexTimer.current = setTimeout(updateIndex, 60);
   }, [update, updateIndex]);
 
   useEffect(() => {
