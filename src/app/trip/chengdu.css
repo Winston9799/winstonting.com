@@ -255,24 +255,32 @@
    feel janky and settle on an imprecisely-snapped position. The nav-arrow
    buttons still animate smoothly regardless, since scrollBy() is called with
    behavior: "smooth" directly in its own options (JS-level, independent of
-   this property) — only native touch scrolling needed it gone. */
+   this property) — only native touch scrolling needed it gone.
+
+   No -webkit-overflow-scrolling: touch either, on purpose — that legacy
+   property forces WebKit's old momentum-scroll code path, which is a known
+   source of exactly the "overshoot past the next card, then snap back"
+   bounce this carousel was showing on an ordinary one-card swipe. Modern
+   iOS (13+) already does native momentum scrolling for a plain overflow:
+   auto element without it. scroll-snap-stop: always on .day-card/.food-card
+   below reinforces this — it tells the browser every snap point must be
+   actually stopped at, not sailed past and corrected back to. */
 .carousel-track {
   display: flex; gap: 24px; overflow-x: auto;
   scroll-snap-type: x mandatory;
   padding-top: 8px; padding-bottom: 8px;
-  -webkit-overflow-scrolling: touch;
   touch-action: pan-x pan-y;
 }
 .carousel-track::-webkit-scrollbar { display: none; }
 .carousel-track { scrollbar-width: none; -ms-overflow-style: none; }
 
-.day-card { scroll-snap-align: start; flex-shrink: 0; width: 100%; display: flex; }
+.day-card { scroll-snap-align: start; scroll-snap-stop: always; flex-shrink: 0; width: 100%; display: flex; }
 @media (min-width: 640px) { .day-card { width: calc((100% - 24px) / 2); } }
 @media (min-width: 1024px) { .day-card { width: calc((100% - 48px) / 3); } }
 
 /* Food-list carousel item wrapper — same 1/2/3-per-row breakpoints as
    .day-card, sharing the .carousel-track/.carousel-bar/.nav-arrow styles above. */
-.food-card { scroll-snap-align: start; flex-shrink: 0; width: 100%; display: flex; }
+.food-card { scroll-snap-align: start; scroll-snap-stop: always; flex-shrink: 0; width: 100%; display: flex; }
 @media (min-width: 640px) { .food-card { width: calc((100% - 24px) / 2); } }
 @media (min-width: 1024px) { .food-card { width: calc((100% - 48px) / 3); } }
 .food-card .fc { flex: 1; contain: layout paint; }
