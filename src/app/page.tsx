@@ -83,7 +83,7 @@ export default function HomePage() {
               <h1 className="text-4xl sm:text-5xl md:text-6xl font-semibold text-white tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.9)]">
                 Winston&rsquo;s Adventure
               </h1>
-              <p className="text-lg sm:text-xl text-neutral-300 font-light max-w-2xl leading-relaxed">
+              <p className="text-lg sm:text-xl text-neutral-300 font-medium max-w-2xl leading-relaxed">
                 Next trip: Chengdu, China, a city full of heritage, culinary artistry, and modern design culture.
               </p>
             </div>
