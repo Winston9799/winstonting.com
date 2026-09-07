@@ -75,7 +75,7 @@ export default function HomePage() {
         <div className="relative z-10 max-w-7xl w-full mx-auto px-6 md:px-10 py-16 flex flex-col justify-end min-h-[75vh]">
           <div className="max-w-3xl space-y-6">
             <div className="space-y-6">
-              <h1 className="text-5xl sm:text-6xl md:text-7xl font-semibold text-white tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.9)]">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl font-semibold text-white tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.9)]">
                 Chengdu Exploration
               </h1>
               <p className="text-lg sm:text-xl text-neutral-300 font-light max-w-2xl leading-relaxed">
