@@ -71,7 +71,7 @@ function DayGallery({
       {tiles.map((tile, i) =>
         tile.hidden ? null : (
           <div className="gphoto" key={i} onClick={() => handleClick(i)}>
-            <img key={tile.src} loading="lazy" decoding="async" src={tile.src} alt={items[i].caption} onError={() => handleError(i)} />
+            <img key={tile.src} decoding="async" src={tile.src} alt={items[i].caption} onError={() => handleError(i)} />
             <span className="gcap">{items[i].caption}</span>
           </div>
         )
