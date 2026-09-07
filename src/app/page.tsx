@@ -77,7 +77,7 @@ export default function HomePage() {
           <div className="dust-particle w-1.5 h-1.5 bg-amber-200/60 blur-[0.5px] top-[48%] left-[78%]" style={{ animationDelay: "1.5s" }} />
         </div>
 
-        <div className="relative z-10 max-w-7xl w-full mx-auto px-6 md:px-10 py-16 flex flex-col justify-end min-h-[75vh]">
+        <div className="relative z-10 max-w-7xl w-full mx-auto px-6 md:px-10 py-16 flex flex-col justify-center md:justify-end min-h-[75vh]">
           <div className="max-w-3xl space-y-6">
             <div className="space-y-6">
               <h1 className="text-4xl sm:text-5xl md:text-6xl font-semibold text-white tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.9)]">
@@ -104,7 +104,7 @@ export default function HomePage() {
       </section>
 
       {/* ── EXPLORE ───────────────────────────────────────────────────────── */}
-      <section className="relative z-10 py-24 bg-midnight border-t border-white/[0.04] overflow-hidden" id="explore-section">
+      <section className="relative z-10 py-24 bg-midnight overflow-hidden" id="explore-section">
         <div className="absolute top-12 left-1/3 w-96 h-96 bg-gold-500/5 rounded-full blur-[120px] pointer-events-none" />
         <div className="max-w-7xl mx-auto px-6 md:px-10">
           <div className="text-center mb-10">
