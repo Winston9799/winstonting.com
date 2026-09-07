@@ -129,6 +129,20 @@
   border-color: rgba(212, 160, 23, .35);
   box-shadow: 0 20px 40px -15px rgba(0, 0, 0, .7), 0 0 20px 1px rgba(212, 160, 23, .08);
 }
+/* backdrop-filter blur is one of the most expensive operations a mobile GPU
+   can be asked to recomposite every frame, and the day/food cards carry it
+   while being dragged (translated) by the carousel's native touch-scroll —
+   that combination is what made the swipe feel janky on phones. Touch
+   devices (pointer: coarse) drop the blur and fall back to a plain
+   translucent fill instead; desktop hover/pointer devices keep the frosted
+   look since there's no swipe-time repaint cost there. */
+@media (pointer: coarse) {
+  .glass {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: rgba(15, 16, 21, 0.92);
+  }
+}
 .badge-gold {
   display: inline-flex;
   align-items: center;
@@ -253,11 +267,12 @@
 .food-card { scroll-snap-align: start; flex-shrink: 0; width: 100%; display: flex; }
 @media (min-width: 640px) { .food-card { width: calc((100% - 24px) / 2); } }
 @media (min-width: 1024px) { .food-card { width: calc((100% - 48px) / 3); } }
-.food-card .fc { flex: 1; }
+.food-card .fc { flex: 1; contain: layout paint; }
 
 .day-card-inner {
   position: relative;
   overflow: hidden;
+  contain: layout paint;
   padding: 24px;
   display: flex;
   flex-direction: column;
@@ -265,6 +280,14 @@
   flex: 1;
   cursor: pointer;
   transition: border-color .3s ease, box-shadow .3s ease, transform .3s ease, background .3s ease;
+}
+/* The active-day ring (box-shadow) swaps cards on every scroll-driven index
+   change during a swipe, not just on click — animating that blurred shadow
+   for 300ms on touch devices piles more compositor work onto an already
+   scroll-heavy moment. Touch devices get an instant swap instead; desktop
+   keeps the animated hover/active transition. */
+@media (pointer: coarse) {
+  .day-card-inner { transition: border-color .3s ease, transform .3s ease, background .3s ease; }
 }
 .day-card-inner:hover {
   transform: translateY(-6px);
