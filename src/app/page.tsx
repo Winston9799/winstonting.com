@@ -57,11 +57,16 @@ export default function HomePage() {
         {/* Cinematic background layer */}
         <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
           <div className="w-full h-full animate-hero-bg origin-center transform-gpu">
-            <FallbackImg
-              src="/hero-chengdu-nightview.jpg"
-              alt="Chengdu night view"
-              className="w-full h-full object-cover object-[center_35%] filter brightness-[0.92] contrast-[1.05]"
-            />
+            <video
+              autoPlay
+              muted
+              loop
+              playsInline
+              poster="/hero-chengdu-nightview.jpg"
+              className="w-full h-full object-cover filter brightness-[0.92] contrast-[1.05]"
+            >
+              <source src="/hero-video.mp4" type="video/mp4" />
+            </video>
           </div>
           <div className="absolute inset-0 bg-gradient-to-t from-midnight via-midnight/50 to-midnight/40" />
           <div className="absolute inset-0 bg-gradient-to-b from-midnight/80 via-transparent to-midnight" />
