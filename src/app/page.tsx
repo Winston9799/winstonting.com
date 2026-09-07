@@ -62,7 +62,8 @@ export default function HomePage() {
               muted
               loop
               playsInline
-              poster="/hero-chengdu-nightview.jpg"
+              preload="auto"
+              poster="/hero-video-poster.jpg"
               className="w-full h-full object-cover filter brightness-[0.92] contrast-[1.05]"
             >
               <source src="/hero-video.mp4" type="video/mp4" />
