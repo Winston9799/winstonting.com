@@ -68,8 +68,8 @@ export default function HomePage() {
               <source src="/hero-video.mp4" type="video/mp4" />
             </video>
           </div>
-          <div className="absolute inset-0 bg-gradient-to-t from-midnight via-midnight/50 to-midnight/40" />
-          <div className="absolute inset-0 bg-gradient-to-b from-midnight/80 via-transparent to-midnight" />
+          <div className="absolute inset-0 bg-gradient-to-t from-midnight via-midnight/15 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-b from-midnight/40 via-transparent to-midnight/85" />
           <div className="absolute bottom-1/3 left-1/2 -translate-x-1/2 w-[700px] h-[260px] bg-gold-500/15 rounded-full blur-[100px] animate-water-glow pointer-events-none" />
           <div className="dust-particle w-1.5 h-1.5 bg-gold-400/70 blur-[0.5px] top-[45%] left-[28%]" style={{ animationDelay: "0s" }} />
           <div className="dust-particle w-2 h-2 bg-gold-300/80 blur-[1px] top-[52%] left-[46%]" style={{ animationDelay: "2.3s" }} />
