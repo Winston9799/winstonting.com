@@ -241,46 +241,45 @@
 
 /* padding-top keeps the active card's top border/glow ring from getting
    clipped by the scroll boundary. mandatory (not proximity) makes a swipe
-   always settle on exactly one card.
-   -webkit-overflow-scrolling keeps the drag itself smooth on iOS (native
-   momentum instead of a janky synthetic scroll). touch-action allows BOTH
-   pan-x and pan-y — pan-x alone blocks a vertical swipe from ever reaching
-   the page when the gesture starts on a card, trapping the whole page from
-   scrolling on mobile; with both allowed the browser picks the axis from
-   the gesture's actual direction. */
-/* No scroll-behavior: smooth here, on purpose — on a scroll-snap container
+   always settle on exactly one card. -webkit-overflow-scrolling keeps the
+   drag itself smooth on iOS (native momentum instead of a janky synthetic
+   scroll). touch-action allows BOTH pan-x and pan-y — pan-x alone blocks a
+   vertical swipe from ever reaching the page when the gesture starts on a
+   card, trapping the whole page from scrolling on mobile; with both
+   allowed the browser picks the axis from the gesture's actual direction.
+
+   No scroll-behavior: smooth here, on purpose — on a scroll-snap container
    it doesn't just animate JS-triggered scrolls, it also forces the browser's
    touch-release snap-settling through the CSS smooth-scroll timing function
-   instead of native momentum physics. That fight is what caused the swipe to
-   feel janky and settle on an imprecisely-snapped position. The nav-arrow
-   buttons still animate smoothly regardless, since scrollBy() is called with
-   behavior: "smooth" directly in its own options (JS-level, independent of
-   this property) — only native touch scrolling needed it gone.
+   instead of native momentum physics. The nav-arrow buttons still animate
+   smoothly regardless, since scrollBy() is called with behavior: "smooth"
+   directly in its own options (JS-level, independent of this property) —
+   only native touch scrolling needed it gone.
 
-   No -webkit-overflow-scrolling: touch either, on purpose — that legacy
-   property forces WebKit's old momentum-scroll code path, which is a known
-   source of exactly the "overshoot past the next card, then snap back"
-   bounce this carousel was showing on an ordinary one-card swipe. Modern
-   iOS (13+) already does native momentum scrolling for a plain overflow:
-   auto element without it. scroll-snap-stop: always on .day-card/.food-card
-   below reinforces this — it tells the browser every snap point must be
-   actually stopped at, not sailed past and corrected back to. */
+   The real fix for the swipe landing between two cards and staying stuck
+   there (reported on iOS Safari) turned out to be JS-side, not CSS: see
+   useCarousel's indexTimer in ChengduTrip.tsx — mutating the DOM (the
+   .active class) while a scroll-snap settle animation is still in flight
+   can abort that animation on iOS. Debouncing that mutation until scroll
+   events go quiet fixes it regardless of these properties, so both are
+   back to their original, well-supported settings here. */
 .carousel-track {
   display: flex; gap: 24px; overflow-x: auto;
   scroll-snap-type: x mandatory;
   padding-top: 8px; padding-bottom: 8px;
+  -webkit-overflow-scrolling: touch;
   touch-action: pan-x pan-y;
 }
 .carousel-track::-webkit-scrollbar { display: none; }
 .carousel-track { scrollbar-width: none; -ms-overflow-style: none; }
 
-.day-card { scroll-snap-align: start; scroll-snap-stop: always; flex-shrink: 0; width: 100%; display: flex; }
+.day-card { scroll-snap-align: start; flex-shrink: 0; width: 100%; display: flex; }
 @media (min-width: 640px) { .day-card { width: calc((100% - 24px) / 2); } }
 @media (min-width: 1024px) { .day-card { width: calc((100% - 48px) / 3); } }
 
 /* Food-list carousel item wrapper — same 1/2/3-per-row breakpoints as
    .day-card, sharing the .carousel-track/.carousel-bar/.nav-arrow styles above. */
-.food-card { scroll-snap-align: start; scroll-snap-stop: always; flex-shrink: 0; width: 100%; display: flex; }
+.food-card { scroll-snap-align: start; flex-shrink: 0; width: 100%; display: flex; }
 @media (min-width: 640px) { .food-card { width: calc((100% - 24px) / 2); } }
 @media (min-width: 1024px) { .food-card { width: calc((100% - 48px) / 3); } }
 .food-card .fc { flex: 1; contain: layout paint; }

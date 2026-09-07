@@ -490,10 +490,21 @@ function useCarousel(itemSelector: string, onLeadingIndexChange?: (index: number
     const maxScroll = el.scrollWidth - el.clientWidth;
     setAtStart(el.scrollLeft <= 4);
     setAtEnd(el.scrollLeft >= maxScroll - 4);
+  }, []);
 
-    if (onLeadingIndexChange) {
-      onLeadingIndexChange(Math.max(0, Math.round(el.scrollLeft / stepRef.current)));
-    }
+  // onLeadingIndexChange drives activeDay, which toggles the .active class
+  // on two DayCards — a real DOM mutation. iOS Safari aborts an in-flight
+  // scroll-snap settle animation if the DOM is mutated while it's still
+  // running, leaving the scroll stuck at whatever position it happened to
+  // be at instead of snapping to a card (reported as a swipe landing
+  // between two cards and staying there). Debouncing this to fire only
+  // once scroll events have gone quiet — i.e. after the snap has actually
+  // settled — keeps that mutation from ever landing mid-animation.
+  const indexTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const updateIndex = useCallback(() => {
+    const el = trackRef.current;
+    if (!el || !onLeadingIndexChange) return;
+    onLeadingIndexChange(Math.max(0, Math.round(el.scrollLeft / stepRef.current)));
   }, [onLeadingIndexChange]);
 
   // The browser fires "scroll" many times per frame during a touch drag —
@@ -507,18 +518,22 @@ function useCarousel(itemSelector: string, onLeadingIndexChange?: (index: number
       raf.current = null;
       update();
     });
-  }, [update]);
+    if (indexTimer.current !== null) clearTimeout(indexTimer.current);
+    indexTimer.current = setTimeout(updateIndex, 120);
+  }, [update, updateIndex]);
 
   useEffect(() => {
     measureStep();
     update();
-    const onResize = () => { measureStep(); update(); };
+    updateIndex();
+    const onResize = () => { measureStep(); update(); updateIndex(); };
     window.addEventListener("resize", onResize);
     return () => {
       window.removeEventListener("resize", onResize);
       if (raf.current !== null) cancelAnimationFrame(raf.current);
+      if (indexTimer.current !== null) clearTimeout(indexTimer.current);
     };
-  }, [measureStep, update]);
+  }, [measureStep, update, updateIndex]);
 
   function scrollByPage(dir: 1 | -1) {
     const el = trackRef.current;
