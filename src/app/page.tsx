@@ -87,7 +87,7 @@ export default function HomePage() {
                 Winston&rsquo;s Adventure
               </h1>
               <p className="text-lg sm:text-xl text-neutral-300 font-medium max-w-2xl leading-relaxed">
-                Next trip: Chengdu, China, a city full of heritage, culinary artistry, and modern design culture.
+                Next Adventure - Chengdu, China, a city full of heritage, culinary artistry, and modern design culture.
               </p>
             </div>
             <div className="flex flex-wrap items-center gap-4 pt-8">
