@@ -248,9 +248,17 @@
    the page when the gesture starts on a card, trapping the whole page from
    scrolling on mobile; with both allowed the browser picks the axis from
    the gesture's actual direction. */
+/* No scroll-behavior: smooth here, on purpose — on a scroll-snap container
+   it doesn't just animate JS-triggered scrolls, it also forces the browser's
+   touch-release snap-settling through the CSS smooth-scroll timing function
+   instead of native momentum physics. That fight is what caused the swipe to
+   feel janky and settle on an imprecisely-snapped position. The nav-arrow
+   buttons still animate smoothly regardless, since scrollBy() is called with
+   behavior: "smooth" directly in its own options (JS-level, independent of
+   this property) — only native touch scrolling needed it gone. */
 .carousel-track {
   display: flex; gap: 24px; overflow-x: auto;
-  scroll-snap-type: x mandatory; scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
   padding-top: 8px; padding-bottom: 8px;
   -webkit-overflow-scrolling: touch;
   touch-action: pan-x pan-y;
