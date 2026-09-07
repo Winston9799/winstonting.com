@@ -57,14 +57,22 @@ export default function HomePage() {
         {/* Cinematic background layer */}
         <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
           <div className="w-full h-full animate-hero-bg origin-center transform-gpu">
-            <FallbackImg
-              src="/hero-chengdu-nightview.jpg"
-              alt="Chengdu night view"
-              className="w-full h-full object-cover object-[center_35%] filter brightness-[0.92] contrast-[1.05]"
-            />
+            <video
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="auto"
+              poster="/hero-video-poster.jpg"
+              // @ts-expect-error -- fetchPriority isn't in this React version's VideoHTMLAttributes typings yet, but the browser attribute is real and valid
+              fetchPriority="high"
+              className="w-full h-full object-cover filter brightness-[0.92] contrast-[1.05]"
+            >
+              <source src="/hero-video.mp4" type="video/mp4" />
+            </video>
           </div>
-          <div className="absolute inset-0 bg-gradient-to-t from-midnight via-midnight/50 to-midnight/40" />
-          <div className="absolute inset-0 bg-gradient-to-b from-midnight/80 via-transparent to-midnight" />
+          <div className="absolute inset-0 bg-gradient-to-t from-midnight via-midnight/15 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-b from-midnight/40 via-transparent to-midnight/85" />
           <div className="absolute bottom-1/3 left-1/2 -translate-x-1/2 w-[700px] h-[260px] bg-gold-500/15 rounded-full blur-[100px] animate-water-glow pointer-events-none" />
           <div className="dust-particle w-1.5 h-1.5 bg-gold-400/70 blur-[0.5px] top-[45%] left-[28%]" style={{ animationDelay: "0s" }} />
           <div className="dust-particle w-2 h-2 bg-gold-300/80 blur-[1px] top-[52%] left-[46%]" style={{ animationDelay: "2.3s" }} />
@@ -72,14 +80,14 @@ export default function HomePage() {
           <div className="dust-particle w-1.5 h-1.5 bg-amber-200/60 blur-[0.5px] top-[48%] left-[78%]" style={{ animationDelay: "1.5s" }} />
         </div>
 
-        <div className="relative z-10 max-w-7xl w-full mx-auto px-6 md:px-10 py-16 flex flex-col justify-end min-h-[75vh]">
+        <div className="relative z-10 max-w-7xl w-full mx-auto px-6 md:px-10 py-16 flex flex-col justify-center md:justify-end min-h-[75vh]">
           <div className="max-w-3xl space-y-6">
             <div className="space-y-6">
-              <h1 className="text-5xl sm:text-6xl md:text-7xl font-semibold text-white tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.9)]">
-                Chengdu Exploration
+              <h1 className="text-4xl sm:text-5xl md:text-6xl font-semibold text-white tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.9)]">
+                Winston&rsquo;s Adventure
               </h1>
-              <p className="text-lg sm:text-xl text-neutral-300 font-light max-w-2xl leading-relaxed">
-                An 8-day journey through Chengdu&rsquo;s timeless heritage, culinary artistry, and modern design culture.
+              <p className="text-lg sm:text-xl text-neutral-300 font-medium max-w-2xl leading-relaxed">
+                Next Adventure - Chengdu, China, a city full of heritage, culinary artistry, and modern design culture.
               </p>
             </div>
             <div className="flex flex-wrap items-center gap-4 pt-8">
@@ -99,7 +107,7 @@ export default function HomePage() {
       </section>
 
       {/* ── EXPLORE ───────────────────────────────────────────────────────── */}
-      <section className="relative z-10 py-24 bg-midnight border-t border-white/[0.04] overflow-hidden" id="explore-section">
+      <section className="relative z-10 py-24 bg-midnight overflow-hidden" id="explore-section">
         <div className="absolute top-12 left-1/3 w-96 h-96 bg-gold-500/5 rounded-full blur-[120px] pointer-events-none" />
         <div className="max-w-7xl mx-auto px-6 md:px-10">
           <div className="text-center mb-10">
@@ -132,7 +140,7 @@ export default function HomePage() {
               },
             ].map((card) => (
               <article key={card.title}
-                className="relative group rounded-2xl glass-card card-sweep p-8 transition-all duration-300 ease-out hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-gold-500/10 flex flex-col justify-between overflow-hidden">
+                className="relative group rounded-2xl glass-card card-sweep p-8 transition-all duration-300 ease-out hover:shadow-2xl hover:shadow-gold-500/10 flex flex-col justify-between overflow-hidden">
                 <div className="space-y-4">
                   <h3 className="text-2xl font-semibold text-neutral-100 group-hover:text-gold-300 transition-colors">
                     {card.title}

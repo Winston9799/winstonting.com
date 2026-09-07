@@ -67,6 +67,11 @@ body {
   background: linear-gradient(90deg, transparent, rgba(245, 192, 101, 0.08), transparent);
   transform: skewX(-20deg);
   animation: glassSweep 1.2s ease forwards;
+  /* Without this, the sweep's box (not just its visible gradient) sits on
+     top of the card's content as it animates across — including the CTA
+     button — and intercepts the pointer, bouncing the button's :hover state
+     on and off as the sweep passes over it. */
+  pointer-events: none;
 }
 
 .glass-nav {
