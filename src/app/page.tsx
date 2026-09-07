@@ -64,6 +64,8 @@ export default function HomePage() {
               playsInline
               preload="auto"
               poster="/hero-video-poster.jpg"
+              // @ts-expect-error -- fetchPriority isn't in this React version's VideoHTMLAttributes typings yet, but the browser attribute is real and valid
+              fetchPriority="high"
               className="w-full h-full object-cover filter brightness-[0.92] contrast-[1.05]"
             >
               <source src="/hero-video.mp4" type="video/mp4" />
@@ -138,7 +140,7 @@ export default function HomePage() {
               },
             ].map((card) => (
               <article key={card.title}
-                className="relative group rounded-2xl glass-card card-sweep p-8 transition-all duration-300 ease-out hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-gold-500/10 flex flex-col justify-between overflow-hidden">
+                className="relative group rounded-2xl glass-card card-sweep p-8 transition-all duration-300 ease-out hover:shadow-2xl hover:shadow-gold-500/10 flex flex-col justify-between overflow-hidden">
                 <div className="space-y-4">
                   <h3 className="text-2xl font-semibold text-neutral-100 group-hover:text-gold-300 transition-colors">
                     {card.title}

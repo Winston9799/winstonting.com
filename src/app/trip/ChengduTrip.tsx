@@ -560,7 +560,7 @@ export default function ChengduTrip() {
       <section className="hero">
         <div className="hero-bg">
           <div className="hero-bg-frame animate-hero-bg">
-            <img src="/hero-chengdu-nightview.jpg" alt="成都夜景" className="hero-bg-img" />
+            <img src="/hero-chengdu-nightview.jpg" alt="成都夜景" className="hero-bg-img" fetchPriority="high" />
           </div>
           <div className="hero-bg-glow" />
           <div className="hero-bg-fade" />

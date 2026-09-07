@@ -239,9 +239,9 @@
 }
 .nav-arrow:disabled { opacity: .3; cursor: not-allowed; border-color: rgba(255,255,255,.1); color: var(--outline); }
 
-/* padding-top gives the :hover translateY(-6px) lift room, so the active
-   card's top border/glow ring doesn't get clipped by the scroll boundary.
-   mandatory (not proximity) makes a swipe always settle on exactly one card.
+/* padding-top keeps the active card's top border/glow ring from getting
+   clipped by the scroll boundary. mandatory (not proximity) makes a swipe
+   always settle on exactly one card.
    -webkit-overflow-scrolling keeps the drag itself smooth on iOS (native
    momentum instead of a janky synthetic scroll). touch-action allows BOTH
    pan-x and pan-y — pan-x alone blocks a vertical swipe from ever reaching
@@ -289,8 +289,16 @@
 @media (pointer: coarse) {
   .day-card-inner { transition: border-color .3s ease, transform .3s ease, background .3s ease; }
 }
+/* No translateY lift here (unlike .glass:hover elsewhere) — this card
+   contains its own interactive child with a hover transform (.a-cta's Klook
+   link, translateY(-2px)). Lifting the whole card too would stack both
+   shifts on that button, and since :hover is recomputed against the
+   post-transform position, that combined shift could move the button out
+   from under a cursor resting near its edge — un-hovering it, snapping the
+   lift back, re-hovering it, and so on: a visible flicker loop. The glow
+   alone gives clear hover feedback without moving anything the cursor
+   could chase. */
 .day-card-inner:hover {
-  transform: translateY(-6px);
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, .8), 0 0 20px 1px rgba(212, 160, 23, .1);
 }
 .day-card-inner:hover::after {
