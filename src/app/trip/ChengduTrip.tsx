@@ -210,7 +210,7 @@ function WeatherForecast() {
   if (error) {
     return (
       <p style={{ flex: 1 }}>
-        气温 20–28°C，随身备晴雨伞以防华西秋雨。每日预计步行近 2 万步，舒适平底鞋与轻便薄外套必备。
+        气温约 17–26°C，早晚温差大，长裤搭配薄外套更舒适；随身备晴雨伞以防华西秋雨。每日预计步行近 2 万步，舒适平底鞋必备。
       </p>
     );
   }
@@ -961,7 +961,7 @@ export default function ChengduTrip() {
           <div className="tc glass">
             <div className="tc-head"><div className="fi">👟</div><h3>天气与穿着建议</h3></div>
             <WeatherForecast />
-            <div className="card-foot"><span className="card-foot-l">舒适平底鞋，随身备伞</span><span className="info-chip">未来16天 · 可左右滑动</span></div>
+            <div className="card-foot"><span className="card-foot-l">薄外套 + 长裤</span><span className="info-chip">未来16天 · 可左右滑动</span></div>
           </div>
         </div>
       </div>
