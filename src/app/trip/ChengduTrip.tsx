@@ -30,7 +30,7 @@ function DayGallery({
   openLb,
 }: {
   items: GalleryItem[];
-  openLb: (imgs: string[], idx: number, cap: string) => void;
+  openLb: (imgs: string[], idx: number, caps: string[]) => void;
 }) {
   // Tiles start unset and are only populated after mount — otherwise the
   // browser can start fetching the guessed src straight from the
@@ -60,7 +60,7 @@ function DayGallery({
     openLb(
       visible.map((v) => v.src),
       pos >= 0 ? pos : 0,
-      items[clickedI]?.caption ?? ""
+      visible.map((v) => items[v.origIdx]?.caption ?? "")
     );
   }
 
@@ -80,18 +80,174 @@ function DayGallery({
   );
 }
 
+// ── FoodGallery: same extension-fallback tile grid as DayGallery, but for the
+// food-list cards — 3 photos from one folder, no per-photo captions ──────────
+function FoodGallery({
+  folder,
+  name,
+  openLb,
+}: {
+  folder: string;
+  name: string;
+  openLb: (imgs: string[], idx: number, caps: string[]) => void;
+}) {
+  type Tile = { src: string; hidden: boolean };
+  const [tiles, setTiles] = useState<Tile[] | null>(null);
+
+  useEffect(() => {
+    setTiles([1, 2, 3].map((slot) => ({ src: `/images/${folder}/${slot}.jpg`, hidden: false })));
+  }, [folder]);
+
+  function handleError(i: number) {
+    setTiles((prev) => {
+      if (!prev) return prev;
+      const n = nextSrc(prev[i].src);
+      return prev.map((t, j) => (j !== i ? t : n ? { ...t, src: n } : { ...t, hidden: true }));
+    });
+  }
+
+  function handleClick(clickedI: number) {
+    if (!tiles) return;
+    const visible = tiles
+      .map((t, i) => ({ ...t, origIdx: i }))
+      .filter((t) => !t.hidden);
+    const pos = visible.findIndex((v) => v.origIdx === clickedI);
+    openLb(visible.map((v) => v.src), pos >= 0 ? pos : 0, visible.map(() => name));
+  }
+
+  if (!tiles || !tiles.some((t) => !t.hidden)) {
+    return (
+      <div className="fc-gallery">
+        <div className="fc-photo-tile" />
+        <div className="fc-photo-tile" />
+        <div className="fc-photo-tile" />
+      </div>
+    );
+  }
+
+  return (
+    <div className="fc-gallery">
+      {tiles.map((tile, i) =>
+        tile.hidden ? null : (
+          <img
+            key={tile.src}
+            decoding="async"
+            src={tile.src}
+            alt={name}
+            className="fc-photo-tile fc-photo-img"
+            onClick={() => handleClick(i)}
+            onError={() => handleError(i)}
+          />
+        )
+      )}
+    </div>
+  );
+}
+
+// ── WeatherForecast: live 16-day forecast for Chengdu via Open-Meteo (free,
+// no API key, CORS-enabled, 16 days is its daily-forecast max) — refetches
+// on mount and every 30 minutes while the page stays open, falling back to
+// the static seasonal blurb if the request fails (offline, API down, etc).
+// The strip scrolls horizontally so all 16 days stay reachable in the card's
+// fixed width. ───────────────────────────────────────────────────────────
+type DayForecast = { key: string; weekday: string; date: string; tMax: number; tMin: number; code: number };
+
+const WEATHER_ICONS: Record<number, string> = {
+  0: "☀️", 1: "🌤️", 2: "⛅", 3: "☁️",
+  45: "🌫️", 48: "🌫️",
+  51: "🌦️", 53: "🌦️", 55: "🌦️",
+  56: "🌧️", 57: "🌧️",
+  61: "🌧️", 63: "🌧️", 65: "🌧️",
+  66: "🌧️", 67: "🌧️",
+  71: "🌨️", 73: "🌨️", 75: "🌨️", 77: "🌨️",
+  80: "🌦️", 81: "🌧️", 82: "⛈️",
+  85: "🌨️", 86: "🌨️",
+  95: "⛈️", 96: "⛈️", 99: "⛈️",
+};
+const WEEKDAYS = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
+
+function WeatherForecast() {
+  const [days, setDays] = useState<DayForecast[] | null>(null);
+  const [error, setError] = useState(false);
+  const [updatedAt, setUpdatedAt] = useState<string | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    async function load() {
+      try {
+        const res = await fetch(
+          "https://api.open-meteo.com/v1/forecast?latitude=30.5728&longitude=104.0668&daily=temperature_2m_max,temperature_2m_min,weathercode&timezone=Asia%2FShanghai&forecast_days=16"
+        );
+        if (!res.ok) throw new Error("bad response");
+        const data = await res.json();
+        if (cancelled) return;
+        const parsed: DayForecast[] = data.daily.time.map((d: string, i: number) => {
+          const date = new Date(`${d}T00:00:00`);
+          return {
+            key: d,
+            weekday: WEEKDAYS[date.getDay()],
+            date: `${date.getMonth() + 1}/${date.getDate()}`,
+            tMax: Math.round(data.daily.temperature_2m_max[i]),
+            tMin: Math.round(data.daily.temperature_2m_min[i]),
+            code: data.daily.weathercode[i],
+          };
+        });
+        setDays(parsed);
+        setError(false);
+        setUpdatedAt(new Date().toLocaleTimeString("zh-CN", { hour: "2-digit", minute: "2-digit" }));
+      } catch {
+        if (!cancelled) setError(true);
+      }
+    }
+    load();
+    const interval = setInterval(load, 30 * 60 * 1000);
+    return () => {
+      cancelled = true;
+      clearInterval(interval);
+    };
+  }, []);
+
+  if (error) {
+    return (
+      <p style={{ flex: 1 }}>
+        气温约 17–26°C，早晚温差大，长裤搭配薄外套更舒适；随身备晴雨伞以防华西秋雨。每日预计步行近 2 万步，舒适平底鞋必备。
+      </p>
+    );
+  }
+
+  if (!days) {
+    return <p style={{ flex: 1, color: "var(--outline)" }}>正在获取成都实时天气…</p>;
+  }
+
+  return (
+    <div style={{ flex: 1 }}>
+      <div className="weather-row">
+        {days.map((d) => (
+          <div className="weather-day" key={d.key}>
+            <span className="weather-wd">{d.weekday}</span>
+            <span className="weather-date">{d.date}</span>
+            <span className="weather-icon">{WEATHER_ICONS[d.code] ?? "🌡️"}</span>
+            <span className="weather-temp">{d.tMax}°/{d.tMin}°</span>
+          </div>
+        ))}
+      </div>
+      {updatedAt && <p className="weather-updated">Open-Meteo 实时更新 · {updatedAt}</p>}
+    </div>
+  );
+}
+
 // ── Lightbox ──────────────────────────────────────────────────────────────────
 function Lightbox({
   imgs,
   idx,
-  cap,
+  caps,
   onClose,
   onNav,
   onGoto,
 }: {
   imgs: string[];
   idx: number;
-  cap: string;
+  caps: string[];
   onClose: () => void;
   onNav: (d: number) => void;
   onGoto: (i: number) => void;
@@ -121,7 +277,7 @@ function Lightbox({
             <div key={i} className={`lb-dot${i === idx ? " on" : ""}`} onClick={() => onGoto(i)} />
           ))}
         </div>
-        <p className="lb-cap">{cap}</p>
+        <p className="lb-cap">{caps[idx]}</p>
       </div>
       <span className="lb-nav lb-next" onClick={() => onNav(1)}>›</span>
     </div>
@@ -183,9 +339,14 @@ const DAYS: DayData[] = [
       },
       {
         time: "夜晚",
-        title: "🐼 IFS 爬墙熊猫 → 远洋太古里",
-        addr: "📍 IFS：成都市锦江区红星路三段1号 · 太古里：中纱帽街8号",
-        desc: "饭后步行约 5 分钟，裸眼 3D 大屏打卡圣地，感受蓉城夜色。",
+        title: "🌉 九眼桥 · 锦江夜色",
+        addr: "📍 成都市锦江区九眼桥（合江亭附近）",
+        desc: "饭后打车约 10-15 分钟，桥头酒吧一条街，锦江夜景灯光很出片，河边散步收尾第一晚。",
+      },
+      {
+        time: "备选",
+        title: "🚤 锦江夜游船",
+        desc: "夜场 19:00-22:30，票价约 ¥70-120，合江亭 / 望江公园等码头上船，途经九眼桥、兰桂坊，沿岸光影秀、水幕喷泉，可代替河边散步。",
       },
     ],
   },
@@ -194,27 +355,31 @@ const DAYS: DayData[] = [
     date: "9月18日",
     weekday: "周五 · 必看必玩",
     tag: "核心必游",
-    title: "熊猫基地 · 三星堆探索一日游",
-    sub: "清晨看萌宝吃竹嬉戏，专车直达广汉，探秘三千年前的古蜀文明",
+    title: "熊猫谷探秘 · 都江堰水利工程一日游",
+    sub: "清晨专车直达熊猫谷静赏国宝萌态，下午探秘两千年无坝引水智慧",
     photos: [
       { folder: "panda-base", slot: 1, caption: "国宝大熊猫" },
-      { folder: "sanxingdui", slot: 1, caption: "三星堆博物馆" },
+      { folder: "panda-base", slot: 4, caption: "害羞小熊猫" },
+      { folder: "dujiangyan-qingcheng", slot: 1, caption: "都江堰水利工程" },
     ],
     activities: [
       {
         time: "早上",
-        title: "🐼 成都大熊猫繁育研究基地",
-        addr: "📍 成都市成华区熊猫大道1375号",
-        desc: "Klook 一日游领队接送，上午入园看熊猫吃竹嬉戏，比自由行更省心。",
-        badges: [{ text: "👥 导游接送一日团" }],
+        title: "🐼 熊猫谷（都江堰大熊猫繁育与放归研究中心）",
+        desc: "专车接送，导游车上讲解大熊猫保育知识。山地生态廊道近距离静赏熊猫啃竹、爬树等自然行为，门票已含。",
+        badges: [{ text: "🎫 熊猫谷门票已含" }],
+      },
+      {
+        time: "中午",
+        title: "🍽️ 都江堰景区特色午餐",
+        desc: "当地特色套餐已含，指定都江堰景区餐厅用餐。",
       },
       {
         time: "下午",
-        title: "🏺 广汉三星堆博物馆",
-        addr: "📍 四川省德阳市广汉市三星堆镇真武村三星堆路",
-        desc: "熊猫基地后专车直达广汉，参观青铜神树、纵目面具，感受古蜀文明震撼首选。",
-        badges: [{ text: "💰 新币 113.10（2人）" }, { text: "✅ 已付款" }],
-        link: { label: "查看 Klook 行程详情", href: "https://www.klook.com/add-upcoming-trip/?id=6fe36721-ac5c-491e-50ec-1f935a168428" },
+        title: "💧 都江堰水利工程",
+        desc: "导游讲解都江堰三大工程：鱼嘴分水堤、飞沙堰溢洪道、宝瓶口引水口，感受两千年前无坝引水的水利智慧。",
+        badges: [{ text: "🚐 06:00 出发 · 17:00 返程" }],
+        link: { label: "查看 Klook 行程详情", href: "https://www.klook.com/add-upcoming-trip/?id=79fbab41-d676-477a-7a81-c5a457d08f8f" },
       },
     ],
   },
@@ -223,26 +388,18 @@ const DAYS: DayData[] = [
     date: "9月19日",
     weekday: "周六 · 文化慢活",
     tag: "巴适市井",
-    title: "成博天府汉风 · 鹤鸣盖碗茶 · 宽窄巷子",
-    sub: "天府广场千年文脉、百年人民公园品茗采耳、古巷闲庭老友重聚",
+    title: "老友会嘉嘉 · 宽窄巷子 · 夜市烟火",
+    sub: "老友重逢畅叙旧日情谊，古巷漫步至夜市烟火气收官",
     photos: [
-      { folder: "chengdu-museum", slot: 1, caption: "成都博物馆" },
-      { folder: "heming-teahouse", slot: 1, caption: "鹤鸣盖碗茶" },
+      { folder: "jiajia", slot: 1, caption: "老友嘉嘉" },
       { folder: "kuanzhai", slot: 1, caption: "宽窄巷子夜韵" },
     ],
     activities: [
       {
-        time: "上午",
-        title: "🏛️ 成都博物馆",
-        addr: "📍 成都市青羊区小河街1号（天府广场西侧）",
-        desc: "地铁2号线春熙路站→天府广场站（1站，西1出口直达），或步行约20分钟，免费，需公众号预约。",
-        badges: [{ text: "周一闭馆" }],
-      },
-      {
-        time: "下午",
-        title: "🍵 人民公园 · 鹤鸣茶社",
-        addr: "📍 成都市青羊区少城路12号（人民公园内）",
-        desc: "5 元盖碗茶 + 采耳，最地道的成都慢生活。",
+        time: "中午",
+        title: "👧 与嘉嘉见面",
+        desc: "久别重逢！嘉嘉是成都本地人，约在人民公园地铁站附近碰头，具体时间地点到时微信联系确认。",
+        badges: [{ text: "📍 人民公园地铁站附近" }],
       },
       {
         time: "傍晚",
@@ -252,28 +409,40 @@ const DAYS: DayData[] = [
       },
       {
         time: "晚上",
-        title: "🥂 与嘉嘉聚餐",
-        desc: "久别重逢！嘉嘉是成都本地人，地道餐厅由她来定，跟着本地人吃才是真正的成都味。",
-        badges: [{ text: "👧 本地朋友带路" }],
+        title: "🌃 夜市探店",
+        desc: "成都夜生活正式开场，跟着人气小吃摊逐一打卡，感受地道市井烟火气。",
       },
     ],
   },
   {
     num: 4,
     date: "9月20日",
-    weekday: "周日 · 名山胜水",
-    tag: "天地之美",
-    title: "都江堰奇迹 · 青城天下幽 · 蜀境雅韵宴",
-    sub: "千年水利工程灌溉天府，道教发源幽静山林，夜宿蜀宴汉唐乐舞盛典",
+    weekday: "周日 · 诗意栖居",
+    tag: "诗韵成都",
+    title: "人民公园品茗 · 杜甫草堂访古 · 蜀境雅韵宴",
+    sub: "百年人民公园品茗采耳，诗圣故居寻访千年诗魂，夜宿蜀宴汉唐乐舞盛典",
     photos: [
-      { folder: "dujiangyan-qingcheng", slot: 1, caption: "都江堰 · 青城山" },
+      { folder: "heming-teahouse", slot: 1, caption: "鹤鸣盖碗茶" },
+      { folder: "dufu-cottage", slot: 1, caption: "杜甫草堂" },
       { folder: "shu-gong-yan-dinner", slot: 1, caption: "蜀境雅韵宴" },
     ],
     activities: [
       {
-        time: "全天",
-        title: "💧 都江堰水利工程 + ⛰️ 青城山",
-        desc: "成灌快铁犀浦站出发约 40 分钟，两景区打车串联约 ¥60。观鱼嘴分水堤、飞沙堰与安澜索桥；青城山有超萌自拍熊猫！",
+        time: "上午",
+        title: "🍵 人民公园 · 鹤鸣茶社",
+        addr: "📍 成都市青羊区少城路12号（人民公园内）",
+        desc: "5 元盖碗茶 + 采耳，最地道的成都慢生活。",
+      },
+      {
+        time: "下午",
+        title: "🏡 杜甫草堂",
+        addr: "📍 成都市青羊区青华路37号",
+        desc: "诗圣杜甫流寓成都的故居，茅屋、竹林、诗史堂静谧清幽，感受千年前的田园诗意。",
+      },
+      {
+        time: "备选",
+        title: "📍 附近后备方案",
+        desc: "时间充裕可就近安排：浣花溪公园（草堂旁沿江生态公园）、青羊宫（成都最古老道观）、送仙桥古玩艺术城、成都非遗博览园。",
       },
       {
         time: "晚上",
@@ -286,52 +455,72 @@ const DAYS: DayData[] = [
   {
     num: 5,
     date: "9月21日",
-    weekday: "周一 · 三国古意",
-    tag: "三国古韵",
-    title: "黄龙溪千年水乡 · 武侯祠红墙 · 锦里夜游",
-    sub: "青石板古镇榕树品茶，漫步武侯祠红墙竹影，穿梭锦里大红灯笼夜市",
+    weekday: "周一 · 古蜀寻踪",
+    tag: "文明探秘",
+    title: "三星堆探秘 · 东郊记忆大戏台",
+    sub: "三千年前古蜀文明震撼首选，工业遗址变身文创园，夜赏川剧变脸大戏台",
     photos: [
-      { folder: "huanglongxi", slot: 1, caption: "黄龙溪古镇" },
-      { folder: "wuhouci-jinli", slot: 1, caption: "武侯祠 · 锦里" },
+      { folder: "sanxingdui", slot: 1, caption: "三星堆博物馆" },
+      { folder: "dongjiaojiyi", slot: 2, caption: "东郊记忆" },
+      { folder: "dongjiaojiyi", slot: 1, caption: "东郊记忆文创园" },
     ],
     activities: [
       {
         time: "上午",
-        title: "🏘️ 黄龙溪古镇",
-        addr: "📍 成都市双流区黄龙溪镇",
-        desc: "距市区约 40km，青石板街道、明清建筑、古码头边喝盖碗茶，悠闲半天。打车约 40 分钟。",
+        title: "🏺 广汉三星堆博物馆",
+        addr: "📍 四川省德阳市广汉市三星堆镇真武村三星堆路",
+        desc: "距市区约 1.5 小时车程，参观青铜神树、纵目面具，感受三千年前古蜀文明的震撼。建议早出发，预留充足往返时间。",
       },
       {
-        time: "下午",
-        title: "⚔️ 武侯祠 → 🏮 锦里夜景",
-        addr: "📍 武侯祠：成都市武侯区武侯祠大街231号 · 锦里：武侯祠大街251号",
-        desc: "古镇返市区后前往武侯祠，打车约 30 分钟。锦里夜晚 8 点后最迷人。",
+        time: "傍晚",
+        title: "🎭 东郊记忆 → 大戏台夜场",
+        addr: "📍 成都市成华区建设南路99号（东郊记忆北二巷）",
+        desc: "三星堆返回市区后打车约 30 分钟直达，逛逛工业遗址文创园区，傍晚大戏台戏曲专场约 80 分钟（川剧折子戏、变脸吐火等），257 席位，建议提前订票。",
+        badges: [{ text: "🎫 建议提前订票" }],
       },
     ],
   },
   {
     num: 6,
     date: "9月22日",
-    weekday: "周二 · 潮流夜色",
-    tag: "潮流打卡",
-    title: "东郊记忆 · 天府双子塔",
-    sub: "下午探复古厂区潮流文创，入夜赏交子公园天际双子塔灯光秀",
+    weekday: "周二 · 山水禅意",
+    tag: "巴蜀山水",
+    title: "乐山大佛 · 黄龙溪古镇一日游",
+    sub: "瞻仰千年石刻巨佛的震撼，青石板古镇榕树下品味悠然时光",
     photos: [
-      { folder: "dongjiaojiyi", slot: 1, caption: "东郊记忆文创" },
-      { folder: "skp", slot: 1, caption: "双子塔光影秀" },
+      { folder: "leshan", slot: 1, caption: "乐山大佛" },
+      { folder: "huanglongxi", slot: 1, caption: "黄龙溪古镇" },
+      { folder: "leshan", slot: 2, caption: "乐山大佛俯瞰" },
     ],
     activities: [
       {
-        time: "下午",
-        title: "🎨 东郊记忆文创园",
-        addr: "📍 成都市成华区建设南路4号",
-        desc: "旧工厂改造文艺街区，壁画打卡、手冲咖啡。",
+        time: "早上",
+        title: "🚐 酒店接送出发",
+        addr: "📍 Pagoda Hotel Chengdu Taikoo Li",
+        desc: "06:00–08:00 期间接送，专车直达乐山。",
       },
       {
-        time: "夜晚",
-        title: "🌊 成都 SKP · 音乐喷泉 + 双子塔灯光秀",
-        addr: "📍 成都市武侯区武侯大道199号（地铁3/7号线武侯大道站）",
-        desc: "SKP 广场音乐喷泉水柱表演后，前往交子公园观赏双子塔灯光秀，色彩变幻绚烂，建议 21:00 后观看。",
+        time: "上午",
+        title: "🗿 乐山大佛",
+        desc: "自由活动约 2 小时，门票已含。瞻仰世界最大石刻座佛，感受千年石刻工艺的震撼。",
+        badges: [{ text: "🎫 门票已含" }],
+      },
+      {
+        time: "中午",
+        title: "🍽️ 中式午餐",
+        desc: "约 1 小时用餐时间。",
+      },
+      {
+        time: "下午",
+        title: "🏘️ 黄龙溪古镇",
+        desc: "自由活动约 2 小时，免费入场。青石板老街，古码头边喝盖碗茶，悠闲惬意。",
+      },
+      {
+        time: "傍晚",
+        title: "🚩 返程送达",
+        desc: "送至指定下车点（金沙遗址博物馆 · 18:00）或自定义地址。",
+        badges: [{ text: "🚐 06:00–08:00 接送出发" }],
+        link: { label: "查看 Klook 行程详情", href: "https://www.klook.com/add-upcoming-trip/?id=7c0f2e45-76d1-4f13-59bc-cafb020f94a5" },
       },
     ],
   },
@@ -340,17 +529,32 @@ const DAYS: DayData[] = [
     date: "9月23日",
     weekday: "周三 · 慢调闲适",
     tag: "慢调漫步",
-    title: "芳草街 · 华姿路棕榈巷 Citywalk",
-    sub: "深入老成都社区肌理，穿梭文艺独立书店、精品咖啡与隐秘小巷",
+    title: "武侯祠寻踪 · 芳草街 Citywalk · Winston 提前返程",
+    sub: "红墙竹影漫步武侯祠，深入老成都社区肌理，傍晚 Winston 先行飞返新加坡",
     photos: [
+      { folder: "wuhouci-jinli", slot: 1, caption: "武侯祠红墙" },
       { folder: "fangcao-citywalk", slot: 1, caption: "芳草街 · 华姿路" },
+      { folder: "tfu-airport", slot: 1, caption: "天府 T1 候机" },
     ],
     activities: [
+      {
+        time: "上午",
+        title: "⚔️ 武侯祠",
+        addr: "📍 成都市武侯区武侯祠大街231号",
+        desc: "红墙竹影，三国文化圣地，静谧清幽。跟芳草街同在武侯区，逛完打车过去很顺。",
+      },
       {
         time: "下午",
         title: "🚶 芳草街 → 华姿路 漫游",
         addr: "📍 成都市武侯区芳草街（地铁3号线芳草街站D口出发）→ 华姿路火烧堰",
         desc: "白夜花神诗空间咖啡打卡，步行至华姿路棕榈树巷道（火烧堰碧翠廊），全程约 1.5km，轻松半天，穿舒服的鞋即可。",
+      },
+      {
+        time: "傍晚",
+        title: "✈️ Winston 提前返程 · SQ843 返新加坡",
+        addr: "📍 成都天府国际机场（TFU）T1 航站楼",
+        desc: "Winston 今日先行搭乘 SQ843 返回新加坡，航班时刻与 24 号一致，仅提前一天出发。出发前 3h 前往机场（TFU T1），打车约 50 分钟（¥120–150）。",
+        badges: [{ text: "TFU T1 → 樟宜 T3" }],
       },
     ],
   },
@@ -359,8 +563,8 @@ const DAYS: DayData[] = [
     date: "9月24日",
     weekday: "周四 · 满载而归",
     tag: "圆满收官",
-    title: "川味手信采买 · SQ843 飞返新加坡",
-    sub: "满载天府香辣美味与非遗回忆，乘新航 SQ843 荣耀返抵樟宜",
+    title: "川味手信采买 · Andy SQ843 飞返新加坡",
+    sub: "满载天府香辣美味与非遗回忆，Andy 乘新航 SQ843 荣耀返抵樟宜",
     photos: [
       { folder: "free-day", slot: 1, caption: "成都最后一天" },
       { folder: "tfu-airport", slot: 1, caption: "天府 T1 候机" },
@@ -372,10 +576,10 @@ const DAYS: DayData[] = [
         desc: "漫无目的地溜达才是旅行最好的结尾。顺道补购手信：郫县豆瓣、汉源花椒、熊猫文创。Check-out 12:00，行李可寄存前台。",
       },
       {
-        time: "下午",
-        title: "✈️ 前往 TFU · SQ843 返新加坡",
+        time: "傍晚",
+        title: "✈️ Andy 返程 · SQ843 返新加坡",
         addr: "📍 成都天府国际机场（TFU）T1 航站楼",
-        desc: "出发前 3h 前往机场（TFU T1），打车约 50 分钟（¥120–150）。",
+        desc: "Andy 今日搭乘 SQ843 返回新加坡，航班时刻与 23 号 Winston 那班一致，仅晚一天出发。出发前 3h 前往机场（TFU T1），打车约 50 分钟（¥120–150）。",
         badges: [{ text: "TFU T1 → 樟宜 T3" }],
       },
     ],
@@ -402,7 +606,7 @@ const DayCard = memo(function DayCard({
   day: DayData;
   isActive: boolean;
   onSelect: (num: number) => void;
-  openLb: (imgs: string[], idx: number, cap: string) => void;
+  openLb: (imgs: string[], idx: number, caps: string[]) => void;
 }) {
   return (
     <div className="day-card">
@@ -421,7 +625,7 @@ const DayCard = memo(function DayCard({
           <span className="day-tag">{day.tag}</span>
         </div>
 
-        <div>
+        <div className="day-title-wrap">
           <div className="day-title">{day.title}</div>
           <div className="day-sub">{day.sub}</div>
         </div>
@@ -551,7 +755,7 @@ function useCarousel(itemSelector: string, onLeadingIndexChange?: (index: number
 
 // ── Main ChengduTrip component ────────────────────────────────────────────────
 export default function ChengduTrip() {
-  const [lb, setLb] = useState({ open: false, imgs: [] as string[], idx: 0, cap: "" });
+  const [lb, setLb] = useState({ open: false, imgs: [] as string[], idx: 0, caps: [] as string[] });
   const [activeDay, setActiveDay] = useState(DAYS[0].num);
   const onDayIndexChange = useCallback((index: number) => {
     setActiveDay(DAYS[Math.min(DAYS.length - 1, index)].num);
@@ -563,8 +767,8 @@ export default function ChengduTrip() {
   // would defeat it just as much as skipping memo() entirely.
   const onSelectDay = useCallback((num: number) => setActiveDay(num), []);
 
-  const openLb = useCallback((imgs: string[], idx: number, cap: string) =>
-    setLb({ open: true, imgs, idx, cap }), []);
+  const openLb = useCallback((imgs: string[], idx: number, caps: string[]) =>
+    setLb({ open: true, imgs, idx, caps }), []);
   const closeLb = () => setLb((s) => ({ ...s, open: false }));
   const navLb = (d: number) =>
     setLb((s) => ({ ...s, idx: (s.idx + d + s.imgs.length) % s.imgs.length }));
@@ -617,7 +821,6 @@ export default function ChengduTrip() {
                 <div className="info-sub">Singapore Airlines · 往返执飞</div>
               </div>
             </div>
-            <span className="badge-gold">A350 宽体客机</span>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             <div className="flight-leg">
@@ -658,7 +861,6 @@ export default function ChengduTrip() {
                 <div className="info-sub">Pagoda Design Hotel Chengdu</div>
               </div>
             </div>
-            <span className="info-chip">太古里核心商圈</span>
           </div>
           <div className="info-list">
             <div className="info-list-item"><span style={{ color: "var(--gold-leaf)" }}>📍</span><span>锦江区华兴东街16号 · 步行5分钟即达远洋太古里与春熙路</span></div>
@@ -725,23 +927,16 @@ export default function ChengduTrip() {
         </div>
         <div className="carousel-track" ref={foodTrackRef} onScroll={onFoodTrackScroll}>
           {[
-            ["🍄","爱尚菌野生菌火锅","17号晚首选！菌子季鲜味绝顶，清鲜暖胃，香槟广场3楼。","首夜暖胃必选","香槟广场"],
-            ["🫕","地道正宗火锅","电台巷、巴蜀大将，挑巷子里人多的那家准没错。牛油香浓，中辣 or 微辣？","老成都经典麻辣","街巷老店"],
-            ["🍢","街头串串香","马路边边、钢管厂五区。麻辣鲜香入味，抓一把竹签边涮边聊才够巴适。","市井烟火气","传统热锅"],
-            ["🥟","经典成都名小吃","甜水面劲道甜辣、叶儿粑清香软糯、蛋烘糕（一定要加肉松！）随处可见。","街巷寻味","百味小点"],
-            ["🍲","正宗川菜佳肴","陶德砂锅、吃客餐厅、陈麻婆豆腐。层次丰富、百菜百味，回味悠长。","醇厚天府滋味","老字号"],
-            ["🐰","深夜江湖夜宵","双流老妈兔头、奎星楼街冒脑花与特色烤脑花。成都夜宵是另一种市井信仰。","越夜越巴适","午夜江湖"],
-          ].map(([icon, name, desc, foot, chip]) => (
+            ["🍄","爱尚菌野生菌火锅","17号晚首选！菌子季鲜味绝顶，清鲜暖胃，完美第一晚。","📍锦江区东大街388号香槟广场3楼（春熙路太古里店）","food-junzi"],
+            ["🥟","经典成都名小吃","甜水面劲道甜辣、抄手鲜香、蛋烘糕（一定要加肉松！），推荐龙抄手总店。","📍锦江区春熙路南段6-8号龙抄手总店（近中山广场，地铁2/3号线春熙路站D口）","food-longchaoshou"],
+            ["🍲","正宗川菜佳肴","层次丰富、百菜百味，回味悠长，推荐陈麻婆豆腐、陶德砂锅、吃客三家老字号。","📍陈麻婆豆腐：青羊区东华门街51号 · 陶德砂锅：锦江区总府路8号鸿德春熙中心3F · 吃客：锦江区致民路48号","food-mapo"],
+          ].map(([icon, name, desc, addr, folder]) => (
             <div className="food-card" key={name}>
               <div className="fc glass">
                 <div className="fc-head"><div className="fi">{icon}</div><h3>{name}</h3></div>
                 <p style={{ flex: 1 }}>{desc}</p>
-                <div className="fc-gallery">
-                  <div className="fc-photo-tile" />
-                  <div className="fc-photo-tile" />
-                  <div className="fc-photo-tile" />
-                </div>
-                <div className="card-foot"><span className="card-foot-l">{foot}</span><span className="info-chip">{chip}</span></div>
+                <FoodGallery folder={folder} name={name} openLb={openLb} />
+                <div className="card-foot"><span className="card-foot-l">{addr}</span></div>
               </div>
             </div>
           ))}
@@ -754,8 +949,8 @@ export default function ChengduTrip() {
         <div className="sec-h"><h2>出行锦囊与实用小贴士</h2><p>细致考量，令每一刻旅途安心惬意</p></div>
         <div className="tg">
           <div className="tc glass">
-            <div className="tc-head"><div className="fi">🥐</div><h3>熊猫基地 · 三星堆探索一日游</h3></div>
-            <p style={{ flex: 1 }}>集合时间极早，来不及吃酒店早餐——记得前一晚先买好点心，路上垫肚子当早餐。</p>
+            <div className="tc-head"><div className="fi">🥐</div><h3>9月18日 · 22日 一日游</h3></div>
+            <p style={{ flex: 1 }}>熊猫谷·都江堰、乐山·黄龙溪两个一日游集合时间都很早，来不及吃酒店早餐——记得前一晚先买好点心，路上垫肚子当早餐。</p>
             <div className="card-foot"><span className="card-foot-l">早餐记得自备点心</span><span className="info-chip">集合时间较早</span></div>
           </div>
           <div className="tc glass">
@@ -765,8 +960,8 @@ export default function ChengduTrip() {
           </div>
           <div className="tc glass">
             <div className="tc-head"><div className="fi">👟</div><h3>天气与穿着建议</h3></div>
-            <p style={{ flex: 1 }}>气温 20–28°C，随身备晴雨伞以防华西秋雨。每日预计步行近 2 万步，舒适平底鞋与轻便薄外套必备。</p>
-            <div className="card-foot"><span className="card-foot-l">舒适平底鞋</span><span className="info-chip">20~28°C</span></div>
+            <WeatherForecast />
+            <div className="card-foot"><span className="card-foot-l">薄外套 + 长裤</span><span className="info-chip">未来16天 · 可左右滑动</span></div>
           </div>
         </div>
       </div>
@@ -785,7 +980,7 @@ export default function ChengduTrip() {
         <Lightbox
           imgs={lb.imgs}
           idx={lb.idx}
-          cap={lb.cap}
+          caps={lb.caps}
           onClose={closeLb}
           onNav={navLb}
           onGoto={gotoLb}

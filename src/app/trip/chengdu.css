@@ -143,20 +143,6 @@
     background: rgba(15, 16, 21, 0.92);
   }
 }
-.badge-gold {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: rgba(212, 160, 23, .06);
-  border: 1px solid rgba(212, 160, 23, .2);
-  color: var(--gold-leaf);
-  font-size: 10px;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  padding: 3px 10px;
-  border-radius: 0.25rem;
-}
-
 /* ── Flight & hotel cards ─────────────────────────────────────────────────── */
 /* No overlap with the hero here — pulling the heading up into the hero's own
    space (the old -40px trick, back when this had no heading) left it
@@ -170,7 +156,13 @@
   z-index: 5;
 }
 .fh-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-.info-card { padding: 24px; display: flex; flex-direction: column; gap: 18px; }
+/* justify-content: space-between (not just gap) so the header row and the
+   final footer row (Check-in/Check-out vs. flight times) land at the same
+   height in both cards — the grid already stretches both cards to equal
+   total height, but without this the shorter card's content just sits at
+   the top, leaving its footer floating above empty space instead of
+   flush with the taller card's. */
+.info-card { padding: 24px; display: flex; flex-direction: column; gap: 18px; justify-content: space-between; }
 .info-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--border-lo); padding-bottom: 14px; }
 .info-head-l { display: flex; align-items: center; gap: 12px; }
 .info-icon {
@@ -188,7 +180,7 @@
 .info-list { display: flex; flex-direction: column; gap: 8px; font-size: 12px; color: var(--on-surface-variant); }
 .info-list-item { display: flex; align-items: flex-start; gap: 8px; }
 .info-foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; padding-top: 12px; border-top: 1px solid var(--border-lo); font-size: 11px; color: var(--outline); }
-.info-chip { padding: 2px 8px; border-radius: 0.25rem; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1); color: var(--on-surface-variant); }
+.info-chip { padding: 2px 8px; border-radius: 0.25rem; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1); color: var(--on-surface-variant); font-size: 11px; }
 
 /* ── Sections ─────────────────────────────────────────────────────────────── */
 .sec { max-width: 1100px; margin: 0 auto; padding: 60px 24px; }
@@ -360,6 +352,11 @@
 .day-date { font-size: 17px; font-weight: 600; color: #fff; }
 .day-weekday { font-size: 11px; color: var(--gold-leaf); opacity: .8; font-weight: 500; }
 .day-tag { flex-shrink: 0; padding: 4px 12px; border-radius: 9999px; font-size: 11px; font-weight: 500; background: rgba(255,255,255,.05); color: var(--on-surface-variant); border: 1px solid rgba(255,255,255,.1); }
+/* Title runs 1-2 lines and the summary 1-2 lines depending on the day's
+   content length — reserve room for the 2-line/2-line worst case so the
+   gallery below starts at the same height on every card instead of
+   drifting up on the shorter days. */
+.day-title-wrap { min-height: 92px; }
 .day-title { font-size: 19px; font-weight: 600; color: #fff; line-height: 1.3; }
 .day-sub { font-size: 12px; color: var(--outline); margin-top: 4px; line-height: 1.6; }
 
@@ -412,6 +409,7 @@
    for a real <img> (same fallback pattern as DayGallery) once photos exist. */
 .fc-gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; flex-shrink: 0; }
 .fc-photo-tile { height: 68px; border-radius: 0.5rem; border: 1px solid rgba(255,255,255,.1); }
+.fc-photo-img { display: block; width: 100%; object-fit: cover; cursor: pointer; }
 
 /* Tile 1 — soft rounded glow shapes on near-black */
 .fc-photo-tile:nth-child(1) {
@@ -438,6 +436,31 @@
 .tc ul { font-size: 12px; color: var(--on-surface-variant); line-height: 1.8; padding-left: 16px; }
 .card-foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding-top: 12px; border-top: 1px solid var(--border-lo); font-size: 11px; }
 .card-foot-l { color: var(--gold-leaf); font-weight: 500; }
+
+/* Live 16-day weather strip in the "天气与穿着建议" tip card — scrolls
+   horizontally since 16 tiles don't fit the card's fixed width at once. */
+.weather-row {
+  display: flex; gap: 4px; overflow-x: auto; padding-bottom: 2px;
+  -webkit-overflow-scrolling: touch; scroll-snap-type: x proximity;
+}
+.weather-row::-webkit-scrollbar { display: none; }
+.weather-row { scrollbar-width: none; -ms-overflow-style: none; }
+.weather-day {
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+  flex: 0 0 auto; width: 46px;
+  padding: 6px 2px; border-radius: 0.375rem; scroll-snap-align: start;
+  background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.06);
+}
+.weather-wd { font-size: 10px; color: var(--outline); }
+.weather-date { font-size: 9px; color: var(--outline); opacity: .7; font-variant-numeric: tabular-nums; }
+.weather-icon { font-size: 15px; line-height: 1; margin-top: 1px; }
+.weather-temp { font-size: 10px; color: #fff; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.weather-updated { font-size: 10px; color: var(--outline); margin-top: 8px; text-align: right; }
+/* Food cards' addresses vary from 1 to 2 lines — reserve room for 2 so the
+   pin icon starts at the same height across cards instead of drifting down
+   on the shorter ones. */
+.food-card .card-foot { align-items: flex-start; }
+.food-card .card-foot-l { line-height: 1.6; min-height: 3.2em; }
 
 /* ── Outro ────────────────────────────────────────────────────────────────── */
 .outro {
