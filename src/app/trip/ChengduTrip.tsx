@@ -198,6 +198,7 @@ const DAYS: DayData[] = [
     sub: "清晨专车直达熊猫谷静赏国宝萌态，下午探秘两千年无坝引水智慧",
     photos: [
       { folder: "panda-base", slot: 1, caption: "国宝大熊猫" },
+      { folder: "panda-base", slot: 4, caption: "害羞小熊猫" },
       { folder: "dujiangyan-qingcheng", slot: 1, caption: "都江堰水利工程" },
     ],
     activities: [
