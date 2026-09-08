@@ -366,10 +366,11 @@ const DAYS: DayData[] = [
     date: "9月23日",
     weekday: "周三 · 慢调闲适",
     tag: "慢调漫步",
-    title: "芳草街 · 华姿路棕榈巷 Citywalk",
-    sub: "深入老成都社区肌理，穿梭文艺独立书店、精品咖啡与隐秘小巷",
+    title: "芳草街 Citywalk · Winston 提前返程",
+    sub: "深入老成都社区肌理，穿梭文艺独立书店与隐秘小巷，傍晚 Winston 先行飞返新加坡",
     photos: [
       { folder: "fangcao-citywalk", slot: 1, caption: "芳草街 · 华姿路" },
+      { folder: "tfu-airport", slot: 1, caption: "天府 T1 候机" },
     ],
     activities: [
       {
@@ -378,6 +379,13 @@ const DAYS: DayData[] = [
         addr: "📍 成都市武侯区芳草街（地铁3号线芳草街站D口出发）→ 华姿路火烧堰",
         desc: "白夜花神诗空间咖啡打卡，步行至华姿路棕榈树巷道（火烧堰碧翠廊），全程约 1.5km，轻松半天，穿舒服的鞋即可。",
       },
+      {
+        time: "傍晚",
+        title: "✈️ Winston 提前返程 · SQ843 返新加坡",
+        addr: "📍 成都天府国际机场（TFU）T1 航站楼",
+        desc: "Winston 今日先行搭乘 SQ843 返回新加坡，航班时刻与 24 号一致，仅提前一天出发。出发前 3h 前往机场（TFU T1），打车约 50 分钟（¥120–150）。",
+        badges: [{ text: "TFU T1 → 樟宜 T3" }],
+      },
     ],
   },
   {
@@ -385,8 +393,8 @@ const DAYS: DayData[] = [
     date: "9月24日",
     weekday: "周四 · 满载而归",
     tag: "圆满收官",
-    title: "川味手信采买 · SQ843 飞返新加坡",
-    sub: "满载天府香辣美味与非遗回忆，乘新航 SQ843 荣耀返抵樟宜",
+    title: "川味手信采买 · Andy SQ843 飞返新加坡",
+    sub: "满载天府香辣美味与非遗回忆，Andy 乘新航 SQ843 荣耀返抵樟宜",
     photos: [
       { folder: "free-day", slot: 1, caption: "成都最后一天" },
       { folder: "tfu-airport", slot: 1, caption: "天府 T1 候机" },
@@ -399,9 +407,9 @@ const DAYS: DayData[] = [
       },
       {
         time: "下午",
-        title: "✈️ 前往 TFU · SQ843 返新加坡",
+        title: "✈️ Andy 返程 · SQ843 返新加坡",
         addr: "📍 成都天府国际机场（TFU）T1 航站楼",
-        desc: "出发前 3h 前往机场（TFU T1），打车约 50 分钟（¥120–150）。",
+        desc: "Andy 今日搭乘 SQ843 返回新加坡，航班时刻与 23 号 Winston 那班一致，仅晚一天出发。出发前 3h 前往机场（TFU T1），打车约 50 分钟（¥120–150）。",
         badges: [{ text: "TFU T1 → 樟宜 T3" }],
       },
     ],
