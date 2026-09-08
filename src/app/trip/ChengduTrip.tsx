@@ -305,7 +305,8 @@ const DAYS: DayData[] = [
     sub: "三千年前古蜀文明震撼首选，工业遗址变身文创园，夜赏川剧变脸大戏台",
     photos: [
       { folder: "sanxingdui", slot: 1, caption: "三星堆博物馆" },
-      { folder: "dongjiaojiyi", slot: 1, caption: "东郊记忆大戏台" },
+      { folder: "dongjiaojiyi", slot: 2, caption: "东郊记忆" },
+      { folder: "dongjiaojiyi", slot: 1, caption: "东郊记忆文创园" },
     ],
     activities: [
       {
