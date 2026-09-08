@@ -617,7 +617,6 @@ export default function ChengduTrip() {
                 <div className="info-sub">Singapore Airlines · 往返执飞</div>
               </div>
             </div>
-            <span className="badge-gold">A350 宽体客机</span>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             <div className="flight-leg">
@@ -658,7 +657,6 @@ export default function ChengduTrip() {
                 <div className="info-sub">Pagoda Design Hotel Chengdu</div>
               </div>
             </div>
-            <span className="info-chip">太古里核心商圈</span>
           </div>
           <div className="info-list">
             <div className="info-list-item"><span style={{ color: "var(--gold-leaf)" }}>📍</span><span>锦江区华兴东街16号 · 步行5分钟即达远洋太古里与春熙路</span></div>

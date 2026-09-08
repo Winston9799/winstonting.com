@@ -143,20 +143,6 @@
     background: rgba(15, 16, 21, 0.92);
   }
 }
-.badge-gold {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: rgba(212, 160, 23, .06);
-  border: 1px solid rgba(212, 160, 23, .2);
-  color: var(--gold-leaf);
-  font-size: 10px;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  padding: 3px 10px;
-  border-radius: 0.25rem;
-}
-
 /* ── Flight & hotel cards ─────────────────────────────────────────────────── */
 /* No overlap with the hero here — pulling the heading up into the hero's own
    space (the old -40px trick, back when this had no heading) left it
