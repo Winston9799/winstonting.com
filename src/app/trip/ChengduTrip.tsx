@@ -335,7 +335,6 @@ const DAYS: DayData[] = [
         title: "🚐 酒店接送出发",
         addr: "📍 Pagoda Hotel Chengdu Taikoo Li",
         desc: "06:00–08:00 期间接送，专车直达乐山。",
-        link: { label: "查看 Klook 行程详情", href: "https://www.klook.com/add-upcoming-trip/?id=7c0f2e45-76d1-4f13-59bc-cafb020f94a5" },
       },
       {
         time: "上午",
@@ -357,6 +356,8 @@ const DAYS: DayData[] = [
         time: "傍晚",
         title: "🚩 返程送达",
         desc: "送至指定下车点（金沙遗址博物馆 · 18:00）或自定义地址。",
+        badges: [{ text: "🚐 06:00–08:00 接送出发" }],
+        link: { label: "查看 Klook 行程详情", href: "https://www.klook.com/add-upcoming-trip/?id=7c0f2e45-76d1-4f13-59bc-cafb020f94a5" },
       },
     ],
   },
