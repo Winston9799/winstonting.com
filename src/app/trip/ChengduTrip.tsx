@@ -469,7 +469,7 @@ const DayCard = memo(function DayCard({
           <span className="day-tag">{day.tag}</span>
         </div>
 
-        <div>
+        <div className="day-title-wrap">
           <div className="day-title">{day.title}</div>
           <div className="day-sub">{day.sub}</div>
         </div>

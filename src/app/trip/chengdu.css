@@ -352,6 +352,11 @@
 .day-date { font-size: 17px; font-weight: 600; color: #fff; }
 .day-weekday { font-size: 11px; color: var(--gold-leaf); opacity: .8; font-weight: 500; }
 .day-tag { flex-shrink: 0; padding: 4px 12px; border-radius: 9999px; font-size: 11px; font-weight: 500; background: rgba(255,255,255,.05); color: var(--on-surface-variant); border: 1px solid rgba(255,255,255,.1); }
+/* Title runs 1-2 lines and the summary 1-2 lines depending on the day's
+   content length — reserve room for the 2-line/2-line worst case so the
+   gallery below starts at the same height on every card instead of
+   drifting up on the shorter days. */
+.day-title-wrap { min-height: 92px; }
 .day-title { font-size: 19px; font-weight: 600; color: #fff; line-height: 1.3; }
 .day-sub { font-size: 12px; color: var(--outline); margin-top: 4px; line-height: 1.6; }
 
