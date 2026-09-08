@@ -325,14 +325,38 @@ const DAYS: DayData[] = [
     title: "乐山大佛 · 黄龙溪古镇一日游",
     sub: "瞻仰千年石刻巨佛的震撼，青石板古镇榕树下品味悠然时光",
     photos: [
+      { folder: "leshan", slot: 1, caption: "乐山大佛" },
       { folder: "huanglongxi", slot: 1, caption: "黄龙溪古镇" },
+      { folder: "leshan", slot: 2, caption: "乐山大佛俯瞰" },
     ],
     activities: [
       {
-        time: "全天",
-        title: "🗿 乐山大佛 + 🏘️ 黄龙溪古镇",
-        desc: "一日游行程，专车往返乐山与黄龙溪。瞻仰世界最大石刻座佛乐山大佛，午后漫步黄龙溪青石板老街，古码头边喝盖碗茶。",
-        badges: [{ text: "📝 行程待确认（预订中）" }],
+        time: "早上",
+        title: "🚐 酒店接送出发",
+        addr: "📍 Pagoda Hotel Chengdu Taikoo Li",
+        desc: "06:00–08:00 期间接送，专车直达乐山。",
+        link: { label: "查看 Klook 行程详情", href: "https://www.klook.com/add-upcoming-trip/?id=7c0f2e45-76d1-4f13-59bc-cafb020f94a5" },
+      },
+      {
+        time: "上午",
+        title: "🗿 乐山大佛",
+        desc: "自由活动约 2 小时，门票已含。瞻仰世界最大石刻座佛，感受千年石刻工艺的震撼。",
+        badges: [{ text: "🎫 门票已含" }],
+      },
+      {
+        time: "中午",
+        title: "🍽️ 中式午餐",
+        desc: "约 1 小时用餐时间。",
+      },
+      {
+        time: "下午",
+        title: "🏘️ 黄龙溪古镇",
+        desc: "自由活动约 2 小时，免费入场。青石板老街，古码头边喝盖碗茶，悠闲惬意。",
+      },
+      {
+        time: "傍晚",
+        title: "🚩 返程送达",
+        desc: "送至指定下车点（金沙遗址博物馆 · 18:00）或自定义地址。",
       },
     ],
   },
