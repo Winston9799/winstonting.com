@@ -144,6 +144,94 @@ function FoodGallery({
   );
 }
 
+// ── WeatherForecast: live 7-day forecast for Chengdu via Open-Meteo (free,
+// no API key, CORS-enabled) — refetches on mount and every 30 minutes while
+// the page stays open, falling back to the static seasonal blurb if the
+// request fails (offline, API down, etc). ─────────────────────────────────
+type DayForecast = { key: string; weekday: string; tMax: number; tMin: number; code: number };
+
+const WEATHER_ICONS: Record<number, string> = {
+  0: "☀️", 1: "🌤️", 2: "⛅", 3: "☁️",
+  45: "🌫️", 48: "🌫️",
+  51: "🌦️", 53: "🌦️", 55: "🌦️",
+  56: "🌧️", 57: "🌧️",
+  61: "🌧️", 63: "🌧️", 65: "🌧️",
+  66: "🌧️", 67: "🌧️",
+  71: "🌨️", 73: "🌨️", 75: "🌨️", 77: "🌨️",
+  80: "🌦️", 81: "🌧️", 82: "⛈️",
+  85: "🌨️", 86: "🌨️",
+  95: "⛈️", 96: "⛈️", 99: "⛈️",
+};
+const WEEKDAYS = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
+
+function WeatherForecast() {
+  const [days, setDays] = useState<DayForecast[] | null>(null);
+  const [error, setError] = useState(false);
+  const [updatedAt, setUpdatedAt] = useState<string | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    async function load() {
+      try {
+        const res = await fetch(
+          "https://api.open-meteo.com/v1/forecast?latitude=30.5728&longitude=104.0668&daily=temperature_2m_max,temperature_2m_min,weathercode&timezone=Asia%2FShanghai&forecast_days=7"
+        );
+        if (!res.ok) throw new Error("bad response");
+        const data = await res.json();
+        if (cancelled) return;
+        const parsed: DayForecast[] = data.daily.time.map((d: string, i: number) => {
+          const date = new Date(`${d}T00:00:00`);
+          return {
+            key: d,
+            weekday: WEEKDAYS[date.getDay()],
+            tMax: Math.round(data.daily.temperature_2m_max[i]),
+            tMin: Math.round(data.daily.temperature_2m_min[i]),
+            code: data.daily.weathercode[i],
+          };
+        });
+        setDays(parsed);
+        setError(false);
+        setUpdatedAt(new Date().toLocaleTimeString("zh-CN", { hour: "2-digit", minute: "2-digit" }));
+      } catch {
+        if (!cancelled) setError(true);
+      }
+    }
+    load();
+    const interval = setInterval(load, 30 * 60 * 1000);
+    return () => {
+      cancelled = true;
+      clearInterval(interval);
+    };
+  }, []);
+
+  if (error) {
+    return (
+      <p style={{ flex: 1 }}>
+        气温 20–28°C，随身备晴雨伞以防华西秋雨。每日预计步行近 2 万步，舒适平底鞋与轻便薄外套必备。
+      </p>
+    );
+  }
+
+  if (!days) {
+    return <p style={{ flex: 1, color: "var(--outline)" }}>正在获取成都实时天气…</p>;
+  }
+
+  return (
+    <div style={{ flex: 1 }}>
+      <div className="weather-row">
+        {days.map((d) => (
+          <div className="weather-day" key={d.key}>
+            <span className="weather-wd">{d.weekday}</span>
+            <span className="weather-icon">{WEATHER_ICONS[d.code] ?? "🌡️"}</span>
+            <span className="weather-temp">{d.tMax}°/{d.tMin}°</span>
+          </div>
+        ))}
+      </div>
+      {updatedAt && <p className="weather-updated">Open-Meteo 实时更新 · {updatedAt}</p>}
+    </div>
+  );
+}
+
 // ── Lightbox ──────────────────────────────────────────────────────────────────
 function Lightbox({
   imgs,
@@ -868,8 +956,8 @@ export default function ChengduTrip() {
           </div>
           <div className="tc glass">
             <div className="tc-head"><div className="fi">👟</div><h3>天气与穿着建议</h3></div>
-            <p style={{ flex: 1 }}>气温 20–28°C，随身备晴雨伞以防华西秋雨。每日预计步行近 2 万步，舒适平底鞋与轻便薄外套必备。</p>
-            <div className="card-foot"><span className="card-foot-l">舒适平底鞋</span><span className="info-chip">20~28°C</span></div>
+            <WeatherForecast />
+            <div className="card-foot"><span className="card-foot-l">舒适平底鞋，随身备伞</span><span className="info-chip">未来7天</span></div>
           </div>
         </div>
       </div>
