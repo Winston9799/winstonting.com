@@ -227,11 +227,10 @@ const DAYS: DayData[] = [
     date: "9月19日",
     weekday: "周六 · 文化慢活",
     tag: "巴适市井",
-    title: "人民公园品茗会嘉嘉 · 宽窄巷子 · 夜市烟火",
-    sub: "百年人民公园偶遇老友品茗采耳，古巷漫步至夜市烟火气收官",
+    title: "老友会嘉嘉 · 宽窄巷子 · 夜市烟火",
+    sub: "老友重逢畅叙旧日情谊，古巷漫步至夜市烟火气收官",
     photos: [
       { folder: "jiajia", slot: 1, caption: "老友嘉嘉" },
-      { folder: "heming-teahouse", slot: 1, caption: "鹤鸣盖碗茶" },
       { folder: "kuanzhai", slot: 1, caption: "宽窄巷子夜韵" },
     ],
     activities: [
@@ -240,12 +239,6 @@ const DAYS: DayData[] = [
         title: "👧 与嘉嘉见面",
         desc: "久别重逢！嘉嘉是成都本地人，约在人民公园地铁站附近碰头，具体时间地点到时微信联系确认。",
         badges: [{ text: "📍 人民公园地铁站附近" }],
-      },
-      {
-        time: "下午",
-        title: "🍵 人民公园 · 鹤鸣茶社",
-        addr: "📍 成都市青羊区少城路12号（人民公园内）",
-        desc: "5 元盖碗茶 + 采耳，最地道的成都慢生活。",
       },
       {
         time: "傍晚",
@@ -265,15 +258,22 @@ const DAYS: DayData[] = [
     date: "9月20日",
     weekday: "周日 · 诗意栖居",
     tag: "诗韵成都",
-    title: "杜甫草堂访古 · 蜀境雅韵宴",
-    sub: "诗圣故居寻访千年诗魂，夜宿蜀宴汉唐乐舞盛典",
+    title: "人民公园品茗 · 杜甫草堂访古 · 蜀境雅韵宴",
+    sub: "百年人民公园品茗采耳，诗圣故居寻访千年诗魂，夜宿蜀宴汉唐乐舞盛典",
     photos: [
+      { folder: "heming-teahouse", slot: 1, caption: "鹤鸣盖碗茶" },
       { folder: "dufu-cottage", slot: 1, caption: "杜甫草堂" },
       { folder: "shu-gong-yan-dinner", slot: 1, caption: "蜀境雅韵宴" },
     ],
     activities: [
       {
-        time: "白天",
+        time: "上午",
+        title: "🍵 人民公园 · 鹤鸣茶社",
+        addr: "📍 成都市青羊区少城路12号（人民公园内）",
+        desc: "5 元盖碗茶 + 采耳，最地道的成都慢生活。",
+      },
+      {
+        time: "下午",
         title: "🏡 杜甫草堂",
         addr: "📍 成都市青羊区青华路37号",
         desc: "诗圣杜甫流寓成都的故居，茅屋、竹林、诗史堂静谧清幽，感受千年前的田园诗意。",
@@ -406,7 +406,7 @@ const DAYS: DayData[] = [
         desc: "漫无目的地溜达才是旅行最好的结尾。顺道补购手信：郫县豆瓣、汉源花椒、熊猫文创。Check-out 12:00，行李可寄存前台。",
       },
       {
-        time: "下午",
+        time: "傍晚",
         title: "✈️ Andy 返程 · SQ843 返新加坡",
         addr: "📍 成都天府国际机场（TFU）T1 航站楼",
         desc: "Andy 今日搭乘 SQ843 返回新加坡，航班时刻与 23 号 Winston 那班一致，仅晚一天出发。出发前 3h 前往机场（TFU T1），打车约 50 分钟（¥120–150）。",
