@@ -144,11 +144,13 @@ function FoodGallery({
   );
 }
 
-// ── WeatherForecast: live 7-day forecast for Chengdu via Open-Meteo (free,
-// no API key, CORS-enabled) — refetches on mount and every 30 minutes while
-// the page stays open, falling back to the static seasonal blurb if the
-// request fails (offline, API down, etc). ─────────────────────────────────
-type DayForecast = { key: string; weekday: string; tMax: number; tMin: number; code: number };
+// ── WeatherForecast: live 16-day forecast for Chengdu via Open-Meteo (free,
+// no API key, CORS-enabled, 16 days is its daily-forecast max) — refetches
+// on mount and every 30 minutes while the page stays open, falling back to
+// the static seasonal blurb if the request fails (offline, API down, etc).
+// The strip scrolls horizontally so all 16 days stay reachable in the card's
+// fixed width. ───────────────────────────────────────────────────────────
+type DayForecast = { key: string; weekday: string; date: string; tMax: number; tMin: number; code: number };
 
 const WEATHER_ICONS: Record<number, string> = {
   0: "☀️", 1: "🌤️", 2: "⛅", 3: "☁️",
@@ -174,7 +176,7 @@ function WeatherForecast() {
     async function load() {
       try {
         const res = await fetch(
-          "https://api.open-meteo.com/v1/forecast?latitude=30.5728&longitude=104.0668&daily=temperature_2m_max,temperature_2m_min,weathercode&timezone=Asia%2FShanghai&forecast_days=7"
+          "https://api.open-meteo.com/v1/forecast?latitude=30.5728&longitude=104.0668&daily=temperature_2m_max,temperature_2m_min,weathercode&timezone=Asia%2FShanghai&forecast_days=16"
         );
         if (!res.ok) throw new Error("bad response");
         const data = await res.json();
@@ -184,6 +186,7 @@ function WeatherForecast() {
           return {
             key: d,
             weekday: WEEKDAYS[date.getDay()],
+            date: `${date.getMonth() + 1}/${date.getDate()}`,
             tMax: Math.round(data.daily.temperature_2m_max[i]),
             tMin: Math.round(data.daily.temperature_2m_min[i]),
             code: data.daily.weathercode[i],
@@ -222,6 +225,7 @@ function WeatherForecast() {
         {days.map((d) => (
           <div className="weather-day" key={d.key}>
             <span className="weather-wd">{d.weekday}</span>
+            <span className="weather-date">{d.date}</span>
             <span className="weather-icon">{WEATHER_ICONS[d.code] ?? "🌡️"}</span>
             <span className="weather-temp">{d.tMax}°/{d.tMin}°</span>
           </div>
@@ -957,7 +961,7 @@ export default function ChengduTrip() {
           <div className="tc glass">
             <div className="tc-head"><div className="fi">👟</div><h3>天气与穿着建议</h3></div>
             <WeatherForecast />
-            <div className="card-foot"><span className="card-foot-l">舒适平底鞋，随身备伞</span><span className="info-chip">未来7天</span></div>
+            <div className="card-foot"><span className="card-foot-l">舒适平底鞋，随身备伞</span><span className="info-chip">未来16天 · 可左右滑动</span></div>
           </div>
         </div>
       </div>
