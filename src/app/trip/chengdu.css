@@ -156,7 +156,13 @@
   z-index: 5;
 }
 .fh-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-.info-card { padding: 24px; display: flex; flex-direction: column; gap: 18px; }
+/* justify-content: space-between (not just gap) so the header row and the
+   final footer row (Check-in/Check-out vs. flight times) land at the same
+   height in both cards — the grid already stretches both cards to equal
+   total height, but without this the shorter card's content just sits at
+   the top, leaving its footer floating above empty space instead of
+   flush with the taller card's. */
+.info-card { padding: 24px; display: flex; flex-direction: column; gap: 18px; justify-content: space-between; }
 .info-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--border-lo); padding-bottom: 14px; }
 .info-head-l { display: flex; align-items: center; gap: 12px; }
 .info-icon {
