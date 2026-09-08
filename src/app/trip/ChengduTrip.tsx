@@ -771,10 +771,10 @@ export default function ChengduTrip() {
         </div>
         <div className="carousel-track" ref={foodTrackRef} onScroll={onFoodTrackScroll}>
           {[
-            ["🍄","爱尚菌野生菌火锅","17号晚首选！菌子季鲜味绝顶，清鲜暖胃。📍锦江区东大街388号香槟广场3楼（春熙路太古里店）。","东大街388号","香槟广场3楼"],
-            ["🥟","经典成都名小吃","甜水面劲道甜辣、抄手鲜香、蛋烘糕（一定要加肉松！）。推荐龙抄手总店 📍锦江区春熙路南段6-8号（近中山广场，地铁2/3号线春熙路站D口）。","春熙路南段6-8号","龙抄手总店"],
-            ["🍲","正宗川菜佳肴","层次丰富、百菜百味，回味悠长。推荐陈麻婆豆腐总店 📍青羊区东华门街51号；陶德砂锅春熙路店 📍锦江区总府路8号鸿德春熙中心3F；吃客 📍锦江区致民路48号（新南门地铁站B口）。","青羊区 · 锦江区","陈麻婆·陶德·吃客"],
-          ].map(([icon, name, desc, foot, chip]) => (
+            ["🍄","爱尚菌野生菌火锅","17号晚首选！菌子季鲜味绝顶，清鲜暖胃，完美第一晚。","📍锦江区东大街388号香槟广场3楼（春熙路太古里店）"],
+            ["🥟","经典成都名小吃","甜水面劲道甜辣、抄手鲜香、蛋烘糕（一定要加肉松！），推荐龙抄手总店。","📍锦江区春熙路南段6-8号龙抄手总店（近中山广场，地铁2/3号线春熙路站D口）"],
+            ["🍲","正宗川菜佳肴","层次丰富、百菜百味，回味悠长，推荐陈麻婆豆腐、陶德砂锅、吃客三家老字号。","📍陈麻婆豆腐：青羊区东华门街51号 · 陶德砂锅：锦江区总府路8号鸿德春熙中心3F · 吃客：锦江区致民路48号"],
+          ].map(([icon, name, desc, addr]) => (
             <div className="food-card" key={name}>
               <div className="fc glass">
                 <div className="fc-head"><div className="fi">{icon}</div><h3>{name}</h3></div>
@@ -784,7 +784,7 @@ export default function ChengduTrip() {
                   <div className="fc-photo-tile" />
                   <div className="fc-photo-tile" />
                 </div>
-                <div className="card-foot"><span className="card-foot-l">{foot}</span><span className="info-chip">{chip}</span></div>
+                <div className="card-foot"><span className="card-foot-l">{addr}</span></div>
               </div>
             </div>
           ))}
