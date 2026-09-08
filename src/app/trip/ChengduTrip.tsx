@@ -30,7 +30,7 @@ function DayGallery({
   openLb,
 }: {
   items: GalleryItem[];
-  openLb: (imgs: string[], idx: number, cap: string) => void;
+  openLb: (imgs: string[], idx: number, caps: string[]) => void;
 }) {
   // Tiles start unset and are only populated after mount — otherwise the
   // browser can start fetching the guessed src straight from the
@@ -60,7 +60,7 @@ function DayGallery({
     openLb(
       visible.map((v) => v.src),
       pos >= 0 ? pos : 0,
-      items[clickedI]?.caption ?? ""
+      visible.map((v) => items[v.origIdx]?.caption ?? "")
     );
   }
 
@@ -89,7 +89,7 @@ function FoodGallery({
 }: {
   folder: string;
   name: string;
-  openLb: (imgs: string[], idx: number, cap: string) => void;
+  openLb: (imgs: string[], idx: number, caps: string[]) => void;
 }) {
   type Tile = { src: string; hidden: boolean };
   const [tiles, setTiles] = useState<Tile[] | null>(null);
@@ -112,7 +112,7 @@ function FoodGallery({
       .map((t, i) => ({ ...t, origIdx: i }))
       .filter((t) => !t.hidden);
     const pos = visible.findIndex((v) => v.origIdx === clickedI);
-    openLb(visible.map((v) => v.src), pos >= 0 ? pos : 0, name);
+    openLb(visible.map((v) => v.src), pos >= 0 ? pos : 0, visible.map(() => name));
   }
 
   if (!tiles || !tiles.some((t) => !t.hidden)) {
@@ -148,14 +148,14 @@ function FoodGallery({
 function Lightbox({
   imgs,
   idx,
-  cap,
+  caps,
   onClose,
   onNav,
   onGoto,
 }: {
   imgs: string[];
   idx: number;
-  cap: string;
+  caps: string[];
   onClose: () => void;
   onNav: (d: number) => void;
   onGoto: (i: number) => void;
@@ -185,7 +185,7 @@ function Lightbox({
             <div key={i} className={`lb-dot${i === idx ? " on" : ""}`} onClick={() => onGoto(i)} />
           ))}
         </div>
-        <p className="lb-cap">{cap}</p>
+        <p className="lb-cap">{caps[idx]}</p>
       </div>
       <span className="lb-nav lb-next" onClick={() => onNav(1)}>›</span>
     </div>
@@ -514,7 +514,7 @@ const DayCard = memo(function DayCard({
   day: DayData;
   isActive: boolean;
   onSelect: (num: number) => void;
-  openLb: (imgs: string[], idx: number, cap: string) => void;
+  openLb: (imgs: string[], idx: number, caps: string[]) => void;
 }) {
   return (
     <div className="day-card">
@@ -663,7 +663,7 @@ function useCarousel(itemSelector: string, onLeadingIndexChange?: (index: number
 
 // ── Main ChengduTrip component ────────────────────────────────────────────────
 export default function ChengduTrip() {
-  const [lb, setLb] = useState({ open: false, imgs: [] as string[], idx: 0, cap: "" });
+  const [lb, setLb] = useState({ open: false, imgs: [] as string[], idx: 0, caps: [] as string[] });
   const [activeDay, setActiveDay] = useState(DAYS[0].num);
   const onDayIndexChange = useCallback((index: number) => {
     setActiveDay(DAYS[Math.min(DAYS.length - 1, index)].num);
@@ -675,8 +675,8 @@ export default function ChengduTrip() {
   // would defeat it just as much as skipping memo() entirely.
   const onSelectDay = useCallback((num: number) => setActiveDay(num), []);
 
-  const openLb = useCallback((imgs: string[], idx: number, cap: string) =>
-    setLb({ open: true, imgs, idx, cap }), []);
+  const openLb = useCallback((imgs: string[], idx: number, caps: string[]) =>
+    setLb({ open: true, imgs, idx, caps }), []);
   const closeLb = () => setLb((s) => ({ ...s, open: false }));
   const navLb = (d: number) =>
     setLb((s) => ({ ...s, idx: (s.idx + d + s.imgs.length) % s.imgs.length }));
@@ -888,7 +888,7 @@ export default function ChengduTrip() {
         <Lightbox
           imgs={lb.imgs}
           idx={lb.idx}
-          cap={lb.cap}
+          caps={lb.caps}
           onClose={closeLb}
           onNav={navLb}
           onGoto={gotoLb}
