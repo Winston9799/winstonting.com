@@ -263,19 +263,20 @@ const DAYS: DayData[] = [
   {
     num: 4,
     date: "9月20日",
-    weekday: "周日 · 名山胜水",
-    tag: "天地之美",
-    title: "都江堰奇迹 · 青城天下幽 · 蜀境雅韵宴",
-    sub: "千年水利工程灌溉天府，道教发源幽静山林，夜宿蜀宴汉唐乐舞盛典",
+    weekday: "周日 · 诗意栖居",
+    tag: "诗韵成都",
+    title: "杜甫草堂访古 · 蜀境雅韵宴",
+    sub: "诗圣故居寻访千年诗魂，夜宿蜀宴汉唐乐舞盛典",
     photos: [
-      { folder: "dujiangyan-qingcheng", slot: 1, caption: "都江堰 · 青城山" },
+      { folder: "dufu-cottage", slot: 1, caption: "杜甫草堂" },
       { folder: "shu-gong-yan-dinner", slot: 1, caption: "蜀境雅韵宴" },
     ],
     activities: [
       {
-        time: "全天",
-        title: "💧 都江堰水利工程 + ⛰️ 青城山",
-        desc: "成灌快铁犀浦站出发约 40 分钟，两景区打车串联约 ¥60。观鱼嘴分水堤、飞沙堰与安澜索桥；青城山有超萌自拍熊猫！",
+        time: "白天",
+        title: "🏡 杜甫草堂",
+        addr: "📍 成都市青羊区青华路37号",
+        desc: "诗圣杜甫流寓成都的故居，茅屋、竹林、诗史堂静谧清幽，感受千年前的田园诗意。",
       },
       {
         time: "晚上",
