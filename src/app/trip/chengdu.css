@@ -188,7 +188,7 @@
 .info-list { display: flex; flex-direction: column; gap: 8px; font-size: 12px; color: var(--on-surface-variant); }
 .info-list-item { display: flex; align-items: flex-start; gap: 8px; }
 .info-foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; padding-top: 12px; border-top: 1px solid var(--border-lo); font-size: 11px; color: var(--outline); }
-.info-chip { padding: 2px 8px; border-radius: 0.25rem; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1); color: var(--on-surface-variant); }
+.info-chip { padding: 2px 8px; border-radius: 0.25rem; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1); color: var(--on-surface-variant); font-size: 11px; }
 
 /* ── Sections ─────────────────────────────────────────────────────────────── */
 .sec { max-width: 1100px; margin: 0 auto; padding: 60px 24px; }
