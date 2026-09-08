@@ -409,6 +409,7 @@
    for a real <img> (same fallback pattern as DayGallery) once photos exist. */
 .fc-gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; flex-shrink: 0; }
 .fc-photo-tile { height: 68px; border-radius: 0.5rem; border: 1px solid rgba(255,255,255,.1); }
+.fc-photo-img { display: block; width: 100%; object-fit: cover; cursor: pointer; }
 
 /* Tile 1 — soft rounded glow shapes on near-black */
 .fc-photo-tile:nth-child(1) {

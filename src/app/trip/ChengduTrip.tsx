@@ -80,6 +80,70 @@ function DayGallery({
   );
 }
 
+// ── FoodGallery: same extension-fallback tile grid as DayGallery, but for the
+// food-list cards — 3 photos from one folder, no per-photo captions ──────────
+function FoodGallery({
+  folder,
+  name,
+  openLb,
+}: {
+  folder: string;
+  name: string;
+  openLb: (imgs: string[], idx: number, cap: string) => void;
+}) {
+  type Tile = { src: string; hidden: boolean };
+  const [tiles, setTiles] = useState<Tile[] | null>(null);
+
+  useEffect(() => {
+    setTiles([1, 2, 3].map((slot) => ({ src: `/images/${folder}/${slot}.jpg`, hidden: false })));
+  }, [folder]);
+
+  function handleError(i: number) {
+    setTiles((prev) => {
+      if (!prev) return prev;
+      const n = nextSrc(prev[i].src);
+      return prev.map((t, j) => (j !== i ? t : n ? { ...t, src: n } : { ...t, hidden: true }));
+    });
+  }
+
+  function handleClick(clickedI: number) {
+    if (!tiles) return;
+    const visible = tiles
+      .map((t, i) => ({ ...t, origIdx: i }))
+      .filter((t) => !t.hidden);
+    const pos = visible.findIndex((v) => v.origIdx === clickedI);
+    openLb(visible.map((v) => v.src), pos >= 0 ? pos : 0, name);
+  }
+
+  if (!tiles || !tiles.some((t) => !t.hidden)) {
+    return (
+      <div className="fc-gallery">
+        <div className="fc-photo-tile" />
+        <div className="fc-photo-tile" />
+        <div className="fc-photo-tile" />
+      </div>
+    );
+  }
+
+  return (
+    <div className="fc-gallery">
+      {tiles.map((tile, i) =>
+        tile.hidden ? null : (
+          <img
+            key={tile.src}
+            decoding="async"
+            src={tile.src}
+            alt={name}
+            className="fc-photo-tile fc-photo-img"
+            onClick={() => handleClick(i)}
+            onError={() => handleError(i)}
+          />
+        )
+      )}
+    </div>
+  );
+}
+
 // ── Lightbox ──────────────────────────────────────────────────────────────────
 function Lightbox({
   imgs,
@@ -771,19 +835,15 @@ export default function ChengduTrip() {
         </div>
         <div className="carousel-track" ref={foodTrackRef} onScroll={onFoodTrackScroll}>
           {[
-            ["🍄","爱尚菌野生菌火锅","17号晚首选！菌子季鲜味绝顶，清鲜暖胃，完美第一晚。","📍锦江区东大街388号香槟广场3楼（春熙路太古里店）"],
-            ["🥟","经典成都名小吃","甜水面劲道甜辣、抄手鲜香、蛋烘糕（一定要加肉松！），推荐龙抄手总店。","📍锦江区春熙路南段6-8号龙抄手总店（近中山广场，地铁2/3号线春熙路站D口）"],
-            ["🍲","正宗川菜佳肴","层次丰富、百菜百味，回味悠长，推荐陈麻婆豆腐、陶德砂锅、吃客三家老字号。","📍陈麻婆豆腐：青羊区东华门街51号 · 陶德砂锅：锦江区总府路8号鸿德春熙中心3F · 吃客：锦江区致民路48号"],
-          ].map(([icon, name, desc, addr]) => (
+            ["🍄","爱尚菌野生菌火锅","17号晚首选！菌子季鲜味绝顶，清鲜暖胃，完美第一晚。","📍锦江区东大街388号香槟广场3楼（春熙路太古里店）","food-junzi"],
+            ["🥟","经典成都名小吃","甜水面劲道甜辣、抄手鲜香、蛋烘糕（一定要加肉松！），推荐龙抄手总店。","📍锦江区春熙路南段6-8号龙抄手总店（近中山广场，地铁2/3号线春熙路站D口）","food-longchaoshou"],
+            ["🍲","正宗川菜佳肴","层次丰富、百菜百味，回味悠长，推荐陈麻婆豆腐、陶德砂锅、吃客三家老字号。","📍陈麻婆豆腐：青羊区东华门街51号 · 陶德砂锅：锦江区总府路8号鸿德春熙中心3F · 吃客：锦江区致民路48号","food-mapo"],
+          ].map(([icon, name, desc, addr, folder]) => (
             <div className="food-card" key={name}>
               <div className="fc glass">
                 <div className="fc-head"><div className="fi">{icon}</div><h3>{name}</h3></div>
                 <p style={{ flex: 1 }}>{desc}</p>
-                <div className="fc-gallery">
-                  <div className="fc-photo-tile" />
-                  <div className="fc-photo-tile" />
-                  <div className="fc-photo-tile" />
-                </div>
+                <FoodGallery folder={folder} name={name} openLb={openLb} />
                 <div className="card-foot"><span className="card-foot-l">{addr}</span></div>
               </div>
             </div>
