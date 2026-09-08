@@ -301,11 +301,11 @@ const DAYS: DayData[] = [
     date: "9月21日",
     weekday: "周一 · 古蜀寻踪",
     tag: "文明探秘",
-    title: "三星堆探秘 · 武侯祠红墙 · 锦里夜游",
-    sub: "三千年前古蜀文明震撼首选，漫步武侯祠红墙竹影，穿梭锦里大红灯笼夜市",
+    title: "三星堆探秘 · 东郊记忆大戏台",
+    sub: "三千年前古蜀文明震撼首选，工业遗址变身文创园，夜赏川剧变脸大戏台",
     photos: [
       { folder: "sanxingdui", slot: 1, caption: "三星堆博物馆" },
-      { folder: "wuhouci-jinli", slot: 1, caption: "武侯祠 · 锦里" },
+      { folder: "dongjiaojiyi", slot: 1, caption: "东郊记忆大戏台" },
     ],
     activities: [
       {
@@ -316,9 +316,10 @@ const DAYS: DayData[] = [
       },
       {
         time: "傍晚",
-        title: "⚔️ 武侯祠 → 🏮 锦里夜景",
-        addr: "📍 武侯祠：成都市武侯区武侯祠大街231号 · 锦里：武侯祠大街251号",
-        desc: "三星堆返回市区后前往武侯祠，锦里夜晚 8 点后最迷人。",
+        title: "🎭 东郊记忆 → 大戏台夜场",
+        addr: "📍 成都市成华区建设南路99号（东郊记忆北二巷）",
+        desc: "三星堆返回市区后打车约 30 分钟直达，逛逛工业遗址文创园区，傍晚大戏台戏曲专场约 80 分钟（川剧折子戏、变脸吐火等），257 席位，建议提前订票。",
+        badges: [{ text: "🎫 建议提前订票" }],
       },
     ],
   },
@@ -371,13 +372,20 @@ const DAYS: DayData[] = [
     date: "9月23日",
     weekday: "周三 · 慢调闲适",
     tag: "慢调漫步",
-    title: "芳草街 Citywalk · Winston 提前返程",
-    sub: "深入老成都社区肌理，穿梭文艺独立书店与隐秘小巷，傍晚 Winston 先行飞返新加坡",
+    title: "武侯祠寻踪 · 芳草街 Citywalk · Winston 提前返程",
+    sub: "红墙竹影漫步武侯祠，深入老成都社区肌理，傍晚 Winston 先行飞返新加坡",
     photos: [
+      { folder: "wuhouci-jinli", slot: 1, caption: "武侯祠红墙" },
       { folder: "fangcao-citywalk", slot: 1, caption: "芳草街 · 华姿路" },
       { folder: "tfu-airport", slot: 1, caption: "天府 T1 候机" },
     ],
     activities: [
+      {
+        time: "上午",
+        title: "⚔️ 武侯祠",
+        addr: "📍 成都市武侯区武侯祠大街231号",
+        desc: "红墙竹影，三国文化圣地，静谧清幽。跟芳草街同在武侯区，逛完打车过去很顺。",
+      },
       {
         time: "下午",
         title: "🚶 芳草街 → 华姿路 漫游",
