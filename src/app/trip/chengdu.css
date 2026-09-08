@@ -430,6 +430,11 @@
 .tc ul { font-size: 12px; color: var(--on-surface-variant); line-height: 1.8; padding-left: 16px; }
 .card-foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding-top: 12px; border-top: 1px solid var(--border-lo); font-size: 11px; }
 .card-foot-l { color: var(--gold-leaf); font-weight: 500; }
+/* Food cards' addresses vary from 1 to 2 lines — reserve room for 2 so the
+   pin icon starts at the same height across cards instead of drifting down
+   on the shorter ones. */
+.food-card .card-foot { align-items: flex-start; }
+.food-card .card-foot-l { line-height: 1.6; min-height: 3.2em; }
 
 /* ── Outro ────────────────────────────────────────────────────────────────── */
 .outro {
