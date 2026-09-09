@@ -975,6 +975,20 @@ export default function ChengduTrip() {
             <div className="info-list-item"><span style={{ color: "var(--gold-leaf)" }}>🧳</span><span>行李可托运额度 30 公斤</span></div>
             <div className="info-list-item"><span style={{ color: "var(--gold-leaf)" }}>📱</span><span>可在 Pelago 兑换 3 天 2GB 免费 eSIM</span></div>
           </div>
+          <a
+            className="a-cta"
+            href="https://t12.email.singaporeair.com/r/?id=h75d370e2,c116e7,11a01fe"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ marginTop: 0 }}
+          >
+            <span>现在兑换</span>
+            <svg className="a-cta-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.25} strokeLinecap="round" strokeLinejoin="round">
+              <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" />
+              <path d="M15 3h6v6" />
+              <path d="M10 14L21 3" />
+            </svg>
+          </a>
           <div className="info-foot">
             <span style={{ color: "var(--gold-leaf)", opacity: .9 }}>直飞无时差 (两地均为 UTC+8)</span>
             <span className="info-chip">提前 2.5h 抵机场候机</span>
