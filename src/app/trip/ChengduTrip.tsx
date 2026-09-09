@@ -972,6 +972,8 @@ export default function ChengduTrip() {
 
           <div className="info-list">
             <div className="info-list-item"><span style={{ color: "var(--gold-leaf)" }}>📶</span><span>全程机上 Wi-Fi，登机后可连接；不妨点一杯经典鸡尾酒 Singapore Sling</span></div>
+            <div className="info-list-item"><span style={{ color: "var(--gold-leaf)" }}>🧳</span><span>行李可托运额度 30 公斤</span></div>
+            <div className="info-list-item"><span style={{ color: "var(--gold-leaf)" }}>📱</span><span>可在 Pelago 兑换 3 天 2GB 免费 eSIM</span></div>
           </div>
           <div className="info-foot">
             <span style={{ color: "var(--gold-leaf)", opacity: .9 }}>直飞无时差 (两地均为 UTC+8)</span>
