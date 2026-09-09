@@ -23,7 +23,7 @@ function nextSrc(src: string): string | null {
 
 // ── CopyAddr: address text + a copy-to-clipboard icon button — briefly
 // swaps to a checkmark on success so tapping it gives visible feedback. ───
-function CopyAddr({ addr }: { addr: string }) {
+function CopyAddr({ addr, textClassName = "a-addr" }: { addr: string; textClassName?: string }) {
   const [copied, setCopied] = useState(false);
 
   async function handleCopy() {
@@ -39,7 +39,7 @@ function CopyAddr({ addr }: { addr: string }) {
 
   return (
     <div className="a-addr-row">
-      <span className="a-addr">{addr}</span>
+      <span className={textClassName}>{addr}</span>
       <button
         type="button"
         className={`a-copy-btn${copied ? " copied" : ""}`}
@@ -338,6 +338,21 @@ function ExchangeRate() {
   );
 }
 
+// ── HotelMap: Google's key-less search embed (maps.google.com/maps?q=...
+// &output=embed) — Google resolves the address text server-side, which for
+// a China address like this one lands precisely on the actual building
+// (OSM's street-level China coverage is patchy and only got the nearest
+// mapped road). No fetch needed: the address goes straight into the iframe
+// src, so there's no loading/failure state to handle here. ───────────────
+function HotelMap({ address }: { address: string }) {
+  const src = `https://www.google.com/maps?q=${encodeURIComponent(address)}&output=embed`;
+  return (
+    <div className="hotel-map">
+      <iframe src={src} title="酒店地图位置" loading="lazy" />
+    </div>
+  );
+}
+
 // ── Lightbox ──────────────────────────────────────────────────────────────────
 function Lightbox({
   imgs,
@@ -411,10 +426,10 @@ const DAYS: DayData[] = [
   {
     num: 1,
     date: "9月17日",
-    weekday: "周四 · 启程抵蓉",
+    weekday: "周四",
     tag: "轻松漫游",
     title: "飞抵成都 · 初见繁华夜景",
-    sub: "入住Pagoda君亭设计酒店，品尝野生菌火锅，漫步锦江之夜",
+    sub: "落地首夜，快速安顿",
     photos: [
       { folder: "changi", slot: 1, caption: "SQ842 启航" },
       { folder: "pagoda-hotel", slot: 1, caption: "Pagoda 酒店" },
@@ -424,13 +439,13 @@ const DAYS: DayData[] = [
       {
         time: "早上",
         title: "✈️ SQ842 樟宜 T3 起飞 (12:25 - 17:10)",
-        desc: "约 10:00 抵达新加坡樟宜 T3，前往 Marhaba Lounge 候机。直飞 4h45m 舒适落地下榻。",
+        desc: "约 10:00 抵达樟宜 T3，前往 Marhaba Lounge 候机，直飞 4h45m。",
         badges: [{ text: "提前 2.5h 抵达 T3" }, { text: "☕ Marhaba Lounge 歇息" }],
       },
       {
         time: "傍晚",
         title: "🏨 入住 Pagoda Design Hotel (成都春熙路太古里店)",
-        desc: "机场至酒店约 50km，约 50 分钟。接机未预订，备选：① Klook预定机场接送　② 直接机场打车（¥120–150）。办理入住高楼层城景双床房。",
+        desc: "机场至酒店约 50km、50 分钟。接机未预订，备选 Klook 接送或打车。办理入住高楼层城景双床房。",
       },
       {
         time: "晚餐",
@@ -443,22 +458,17 @@ const DAYS: DayData[] = [
         time: "夜晚",
         title: "🌉 九眼桥 · 锦江夜色",
         addr: "📍 成都市锦江区九眼桥（合江亭附近）",
-        desc: "饭后打车约 10-15 分钟，桥头酒吧一条街，锦江夜景灯光很出片，河边散步收尾第一晚。",
-      },
-      {
-        time: "备选",
-        title: "🚤 锦江夜游船",
-        desc: "夜场 19:00-22:30，票价约 ¥70-120，合江亭 / 望江公园等码头上船，途经九眼桥、兰桂坊，沿岸光影秀、水幕喷泉，可代替河边散步。",
+        desc: "饭后打车约 10-15 分钟，桥头酒吧一条街，河边散步；或体验锦江夜游船（19:00-22:30，¥70-120，合江亭/望江公园上船，光影秀水幕喷泉），收尾第一晚。",
       },
     ],
   },
   {
     num: 2,
     date: "9月18日",
-    weekday: "周五 · 必看必玩",
+    weekday: "周五",
     tag: "核心必游",
     title: "熊猫谷探秘 · 都江堰水利工程一日游",
-    sub: "清晨专车直达熊猫谷静赏国宝萌态，下午探秘两千年无坝引水智慧",
+    sub: "全天专车，无需操心",
     photos: [
       { folder: "panda-base", slot: 1, caption: "国宝大熊猫" },
       { folder: "panda-base", slot: 4, caption: "害羞小熊猫" },
@@ -488,10 +498,10 @@ const DAYS: DayData[] = [
   {
     num: 3,
     date: "9月19日",
-    weekday: "周六 · 文化慢活",
+    weekday: "周六",
     tag: "巴适市井",
     title: "文殊院禅意 · 宽窄巷子采耳 · 抚琴夜市",
-    sub: "嘉嘉专属定制一日路线：古刹寻幽品茶，市井漫步采耳，夜访本地人气夜市",
+    sub: "老友相伴，慢享一天",
     photos: [
       { folder: "wenshu", slot: 1, caption: "文殊院红墙" },
       { folder: "jiajia", slot: 1, caption: "老友嘉嘉" },
@@ -500,14 +510,9 @@ const DAYS: DayData[] = [
     activities: [
       {
         time: "上午",
-        title: "🙏 文殊院",
+        title: "🙏 文殊院 → 荷花茶园",
         addr: "📍 地铁1/6号线文殊院站K口出站",
-        desc: "10:00-11:30，免费入场，进门可领三支香。逛红墙古刹，拜文殊菩萨，感受千年古刹的宁静。",
-      },
-      {
-        time: "上午",
-        title: "🍵 荷花茶园",
-        desc: "11:30-12:30，二选一：文殊院内传统茶馆（可看川剧变脸，民俗风情浓）；或文殊坊内荷田水铺·文殊院店（新式国潮茶馆，三楼屋顶露台拍照出片）。",
+        desc: "10:00-12:30。先游文殊院（免费入场，可领三支香）；11:30后转荷花茶园二选一：传统茶馆（看变脸）或荷田水铺（国潮风，三楼露台拍照）。",
       },
       {
         time: "中午",
@@ -516,14 +521,9 @@ const DAYS: DayData[] = [
       },
       {
         time: "下午",
-        title: "🏘️ 宽窄巷子",
-        desc: "14:00-16:00，从文殊院步行或骑共享单车约15-20分钟。宽巷子、窄巷子、井巷子三巷合一，老建筑里感受老成都市井气息。",
-      },
-      {
-        time: "下午",
-        title: "👂 采耳体验 · 宽窄耳匠采耳",
-        addr: "📍 宽窄巷子附近居民楼内",
-        desc: "16:00-17:30，环境安静、技师专业，基础项目约30-60分钟，约¥100，可提前网上搜团购套餐。",
+        title: "🏘️ 宽窄巷子 → 采耳体验",
+        addr: "📍 宽窄巷子附近居民楼内（宽窄耳匠采耳）",
+        desc: "14:00-17:30。先逛宽窄巷子（宽巷子窄巷子井巷子，老成都市井气息，从文殊院步行/骑车约15-20分钟）；16:00起体验采耳，30-60分钟，约¥100，可搜团购。",
       },
       {
         time: "晚上",
@@ -535,10 +535,10 @@ const DAYS: DayData[] = [
   {
     num: 4,
     date: "9月20日",
-    weekday: "周日 · 诗意栖居",
+    weekday: "周日",
     tag: "诗韵成都",
     title: "人民公园品茗 · 杜甫草堂访古 · 蜀境雅韵宴",
-    sub: "百年人民公园品茗采耳，诗圣故居寻访千年诗魂，夜宿蜀宴汉唐乐舞盛典",
+    sub: "百年茶社，夜宴压轴",
     photos: [
       { folder: "heming-teahouse", slot: 1, caption: "鹤鸣盖碗茶" },
       { folder: "dufu-cottage", slot: 1, caption: "杜甫草堂" },
@@ -573,10 +573,10 @@ const DAYS: DayData[] = [
   {
     num: 5,
     date: "9月21日",
-    weekday: "周一 · 古蜀寻踪",
+    weekday: "周一",
     tag: "文明探秘",
     title: "三星堆探秘 · 东郊记忆大戏台",
-    sub: "三千年前古蜀文明震撼首选，工业遗址变身文创园，夜赏川剧变脸大戏台",
+    sub: "跨越千年，夜赏戏韵",
     photos: [
       { folder: "sanxingdui", slot: 1, caption: "三星堆博物馆" },
       { folder: "dongjiaojiyi", slot: 2, caption: "东郊记忆" },
@@ -601,10 +601,10 @@ const DAYS: DayData[] = [
   {
     num: 6,
     date: "9月22日",
-    weekday: "周二 · 山水禅意",
+    weekday: "周二",
     tag: "巴蜀山水",
     title: "乐山大佛 · 黄龙溪古镇一日游",
-    sub: "瞻仰千年石刻巨佛的震撼，青石板古镇榕树下品味悠然时光",
+    sub: "全天包车，轻松惬意",
     photos: [
       { folder: "leshan", slot: 1, caption: "乐山大佛" },
       { folder: "huanglongxi", slot: 1, caption: "黄龙溪古镇" },
@@ -613,31 +613,19 @@ const DAYS: DayData[] = [
     activities: [
       {
         time: "早上",
-        title: "🚐 酒店接送出发",
-        addr: "📍 Pagoda Hotel Chengdu Taikoo Li",
-        desc: "06:00–08:00 期间接送，专车直达乐山。",
-      },
-      {
-        time: "上午",
-        title: "🗿 乐山大佛",
-        desc: "自由活动约 2 小时，门票已含。瞻仰世界最大石刻座佛，感受千年石刻工艺的震撼。",
+        title: "🚐 接送出发 → 乐山大佛",
+        desc: "06:00–08:00 专车接送直达乐山，抵达后自由活动约 2 小时，瞻仰世界最大石刻座佛，感受千年石刻震撼。",
         badges: [{ text: "🎫 门票已含" }],
       },
       {
         time: "中午",
-        title: "🍽️ 中式午餐",
-        desc: "约 1 小时用餐时间。",
-      },
-      {
-        time: "下午",
-        title: "🏘️ 黄龙溪古镇",
-        desc: "自由活动约 2 小时，免费入场。青石板老街，古码头边喝盖碗茶，悠闲惬意。",
+        title: "🍽️ 午餐 → 黄龙溪古镇",
+        desc: "约 1 小时用餐后前往黄龙溪，自由活动约 2 小时（免费入场），青石板老街古码头喝盖碗茶，悠闲惬意。",
       },
       {
         time: "傍晚",
         title: "🚩 返程送达",
         desc: "送至指定下车点（金沙遗址博物馆 · 18:00）或自定义地址。",
-        badges: [{ text: "🚐 06:00–08:00 接送出发" }],
         link: { label: "查看 Klook 行程详情", href: "https://www.klook.com/add-upcoming-trip/?id=7c0f2e45-76d1-4f13-59bc-cafb020f94a5" },
       },
     ],
@@ -645,10 +633,10 @@ const DAYS: DayData[] = [
   {
     num: 7,
     date: "9月23日",
-    weekday: "周三 · 慢调闲适",
+    weekday: "周三",
     tag: "慢调漫步",
     title: "武侯祠寻踪 · 芳草街 Citywalk · Winston 提前返程",
-    sub: "红墙竹影漫步武侯祠，深入老成都社区肌理，傍晚 Winston 先行飞返新加坡",
+    sub: "老友惜别，先行返程",
     photos: [
       { folder: "wuhouci-jinli", slot: 1, caption: "武侯祠红墙" },
       { folder: "fangcao-citywalk", slot: 1, caption: "芳草街 · 华姿路" },
@@ -679,10 +667,10 @@ const DAYS: DayData[] = [
   {
     num: 8,
     date: "9月24日",
-    weekday: "周四 · 满载而归",
+    weekday: "周四",
     tag: "圆满收官",
     title: "川味手信采买 · Andy SQ843 飞返新加坡",
-    sub: "满载天府香辣美味与非遗回忆，Andy 乘新航 SQ843 荣耀返抵樟宜",
+    sub: "自由半天，满载而归",
     photos: [
       { folder: "free-day", slot: 1, caption: "成都最后一天" },
       { folder: "tfu-airport", slot: 1, caption: "天府 T1 候机" },
@@ -940,30 +928,48 @@ export default function ChengduTrip() {
               </div>
             </div>
           </div>
-          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            <div className="flight-leg">
-              <div className="flight-leg-top">
-                <span className="flight-leg-num">去程 · SQ 842</span>
-                <span className="flight-leg-when">9月17日 (周四) · 4h 45m</span>
+          <div className="route-arc">
+            <div className="route-arc-label">去程 · SQ 842 · 9月17日 (周四) · 4h45m 直飞</div>
+            <svg viewBox="0 0 400 50" className="route-arc-svg">
+              <line x1="30" y1="25" x2="370" y2="25" stroke="rgba(212,160,23,.35)" strokeWidth="2" strokeDasharray="1 8" strokeLinecap="round" />
+              <circle cx="30" cy="25" r="5" fill="var(--gold-bright)" />
+              <circle cx="370" cy="25" r="5" fill="var(--gold-bright)" />
+              <g transform="translate(200 25) rotate(-30) scale(0.85) translate(-12,-12)">
+                <path d="M2,21L23,12L2,3V10L17,12L2,14V21Z" fill="var(--gold-bright)" />
+              </g>
+            </svg>
+            <div className="route-arc-labels">
+              <div className="route-arc-node">
+                <span className="route-arc-code">SIN</span>
+                <span className="route-arc-time">12:25</span>
               </div>
-              <div className="flight-leg-route">
-                <span>🇸🇬 SIN 樟宜 T3 <span style={{ color: "var(--gold-leaf)", fontWeight: 400, fontSize: 11 }}>12:25</span></span>
-                <span style={{ color: "var(--outline)" }}>➔</span>
-                <span>🇨🇳 TFU 天府 T1 <span style={{ color: "var(--gold-leaf)", fontWeight: 400, fontSize: 11 }}>17:10</span></span>
-              </div>
-            </div>
-            <div className="flight-leg">
-              <div className="flight-leg-top">
-                <span className="flight-leg-num">返程 · SQ 843</span>
-                <span className="flight-leg-when">9月24日 (周四) · 约 4h</span>
-              </div>
-              <div className="flight-leg-route">
-                <span>🇨🇳 TFU 天府 T1</span>
-                <span style={{ color: "var(--outline)" }}>➔</span>
-                <span>🇸🇬 SIN 樟宜 T3</span>
+              <div className="route-arc-node" style={{ alignItems: "flex-end" }}>
+                <span className="route-arc-code">TFU</span>
+                <span className="route-arc-time">17:10</span>
               </div>
             </div>
           </div>
+
+          <div className="route-arc">
+            <div className="route-arc-label">返程 · SQ 843 · 9月23/24日 (Winston/Andy 分批) · 约4h</div>
+            <svg viewBox="0 0 400 50" className="route-arc-svg">
+              <line x1="30" y1="25" x2="370" y2="25" stroke="rgba(212,160,23,.35)" strokeWidth="2" strokeDasharray="1 8" strokeLinecap="round" />
+              <circle cx="30" cy="25" r="5" fill="var(--gold-bright)" />
+              <circle cx="370" cy="25" r="5" fill="var(--gold-bright)" />
+              <g transform="translate(200 25) rotate(-150) scale(0.85) translate(-12,-12)">
+                <path d="M2,21L23,12L2,3V10L17,12L2,14V21Z" fill="var(--gold-bright)" />
+              </g>
+            </svg>
+            <div className="route-arc-labels">
+              <div className="route-arc-node">
+                <span className="route-arc-code">TFU</span>
+              </div>
+              <div className="route-arc-node" style={{ alignItems: "flex-end" }}>
+                <span className="route-arc-code">SIN</span>
+              </div>
+            </div>
+          </div>
+
           <div className="info-list">
             <div className="info-list-item"><span style={{ color: "var(--gold-leaf)" }}>📶</span><span>全程机上 Wi-Fi，登机后可连接；不妨点一杯经典鸡尾酒 Singapore Sling</span></div>
           </div>
@@ -979,10 +985,11 @@ export default function ChengduTrip() {
               <span className="info-icon">🏨</span>
               <div>
                 <div className="info-title">Pagoda君亭设计酒店 (成都春熙路太古里店)</div>
-                <div className="info-sub">Pagoda Design Hotel Chengdu</div>
+                <div className="info-sub">🛬 抵达 TFU 天府机场后入住</div>
               </div>
             </div>
           </div>
+          <HotelMap address="成都市锦江区华兴东街16号" />
           <div className="info-list">
             <div className="info-list-item"><span style={{ color: "var(--gold-leaf)" }}>📍</span><span>锦江区华兴东街16号 · 步行5分钟即达远洋太古里与春熙路</span></div>
             <div className="info-list-item"><span style={{ color: "var(--gold-leaf)" }}>🛏️</span><span>高楼层城景双床房 · 9月17日–24日 (7晚连住 · 含每日双人早餐)</span></div>
@@ -1057,7 +1064,7 @@ export default function ChengduTrip() {
                 <div className="fc-head"><div className="fi">{icon}</div><h3>{name}</h3></div>
                 <p style={{ flex: 1 }}>{desc}</p>
                 <FoodGallery folder={folder} name={name} openLb={openLb} />
-                <div className="card-foot"><span className="card-foot-l">{addr}</span></div>
+                <div className="card-foot"><CopyAddr addr={addr} textClassName="card-foot-l" /></div>
               </div>
             </div>
           ))}
