@@ -89,8 +89,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  row-gap: 10px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   justify-content: center;
   position: relative;
   animation: fu 1s .45s ease both;
@@ -105,16 +104,8 @@
   letter-spacing: 1.5px;
   white-space: nowrap;
 }
-/* Solid-gold variant for the departure-countdown pill — set client-side
-   after mount, so it needs to stand out from the two static date pills. */
-.pill-countdown {
-  background: var(--gold-bright);
-  border-color: var(--gold-leaf);
-  color: var(--void);
-  font-weight: 600;
-}
-/* Shorter pill text + tighter padding keep the date pills on one row even on
-   the narrowest phones — the countdown pill wraps to its own line instead. */
+/* Shorter pill text + tighter padding keep both pills on one row even on
+   the narrowest phones, instead of wrapping to two uneven lines. */
 @media (max-width: 400px) {
   .pills { gap: 8px; }
   .pill { padding: 7px 14px; font-size: 11.5px; letter-spacing: 1px; }
@@ -408,7 +399,11 @@
 .a-cta:hover .a-cta-icon { transform: translate(2px, -2px); }
 
 /* ── Food & tips grids ────────────────────────────────────────────────────── */
-.tg { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+/* 1 column on phones, 2x2 on tablets, all 4 in a row on desktop — same
+   640px/1024px breakpoints as .day-card/.food-card elsewhere on this page. */
+.tg { display: grid; grid-template-columns: 1fr; gap: 16px; }
+@media (min-width: 640px) { .tg { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1024px) { .tg { grid-template-columns: repeat(4, 1fr); } }
 .fc, .tc { padding: 20px; display: flex; flex-direction: column; gap: 14px; justify-content: space-between; }
 /* 3-photo strip per card, same grid pattern as the day cards' .day-gallery.
    No real food photos yet — each of the 3 tiles gets its own CSS-only

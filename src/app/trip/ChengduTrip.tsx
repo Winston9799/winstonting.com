@@ -307,33 +307,6 @@ function ExchangeRate() {
   );
 }
 
-// ── DepartureCountdown: days-to-go / in-progress pill in the hero — computed
-// client-side after mount (the value depends on "now", so it can't be part
-// of the server-rendered HTML without a hydration mismatch). Renders nothing
-// once the trip is over. ────────────────────────────────────────────────
-function DepartureCountdown() {
-  const [text, setText] = useState<string | null>(null);
-
-  useEffect(() => {
-    const start = new Date("2026-09-17T00:00:00+08:00");
-    const end = new Date("2026-09-24T23:59:59+08:00");
-    const now = new Date();
-    const msPerDay = 24 * 60 * 60 * 1000;
-    if (now < start) {
-      const days = Math.ceil((start.getTime() - now.getTime()) / msPerDay);
-      setText(`距离出发还有 ${days} 天`);
-    } else if (now <= end) {
-      const day = Math.floor((now.getTime() - start.getTime()) / msPerDay) + 1;
-      setText(`行程进行中 · 第 ${day} 天`);
-    } else {
-      setText(null);
-    }
-  }, []);
-
-  if (!text) return null;
-  return <span className="pill pill-countdown">{text}</span>;
-}
-
 // ── Lightbox ──────────────────────────────────────────────────────────────────
 function Lightbox({
   imgs,
@@ -929,7 +902,6 @@ export default function ChengduTrip() {
           <span className="pill">9月17日 出发</span>
           <span style={{ color: "rgba(255,255,255,.2)" }}>——</span>
           <span className="pill">9月24日 返程</span>
-          <DepartureCountdown />
         </div>
       </section>
 
