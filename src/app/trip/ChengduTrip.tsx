@@ -961,7 +961,7 @@ export default function ChengduTrip() {
               <line x1="30" y1="25" x2="370" y2="25" stroke="rgba(212,160,23,.35)" strokeWidth="2" strokeDasharray="1 8" strokeLinecap="round" />
               <circle cx="30" cy="25" r="5" fill="var(--gold-bright)" />
               <circle cx="370" cy="25" r="5" fill="var(--gold-bright)" />
-              <g transform="translate(200 25) scale(-1,1)">
+              <g transform="translate(200 25) scale(-1,1) rotate(-45)">
                 <text x="0" y="0" fontSize="20" textAnchor="middle" dominantBaseline="middle">✈️</text>
               </g>
             </svg>
