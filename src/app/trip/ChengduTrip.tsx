@@ -328,7 +328,7 @@ const DAYS: DayData[] = [
       {
         time: "傍晚",
         title: "🏨 入住 Pagoda Design Hotel (成都春熙路太古里店)",
-        desc: "机场至酒店约 50km，打车约 50 分钟（¥120–150），或预订酒店商务车 ¥300。办理入住高楼层城景双床房。",
+        desc: "机场至酒店约 50km，约 50 分钟。接机未预订，备选：① Klook预定机场接送　② 直接机场打车（¥120–150）。办理入住高楼层城景双床房。",
       },
       {
         time: "晚餐",
@@ -881,7 +881,7 @@ export default function ChengduTrip() {
           <div className="info-list">
             <div className="info-list-item"><span style={{ color: "var(--gold-leaf)" }}>📍</span><span>锦江区华兴东街16号 · 步行5分钟即达远洋太古里与春熙路</span></div>
             <div className="info-list-item"><span style={{ color: "var(--gold-leaf)" }}>🛏️</span><span>高楼层城景双床房 · 9月17日–24日 (7晚连住 · 含每日双人早餐)</span></div>
-            <div className="info-list-item"><span style={{ color: "var(--gold-leaf)" }}>🚗</span><span>礼宾部已安排机场商务车专车往返接送机，无缝直达酒店</span></div>
+            <div className="info-list-item"><span style={{ color: "var(--gold-leaf)" }}>🚗</span><span>接机未预订，备选：① Klook预定机场接送　② 直接机场打车</span></div>
           </div>
           <div className="info-foot">
             <div style={{ display: "flex", gap: 8 }}>
