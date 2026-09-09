@@ -445,7 +445,7 @@ const DAYS: DayData[] = [
       {
         time: "傍晚",
         title: "🏨 入住 Pagoda Design Hotel (成都春熙路太古里店)",
-        desc: "机场至酒店约 50km、50 分钟。接机未预订，备选 Klook 接送或打车。办理入住高楼层城景双床房。",
+        desc: "机场至酒店约 50km、50 分钟，办理入住高楼层城景双床房。",
       },
       {
         time: "晚餐",
@@ -456,9 +456,9 @@ const DAYS: DayData[] = [
       },
       {
         time: "夜晚",
-        title: "🌉 九眼桥 · 锦江夜色",
-        addr: "📍 成都市锦江区九眼桥（合江亭附近）",
-        desc: "饭后打车约 10-15 分钟，桥头酒吧一条街，河边散步；或体验锦江夜游船（19:00-22:30，¥70-120，合江亭/望江公园上船，光影秀水幕喷泉），收尾第一晚。",
+        title: "🌉 安顺廊桥 · 锦江夜色",
+        addr: "📍 成都市锦江区滨江东路（合江亭旁）",
+        desc: "饭后从太古里步行约 10-15 分钟即达，廊桥夜景灯光璀璨；桥边可乘锦江夜游船（19:00-22:30，¥70-120，合江亭上船，光影秀水幕喷泉），河边散步收尾第一晚。",
       },
     ],
   },
@@ -916,7 +916,7 @@ export default function ChengduTrip() {
 
       {/* ══ FLIGHT & HOTEL CARDS ══════════════════════════════════════════════ */}
       <div className="fh-section">
-        <div className="sec-h"><h2>航班酒店已准备就绪</h2><p>往返航班与入住信息均已确认，机场接送尚待安排</p></div>
+        <div className="sec-h"><h2>航班酒店已准备就绪</h2><p>往返航班、入住与接机信息均已确认</p></div>
         <div className="fh-grid">
         <div className="info-card glass">
           <div className="info-head">
@@ -930,11 +930,11 @@ export default function ChengduTrip() {
           </div>
           <div className="route-arc">
             <div className="route-arc-label">去程 · SQ 842 · 9月17日 (周四) · 4h45m 直飞</div>
-            <svg viewBox="0 0 400 50" className="route-arc-svg">
-              <line x1="30" y1="25" x2="370" y2="25" stroke="rgba(212,160,23,.35)" strokeWidth="2" strokeDasharray="1 8" strokeLinecap="round" />
-              <circle cx="30" cy="25" r="5" fill="var(--gold-bright)" />
-              <circle cx="370" cy="25" r="5" fill="var(--gold-bright)" />
-              <g transform="translate(200 25) rotate(-30) scale(0.85) translate(-12,-12)">
+            <svg viewBox="0 0 400 34" className="route-arc-svg">
+              <line x1="30" y1="17" x2="370" y2="17" stroke="rgba(212,160,23,.35)" strokeWidth="2" strokeDasharray="1 8" strokeLinecap="round" />
+              <circle cx="30" cy="17" r="5" fill="var(--gold-bright)" />
+              <circle cx="370" cy="17" r="5" fill="var(--gold-bright)" />
+              <g transform="translate(200 17) rotate(-30) scale(0.85) translate(-12,-12)">
                 <path d="M2,21L23,12L2,3V10L17,12L2,14V21Z" fill="var(--gold-bright)" />
               </g>
             </svg>
@@ -952,11 +952,11 @@ export default function ChengduTrip() {
 
           <div className="route-arc">
             <div className="route-arc-label">返程 · SQ 843 · 9月23/24日 (Winston/Andy 分批) · 约4h</div>
-            <svg viewBox="0 0 400 50" className="route-arc-svg">
-              <line x1="30" y1="25" x2="370" y2="25" stroke="rgba(212,160,23,.35)" strokeWidth="2" strokeDasharray="1 8" strokeLinecap="round" />
-              <circle cx="30" cy="25" r="5" fill="var(--gold-bright)" />
-              <circle cx="370" cy="25" r="5" fill="var(--gold-bright)" />
-              <g transform="translate(200 25) rotate(-150) scale(0.85) translate(-12,-12)">
+            <svg viewBox="0 0 400 34" className="route-arc-svg">
+              <line x1="30" y1="17" x2="370" y2="17" stroke="rgba(212,160,23,.35)" strokeWidth="2" strokeDasharray="1 8" strokeLinecap="round" />
+              <circle cx="30" cy="17" r="5" fill="var(--gold-bright)" />
+              <circle cx="370" cy="17" r="5" fill="var(--gold-bright)" />
+              <g transform="translate(200 17) rotate(-150) scale(0.85) translate(-12,-12)">
                 <path d="M2,21L23,12L2,3V10L17,12L2,14V21Z" fill="var(--gold-bright)" />
               </g>
             </svg>
@@ -971,8 +971,24 @@ export default function ChengduTrip() {
           </div>
 
           <div className="info-list">
-            <div className="info-list-item"><span style={{ color: "var(--gold-leaf)" }}>📶</span><span>全程机上 Wi-Fi，登机后可连接；不妨点一杯经典鸡尾酒 Singapore Sling</span></div>
+            <div className="info-list-item"><span style={{ color: "var(--gold-leaf)" }}>📶</span><span>全程机上 Wi-Fi；推荐新航鸡尾酒 - Singapore Sling</span></div>
+            <div className="info-list-item"><span style={{ color: "var(--gold-leaf)" }}>🧳</span><span>行李可托运额度 30 公斤</span></div>
+            <div className="info-list-item"><span style={{ color: "var(--gold-leaf)" }}>📱</span><span>可在 Pelago 兑换 3 天 2GB 免费 eSIM</span></div>
           </div>
+          <a
+            className="a-cta"
+            href="https://t12.email.singaporeair.com/r/?id=h75d370e2,c116e7,11a01fe"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ marginTop: 0 }}
+          >
+            <span>现在兑换</span>
+            <svg className="a-cta-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.25} strokeLinecap="round" strokeLinejoin="round">
+              <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" />
+              <path d="M15 3h6v6" />
+              <path d="M10 14L21 3" />
+            </svg>
+          </a>
           <div className="info-foot">
             <span style={{ color: "var(--gold-leaf)", opacity: .9 }}>直飞无时差 (两地均为 UTC+8)</span>
             <span className="info-chip">提前 2.5h 抵机场候机</span>
@@ -993,8 +1009,22 @@ export default function ChengduTrip() {
           <div className="info-list">
             <div className="info-list-item"><span style={{ color: "var(--gold-leaf)" }}>📍</span><span>锦江区华兴东街16号 · 步行5分钟即达远洋太古里与春熙路</span></div>
             <div className="info-list-item"><span style={{ color: "var(--gold-leaf)" }}>🛏️</span><span>高楼层城景双床房 · 9月17日–24日 (7晚连住 · 含每日双人早餐)</span></div>
-            <div className="info-list-item"><span style={{ color: "var(--gold-leaf)" }}>🚗</span><span>接机未预订，备选：① Klook预定机场接送　② 直接机场打车</span></div>
+            <div className="info-list-item"><span style={{ color: "var(--gold-leaf)" }}>🚗</span><span>接机已通过 Agoda 预订</span></div>
           </div>
+          <a
+            className="a-cta"
+            href="https://agoda.mozio.com/en-us/view-reservation/?id=6277e27c94fe464b9272f5e4de879fb5&ref=agoda"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ marginTop: 0 }}
+          >
+            <span>管理接机预订</span>
+            <svg className="a-cta-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.25} strokeLinecap="round" strokeLinejoin="round">
+              <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" />
+              <path d="M15 3h6v6" />
+              <path d="M10 14L21 3" />
+            </svg>
+          </a>
           <div className="info-foot">
             <div style={{ display: "flex", gap: 8 }}>
               <span className="info-chip">Check-in 15:00</span>
