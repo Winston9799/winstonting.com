@@ -445,7 +445,8 @@ const DAYS: DayData[] = [
       {
         time: "傍晚",
         title: "🏨 入住 Pagoda Design Hotel (成都春熙路太古里店)",
-        desc: "机场至酒店约 50km、50 分钟。接机未预订，备选 Klook 接送或打车。办理入住高楼层城景双床房。",
+        desc: "机场至酒店约 50km、50 分钟。接机已通过 Agoda 预订，办理入住高楼层城景双床房。",
+        link: { label: "管理接机预订", href: "https://agoda.mozio.com/en-us/view-reservation/?id=6277e27c94fe464b9272f5e4de879fb5&ref=agoda" },
       },
       {
         time: "晚餐",
@@ -916,7 +917,7 @@ export default function ChengduTrip() {
 
       {/* ══ FLIGHT & HOTEL CARDS ══════════════════════════════════════════════ */}
       <div className="fh-section">
-        <div className="sec-h"><h2>航班酒店已准备就绪</h2><p>往返航班与入住信息均已确认，机场接送尚待安排</p></div>
+        <div className="sec-h"><h2>航班酒店已准备就绪</h2><p>往返航班、入住与接机信息均已确认</p></div>
         <div className="fh-grid">
         <div className="info-card glass">
           <div className="info-head">
@@ -995,7 +996,21 @@ export default function ChengduTrip() {
           <div className="info-list">
             <div className="info-list-item"><span style={{ color: "var(--gold-leaf)" }}>📍</span><span>锦江区华兴东街16号 · 步行5分钟即达远洋太古里与春熙路</span></div>
             <div className="info-list-item"><span style={{ color: "var(--gold-leaf)" }}>🛏️</span><span>高楼层城景双床房 · 9月17日–24日 (7晚连住 · 含每日双人早餐)</span></div>
-            <div className="info-list-item"><span style={{ color: "var(--gold-leaf)" }}>🚗</span><span>接机未预订，备选：① Klook预定机场接送　② 直接机场打车</span></div>
+            <div className="info-list-item">
+              <span style={{ color: "var(--gold-leaf)" }}>🚗</span>
+              <span>
+                接机已通过 Agoda 预订
+                {" "}
+                <a
+                  href="https://agoda.mozio.com/en-us/view-reservation/?id=6277e27c94fe464b9272f5e4de879fb5&ref=agoda"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ color: "var(--gold-leaf)", textDecoration: "underline" }}
+                >
+                  管理预订
+                </a>
+              </span>
+            </div>
           </div>
           <div className="info-foot">
             <div style={{ display: "flex", gap: 8 }}>
