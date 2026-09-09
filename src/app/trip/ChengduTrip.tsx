@@ -23,7 +23,7 @@ function nextSrc(src: string): string | null {
 
 // ── CopyAddr: address text + a copy-to-clipboard icon button — briefly
 // swaps to a checkmark on success so tapping it gives visible feedback. ───
-function CopyAddr({ addr }: { addr: string }) {
+function CopyAddr({ addr, textClassName = "a-addr" }: { addr: string; textClassName?: string }) {
   const [copied, setCopied] = useState(false);
 
   async function handleCopy() {
@@ -39,7 +39,7 @@ function CopyAddr({ addr }: { addr: string }) {
 
   return (
     <div className="a-addr-row">
-      <span className="a-addr">{addr}</span>
+      <span className={textClassName}>{addr}</span>
       <button
         type="button"
         className={`a-copy-btn${copied ? " copied" : ""}`}
@@ -439,13 +439,13 @@ const DAYS: DayData[] = [
       {
         time: "早上",
         title: "✈️ SQ842 樟宜 T3 起飞 (12:25 - 17:10)",
-        desc: "约 10:00 抵达新加坡樟宜 T3，前往 Marhaba Lounge 候机。直飞 4h45m 舒适落地下榻。",
+        desc: "约 10:00 抵达樟宜 T3，前往 Marhaba Lounge 候机，直飞 4h45m。",
         badges: [{ text: "提前 2.5h 抵达 T3" }, { text: "☕ Marhaba Lounge 歇息" }],
       },
       {
         time: "傍晚",
         title: "🏨 入住 Pagoda Design Hotel (成都春熙路太古里店)",
-        desc: "机场至酒店约 50km，约 50 分钟。接机未预订，备选：① Klook预定机场接送　② 直接机场打车（¥120–150）。办理入住高楼层城景双床房。",
+        desc: "机场至酒店约 50km、50 分钟。接机未预订，备选 Klook 接送或打车。办理入住高楼层城景双床房。",
       },
       {
         time: "晚餐",
@@ -463,7 +463,7 @@ const DAYS: DayData[] = [
       {
         time: "备选",
         title: "🚤 锦江夜游船",
-        desc: "夜场 19:00-22:30，票价约 ¥70-120，合江亭 / 望江公园等码头上船，途经九眼桥、兰桂坊，沿岸光影秀、水幕喷泉，可代替河边散步。",
+        desc: "夜场 19:00-22:30，¥70-120，合江亭 / 望江公园上船，途经九眼桥、兰桂坊，沿岸光影秀、水幕喷泉。",
       },
     ],
   },
@@ -517,7 +517,7 @@ const DAYS: DayData[] = [
         time: "上午",
         title: "🙏 文殊院 → 荷花茶园",
         addr: "📍 地铁1/6号线文殊院站K口出站",
-        desc: "10:00-12:30。先游文殊院（免费入场，进门可领三支香，逛红墙古刹）；11:30后转荷花茶园，二选一：文殊院内传统茶馆（可看川剧变脸）或文殊坊内荷田水铺（新式国潮茶馆，三楼露台拍照）。",
+        desc: "10:00-12:30。先游文殊院（免费入场，可领三支香）；11:30后转荷花茶园二选一：传统茶馆（看变脸）或荷田水铺（国潮风，三楼露台拍照）。",
       },
       {
         time: "中午",
@@ -528,7 +528,7 @@ const DAYS: DayData[] = [
         time: "下午",
         title: "🏘️ 宽窄巷子 → 采耳体验",
         addr: "📍 宽窄巷子附近居民楼内（宽窄耳匠采耳）",
-        desc: "14:00-17:30。先逛宽窄巷子（宽巷子、窄巷子、井巷子，老建筑里感受市井气息，从文殊院步行或骑共享单车约15-20分钟即达）；16:00起体验采耳，约30-60分钟，约¥100，可提前网上搜团购套餐。",
+        desc: "14:00-17:30。先逛宽窄巷子（宽巷子窄巷子井巷子，老成都市井气息，从文殊院步行/骑车约15-20分钟）；16:00起体验采耳，30-60分钟，约¥100，可搜团购。",
       },
       {
         time: "晚上",
@@ -1081,7 +1081,7 @@ export default function ChengduTrip() {
                 <div className="fc-head"><div className="fi">{icon}</div><h3>{name}</h3></div>
                 <p style={{ flex: 1 }}>{desc}</p>
                 <FoodGallery folder={folder} name={name} openLb={openLb} />
-                <div className="card-foot"><span className="card-foot-l">{addr}</span></div>
+                <div className="card-foot"><CopyAddr addr={addr} textClassName="card-foot-l" /></div>
               </div>
             </div>
           ))}
