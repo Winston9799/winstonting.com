@@ -95,10 +95,6 @@ export default function HomePage() {
                 <span>View Itinerary</span>
                 <ArrowIcon />
               </a>
-              <a className="btn-luxury-cta px-8 py-3.5" href="/contact">
-                <span>Contact Me</span>
-                <ArrowIcon />
-              </a>
             </div>
           </div>
         </div>

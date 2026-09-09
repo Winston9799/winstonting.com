@@ -138,3 +138,17 @@ body {
   transform: translateY(0);
   box-shadow: 0 2px 10px rgba(229, 169, 60, 0.3);
 }
+/* Touch devices have no :hover, so the button's default dim state never
+   turns gold — show that state permanently below the sm breakpoint so it
+   still reads as tappable. */
+@media (max-width: 639px) {
+  .btn-luxury-cta {
+    background: linear-gradient(135deg, #F9F1DC 0%, #E5A93C 55%, #B8860B 100%);
+    border-color: rgba(229, 169, 60, 0.9);
+    color: #0A0B0E;
+    box-shadow: 0 6px 24px rgba(229, 169, 60, 0.45);
+  }
+  .btn-luxury-cta .btn-icon {
+    color: #0A0B0E;
+  }
+}
