@@ -947,12 +947,12 @@ export default function ChengduTrip() {
             </svg>
             <div className="route-arc-labels">
               <div className="route-arc-node">
-                <span className="route-arc-code">TFU</span>
-                <span className="route-arc-time">18:25</span>
-              </div>
-              <div className="route-arc-node" style={{ alignItems: "flex-end" }}>
                 <span className="route-arc-code">SIN</span>
                 <span className="route-arc-time">23:15</span>
+              </div>
+              <div className="route-arc-node" style={{ alignItems: "flex-end" }}>
+                <span className="route-arc-code">TFU</span>
+                <span className="route-arc-time">18:25</span>
               </div>
             </div>
           </div>
