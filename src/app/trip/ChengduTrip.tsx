@@ -338,44 +338,14 @@ function ExchangeRate() {
   );
 }
 
-// ── HotelMap: geocodes the hotel address live via Nominatim (OpenStreetMap's
-// free geocoding search, no API key) and embeds an OSM map centered on the
-// result — gives the hotel card the same graphic-centerpiece treatment as
-// the flight card's route arcs. Renders nothing if the lookup fails, so a
-// network hiccup just leaves the card as plain text instead of a broken
-// box. OSM's street-level coverage in China can be sparse, so the pin may
-// land on the nearest mapped road rather than the exact building. ────────
+// ── HotelMap: Google's key-less search embed (maps.google.com/maps?q=...
+// &output=embed) — Google resolves the address text server-side, which for
+// a China address like this one lands precisely on the actual building
+// (OSM's street-level China coverage is patchy and only got the nearest
+// mapped road). No fetch needed: the address goes straight into the iframe
+// src, so there's no loading/failure state to handle here. ───────────────
 function HotelMap({ address }: { address: string }) {
-  const [coords, setCoords] = useState<{ lat: number; lon: number } | null>(null);
-  const [failed, setFailed] = useState(false);
-
-  useEffect(() => {
-    let cancelled = false;
-    fetch(`https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${encodeURIComponent(address)}`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (cancelled) return;
-        if (Array.isArray(data) && data[0]) {
-          setCoords({ lat: parseFloat(data[0].lat), lon: parseFloat(data[0].lon) });
-        } else {
-          setFailed(true);
-        }
-      })
-      .catch(() => {
-        if (!cancelled) setFailed(true);
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, [address]);
-
-  if (failed || !coords) return null;
-
-  const dLon = 0.006;
-  const dLat = 0.004;
-  const bbox = `${coords.lon - dLon},${coords.lat - dLat},${coords.lon + dLon},${coords.lat + dLat}`;
-  const src = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&marker=${coords.lat}%2C${coords.lon}&layer=mapnik`;
-
+  const src = `https://www.google.com/maps?q=${encodeURIComponent(address)}&output=embed`;
   return (
     <div className="hotel-map">
       <iframe src={src} title="酒店地图位置" loading="lazy" />
