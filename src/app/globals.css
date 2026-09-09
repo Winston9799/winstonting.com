@@ -152,3 +152,14 @@ body {
     color: #0A0B0E;
   }
 }
+
+/* Nav mega-menu entrance — grows from its top-left corner (right under the
+   trigger it belongs to) instead of just popping in, so it reads as
+   unfolding from the nav item rather than an unrelated panel appearing. */
+@keyframes megaMenuIn {
+  from { opacity: 0; transform: scale(0.96) translateY(-6px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+.mega-menu-in {
+  animation: megaMenuIn 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+}

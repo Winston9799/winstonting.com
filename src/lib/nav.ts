@@ -9,7 +9,7 @@ export interface NavLink {
 }
 
 export interface NavColumn {
-  heading: string;
+  heading?: string;
   links: NavLink[];
 }
 
@@ -28,7 +28,6 @@ export const NAV: NavItem[] = [
     label: "Trip",
     columns: [
       {
-        heading: "我的行程",
         links: [
           { label: "Chengdu Sep 2026", href: "/trip/chengdu-sep-2026", desc: "成都探索之旅 · 8天7夜" },
         ],

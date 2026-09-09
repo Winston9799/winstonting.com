@@ -53,7 +53,7 @@ export default function HomePage() {
   return (
     <div className="bg-midnight">
       {/* ── HERO ──────────────────────────────────────────────────────────── */}
-      <section className="relative -mt-20 min-h-[92vh] flex items-center justify-center overflow-hidden" id="hero-trip">
+      <section className="relative -mt-16 min-h-[92vh] flex items-center justify-center overflow-hidden" id="hero-trip">
         {/* Cinematic background layer */}
         <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
           <div className="w-full h-full animate-hero-bg origin-center transform-gpu">

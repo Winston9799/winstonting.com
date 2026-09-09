@@ -78,10 +78,12 @@ function Sitemap() {
 
           {/* Sub-columns */}
           {item.columns?.map((col) => (
-            <div key={col.heading} className="mb-5">
-              <p className="text-[10px] tracking-widest uppercase text-neutral-500 mb-2">
-                {col.heading}
-              </p>
+            <div key={col.heading ?? col.links[0]?.href} className="mb-5">
+              {col.heading && (
+                <p className="text-[10px] tracking-widest uppercase text-neutral-500 mb-2">
+                  {col.heading}
+                </p>
+              )}
               <ul className="space-y-1.5">
                 {col.links.map((link) => (
                   <li key={link.href}>
