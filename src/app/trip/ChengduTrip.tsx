@@ -1040,7 +1040,7 @@ export default function ChengduTrip() {
           </div>
         </div>
 
-        <div className="carousel-track day-track" ref={trackRef} onScroll={onTrackScroll}>
+        <div className="carousel-track" ref={trackRef} onScroll={onTrackScroll}>
           {DAYS.map((day) => (
             <DayCard
               key={day.num}
