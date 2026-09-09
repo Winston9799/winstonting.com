@@ -370,8 +370,17 @@
 .activity { display: flex; flex-direction: column; gap: 6px; }
 .a-time { display: inline-flex; align-self: flex-start; font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 0.25rem; background: rgba(212, 160, 23, .1); color: var(--gold-leaf); border: 1px solid rgba(212, 160, 23, .2); margin-bottom: 2px; }
 .a-title { font-weight: 600; color: var(--on-surface); font-size: 13.5px; }
-.a-addr { display: block; font-size: 11px; color: var(--outline); text-decoration: none; }
-.a-addr:hover { color: var(--gold-leaf); text-decoration: underline; }
+.a-addr-row { display: flex; align-items: center; gap: 6px; }
+.a-addr { font-size: 11px; color: var(--outline); }
+.a-copy-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  flex-shrink: 0; width: 18px; height: 18px; padding: 0;
+  border: none; border-radius: 0.25rem; background: transparent;
+  color: var(--outline); cursor: pointer;
+  transition: color .2s ease, background .2s ease;
+}
+.a-copy-btn:hover { color: var(--gold-leaf); background: rgba(212, 160, 23, .12); }
+.a-copy-btn.copied { color: var(--gold-leaf); }
 .a-desc { font-size: 12px; color: var(--on-surface-variant); line-height: 1.6; }
 .a-badges { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 2px; }
 .a-badge { font-size: 10px; padding: 2px 8px; border-radius: 0.25rem; background: rgba(255,255,255,.05); color: var(--on-surface-variant); border: 1px solid rgba(255,255,255,.1); }

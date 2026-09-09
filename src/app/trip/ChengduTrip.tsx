@@ -21,13 +21,44 @@ function nextSrc(src: string): string | null {
   return i < EXTS.length - 1 ? `${base}.${EXTS[i + 1]}` : null;
 }
 
-// ── Map link: turns a "📍 ..." address string into an Amap (高德地图) search
-// URI — opens the app on mobile or the web fallback, no API key needed. Only
-// the part before "→" is used for multi-stop addresses so the query stays
-// one real place. ────────────────────────────────────────────────────────
-function mapHref(addr: string): string {
-  const clean = addr.replace(/^📍\s*/, "").split("→")[0].trim();
-  return `https://uri.amap.com/search?keyword=${encodeURIComponent(clean)}`;
+// ── CopyAddr: address text + a copy-to-clipboard icon button — briefly
+// swaps to a checkmark on success so tapping it gives visible feedback. ───
+function CopyAddr({ addr }: { addr: string }) {
+  const [copied, setCopied] = useState(false);
+
+  async function handleCopy() {
+    try {
+      await navigator.clipboard.writeText(addr.replace(/^📍\s*/, ""));
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    } catch {
+      // Clipboard API unavailable (no HTTPS, no permission, etc) — nothing
+      // to fall back to here, so just leave the button inert.
+    }
+  }
+
+  return (
+    <div className="a-addr-row">
+      <span className="a-addr">{addr}</span>
+      <button
+        type="button"
+        className={`a-copy-btn${copied ? " copied" : ""}`}
+        aria-label={copied ? "已复制" : "复制地址"}
+        onClick={(e) => { e.stopPropagation(); handleCopy(); }}
+      >
+        {copied ? (
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
+            <path d="M20 6L9 17l-5-5" />
+          </svg>
+        ) : (
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" />
+            <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" />
+          </svg>
+        )}
+      </button>
+    </div>
+  );
 }
 
 // ── DayGallery: click-to-lightbox grid pulling one photo from each of several
@@ -724,17 +755,7 @@ const DayCard = memo(function DayCard({
             <div className="activity" key={i}>
               <span className="a-time">{a.time}</span>
               <div className="a-title">{a.title}</div>
-              {a.addr && (
-                <a
-                  className="a-addr"
-                  href={mapHref(a.addr)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  {a.addr}
-                </a>
-              )}
+              {a.addr && <CopyAddr addr={a.addr} />}
               <div className="a-desc">{a.desc}</div>
               {a.badges && (
                 <div className="a-badges">
