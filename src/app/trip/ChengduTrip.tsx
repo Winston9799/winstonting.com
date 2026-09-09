@@ -995,22 +995,22 @@ export default function ChengduTrip() {
           <div className="info-list">
             <div className="info-list-item"><span style={{ color: "var(--gold-leaf)" }}>📍</span><span>锦江区华兴东街16号 · 步行5分钟即达远洋太古里与春熙路</span></div>
             <div className="info-list-item"><span style={{ color: "var(--gold-leaf)" }}>🛏️</span><span>高楼层城景双床房 · 9月17日–24日 (7晚连住 · 含每日双人早餐)</span></div>
-            <div className="info-list-item">
-              <span style={{ color: "var(--gold-leaf)" }}>🚗</span>
-              <span>
-                接机已通过 Agoda 预订
-                {" "}
-                <a
-                  href="https://agoda.mozio.com/en-us/view-reservation/?id=6277e27c94fe464b9272f5e4de879fb5&ref=agoda"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{ color: "var(--gold-leaf)", textDecoration: "underline" }}
-                >
-                  管理预订
-                </a>
-              </span>
-            </div>
+            <div className="info-list-item"><span style={{ color: "var(--gold-leaf)" }}>🚗</span><span>接机已通过 Agoda 预订</span></div>
           </div>
+          <a
+            className="a-cta"
+            href="https://agoda.mozio.com/en-us/view-reservation/?id=6277e27c94fe464b9272f5e4de879fb5&ref=agoda"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ marginTop: 0 }}
+          >
+            <span>管理接机预订</span>
+            <svg className="a-cta-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.25} strokeLinecap="round" strokeLinejoin="round">
+              <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" />
+              <path d="M15 3h6v6" />
+              <path d="M10 14L21 3" />
+            </svg>
+          </a>
           <div className="info-foot">
             <div style={{ display: "flex", gap: 8 }}>
               <span className="info-chip">Check-in 15:00</span>
