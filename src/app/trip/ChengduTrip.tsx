@@ -21,6 +21,15 @@ function nextSrc(src: string): string | null {
   return i < EXTS.length - 1 ? `${base}.${EXTS[i + 1]}` : null;
 }
 
+// ── Map link: turns a "📍 ..." address string into an Amap (高德地图) search
+// URI — opens the app on mobile or the web fallback, no API key needed. Only
+// the part before "→" is used for multi-stop addresses so the query stays
+// one real place. ────────────────────────────────────────────────────────
+function mapHref(addr: string): string {
+  const clean = addr.replace(/^📍\s*/, "").split("→")[0].trim();
+  return `https://uri.amap.com/search?keyword=${encodeURIComponent(clean)}`;
+}
+
 // ── DayGallery: click-to-lightbox grid pulling one photo from each of several
 // named folders, each with its own caption — used for the per-day header grid ──
 type GalleryItem = { folder: string; slot: number; caption: string };
@@ -234,6 +243,95 @@ function WeatherForecast() {
       {updatedAt && <p className="weather-updated">Open-Meteo 实时更新 · {updatedAt}</p>}
     </div>
   );
+}
+
+// ── ExchangeRate: live SGD↔CNY rate via Frankfurter (free, no API key,
+// CORS-enabled, ECB reference rates) — refetches on mount and every 30
+// minutes, falling back to a static blurb if the request fails. ──────────
+function ExchangeRate() {
+  const [sgdToCny, setSgdToCny] = useState<number | null>(null);
+  const [error, setError] = useState(false);
+  const [updatedAt, setUpdatedAt] = useState<string | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    async function load() {
+      try {
+        const res = await fetch("https://api.frankfurter.dev/v1/latest?base=SGD&symbols=CNY");
+        if (!res.ok) throw new Error("bad response");
+        const data = await res.json();
+        if (cancelled) return;
+        const rate = data.rates?.CNY;
+        if (typeof rate !== "number") throw new Error("no rate");
+        setSgdToCny(rate);
+        setError(false);
+        setUpdatedAt(new Date().toLocaleTimeString("zh-CN", { hour: "2-digit", minute: "2-digit" }));
+      } catch {
+        if (!cancelled) setError(true);
+      }
+    }
+    load();
+    const interval = setInterval(load, 30 * 60 * 1000);
+    return () => {
+      cancelled = true;
+      clearInterval(interval);
+    };
+  }, []);
+
+  if (error) {
+    return (
+      <p style={{ flex: 1 }}>
+        新加坡出发前可在本地银行或找换店换好人民币现金；到成都后也能用支付宝/微信绑定境外卡直接扫码付款，汇率实时结算更方便。
+      </p>
+    );
+  }
+
+  if (sgdToCny === null) {
+    return <p style={{ flex: 1, color: "var(--outline)" }}>正在获取实时汇率…</p>;
+  }
+
+  return (
+    <div style={{ flex: 1 }}>
+      <div className="fx-row">
+        <div className="fx-tile">
+          <span className="fx-label">1 SGD →</span>
+          <span className="fx-value">{sgdToCny.toFixed(3)} CNY</span>
+        </div>
+        <div className="fx-tile">
+          <span className="fx-label">1 CNY →</span>
+          <span className="fx-value">{(1 / sgdToCny).toFixed(4)} SGD</span>
+        </div>
+      </div>
+      {updatedAt && <p className="weather-updated">Frankfurter 实时更新 · {updatedAt}</p>}
+    </div>
+  );
+}
+
+// ── DepartureCountdown: days-to-go / in-progress pill in the hero — computed
+// client-side after mount (the value depends on "now", so it can't be part
+// of the server-rendered HTML without a hydration mismatch). Renders nothing
+// once the trip is over. ────────────────────────────────────────────────
+function DepartureCountdown() {
+  const [text, setText] = useState<string | null>(null);
+
+  useEffect(() => {
+    const start = new Date("2026-09-17T00:00:00+08:00");
+    const end = new Date("2026-09-24T23:59:59+08:00");
+    const now = new Date();
+    const msPerDay = 24 * 60 * 60 * 1000;
+    if (now < start) {
+      const days = Math.ceil((start.getTime() - now.getTime()) / msPerDay);
+      setText(`距离出发还有 ${days} 天`);
+    } else if (now <= end) {
+      const day = Math.floor((now.getTime() - start.getTime()) / msPerDay) + 1;
+      setText(`行程进行中 · 第 ${day} 天`);
+    } else {
+      setText(null);
+    }
+  }, []);
+
+  if (!text) return null;
+  return <span className="pill pill-countdown">{text}</span>;
 }
 
 // ── Lightbox ──────────────────────────────────────────────────────────────────
@@ -653,7 +751,17 @@ const DayCard = memo(function DayCard({
             <div className="activity" key={i}>
               <span className="a-time">{a.time}</span>
               <div className="a-title">{a.title}</div>
-              {a.addr && <div className="a-addr">{a.addr}</div>}
+              {a.addr && (
+                <a
+                  className="a-addr"
+                  href={mapHref(a.addr)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  {a.addr}
+                </a>
+              )}
               <div className="a-desc">{a.desc}</div>
               {a.badges && (
                 <div className="a-badges">
@@ -821,12 +929,13 @@ export default function ChengduTrip() {
           <span className="pill">9月17日 出发</span>
           <span style={{ color: "rgba(255,255,255,.2)" }}>——</span>
           <span className="pill">9月24日 返程</span>
+          <DepartureCountdown />
         </div>
       </section>
 
       {/* ══ FLIGHT & HOTEL CARDS ══════════════════════════════════════════════ */}
       <div className="fh-section">
-        <div className="sec-h"><h2>航班酒店已准备就绪</h2><p>往返航班与入住信息，均已确认到位</p></div>
+        <div className="sec-h"><h2>航班酒店已准备就绪</h2><p>往返航班与入住信息均已确认，机场接送尚待安排</p></div>
         <div className="fh-grid">
         <div className="info-card glass">
           <div className="info-head">
@@ -981,6 +1090,11 @@ export default function ChengduTrip() {
             <div className="tc-head"><div className="fi">👟</div><h3>天气与穿着建议</h3></div>
             <WeatherForecast />
             <div className="card-foot"><span className="card-foot-l">薄外套 + 长裤</span><span className="info-chip">未来16天 · 可左右滑动</span></div>
+          </div>
+          <div className="tc glass">
+            <div className="tc-head"><div className="fi">💱</div><h3>新币兑人民币汇率</h3></div>
+            <ExchangeRate />
+            <div className="card-foot"><span className="card-foot-l">支付宝/微信可直接绑卡付款</span><span className="info-chip">实时汇率</span></div>
           </div>
         </div>
       </div>
