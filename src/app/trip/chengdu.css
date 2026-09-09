@@ -413,7 +413,12 @@
 .tg { display: grid; grid-template-columns: 1fr; gap: 16px; }
 @media (min-width: 640px) { .tg { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 1024px) { .tg { grid-template-columns: repeat(4, 1fr); } }
-.fc, .tc { padding: 20px; display: flex; flex-direction: column; gap: 14px; justify-content: space-between; }
+/* min-width: 0 overrides the flex/grid-item default of "auto", which would
+   otherwise size the item to fit its content's intrinsic width — letting
+   the 16-tile weather strip's ~800px min-content force this grid track (and
+   the .tg row) wide open instead of scrolling inside .weather-row, squeezing
+   every other card in the row down to near nothing. */
+.fc, .tc { padding: 20px; display: flex; flex-direction: column; gap: 14px; justify-content: space-between; min-width: 0; }
 /* 3-photo strip per card, same grid pattern as the day cards' .day-gallery.
    No real food photos yet — each of the 3 tiles gets its own CSS-only
    placeholder pattern (no image file, so no licensing/asset dependency),
