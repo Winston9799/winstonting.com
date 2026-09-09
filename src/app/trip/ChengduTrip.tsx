@@ -426,10 +426,10 @@ const DAYS: DayData[] = [
   {
     num: 1,
     date: "9月17日",
-    weekday: "周四 · 启程抵蓉",
+    weekday: "周四",
     tag: "轻松漫游",
     title: "飞抵成都 · 初见繁华夜景",
-    sub: "入住Pagoda君亭设计酒店，品尝野生菌火锅，漫步锦江之夜",
+    sub: "落地首夜，快速安顿",
     photos: [
       { folder: "changi", slot: 1, caption: "SQ842 启航" },
       { folder: "pagoda-hotel", slot: 1, caption: "Pagoda 酒店" },
@@ -470,10 +470,10 @@ const DAYS: DayData[] = [
   {
     num: 2,
     date: "9月18日",
-    weekday: "周五 · 必看必玩",
+    weekday: "周五",
     tag: "核心必游",
     title: "熊猫谷探秘 · 都江堰水利工程一日游",
-    sub: "清晨专车直达熊猫谷静赏国宝萌态，下午探秘两千年无坝引水智慧",
+    sub: "全天专车，无需操心",
     photos: [
       { folder: "panda-base", slot: 1, caption: "国宝大熊猫" },
       { folder: "panda-base", slot: 4, caption: "害羞小熊猫" },
@@ -503,10 +503,10 @@ const DAYS: DayData[] = [
   {
     num: 3,
     date: "9月19日",
-    weekday: "周六 · 文化慢活",
+    weekday: "周六",
     tag: "巴适市井",
     title: "文殊院禅意 · 宽窄巷子采耳 · 抚琴夜市",
-    sub: "嘉嘉专属定制一日路线：古刹寻幽品茶，市井漫步采耳，夜访本地人气夜市",
+    sub: "老友相伴，慢享一天",
     photos: [
       { folder: "wenshu", slot: 1, caption: "文殊院红墙" },
       { folder: "jiajia", slot: 1, caption: "老友嘉嘉" },
@@ -515,14 +515,9 @@ const DAYS: DayData[] = [
     activities: [
       {
         time: "上午",
-        title: "🙏 文殊院",
+        title: "🙏 文殊院 → 荷花茶园",
         addr: "📍 地铁1/6号线文殊院站K口出站",
-        desc: "10:00-11:30，免费入场，进门可领三支香。逛红墙古刹，拜文殊菩萨，感受千年古刹的宁静。",
-      },
-      {
-        time: "上午",
-        title: "🍵 荷花茶园",
-        desc: "11:30-12:30，二选一：文殊院内传统茶馆（可看川剧变脸，民俗风情浓）；或文殊坊内荷田水铺·文殊院店（新式国潮茶馆，三楼屋顶露台拍照出片）。",
+        desc: "10:00-12:30。先游文殊院（免费入场，进门可领三支香，逛红墙古刹）；11:30后转荷花茶园，二选一：文殊院内传统茶馆（可看川剧变脸）或文殊坊内荷田水铺（新式国潮茶馆，三楼露台拍照）。",
       },
       {
         time: "中午",
@@ -531,14 +526,9 @@ const DAYS: DayData[] = [
       },
       {
         time: "下午",
-        title: "🏘️ 宽窄巷子",
-        desc: "14:00-16:00，从文殊院步行或骑共享单车约15-20分钟。宽巷子、窄巷子、井巷子三巷合一，老建筑里感受老成都市井气息。",
-      },
-      {
-        time: "下午",
-        title: "👂 采耳体验 · 宽窄耳匠采耳",
-        addr: "📍 宽窄巷子附近居民楼内",
-        desc: "16:00-17:30，环境安静、技师专业，基础项目约30-60分钟，约¥100，可提前网上搜团购套餐。",
+        title: "🏘️ 宽窄巷子 → 采耳体验",
+        addr: "📍 宽窄巷子附近居民楼内（宽窄耳匠采耳）",
+        desc: "14:00-17:30。先逛宽窄巷子（宽巷子、窄巷子、井巷子，老建筑里感受市井气息，从文殊院步行或骑共享单车约15-20分钟即达）；16:00起体验采耳，约30-60分钟，约¥100，可提前网上搜团购套餐。",
       },
       {
         time: "晚上",
@@ -550,10 +540,10 @@ const DAYS: DayData[] = [
   {
     num: 4,
     date: "9月20日",
-    weekday: "周日 · 诗意栖居",
+    weekday: "周日",
     tag: "诗韵成都",
     title: "人民公园品茗 · 杜甫草堂访古 · 蜀境雅韵宴",
-    sub: "百年人民公园品茗采耳，诗圣故居寻访千年诗魂，夜宿蜀宴汉唐乐舞盛典",
+    sub: "百年茶社，夜宴压轴",
     photos: [
       { folder: "heming-teahouse", slot: 1, caption: "鹤鸣盖碗茶" },
       { folder: "dufu-cottage", slot: 1, caption: "杜甫草堂" },
@@ -588,10 +578,10 @@ const DAYS: DayData[] = [
   {
     num: 5,
     date: "9月21日",
-    weekday: "周一 · 古蜀寻踪",
+    weekday: "周一",
     tag: "文明探秘",
     title: "三星堆探秘 · 东郊记忆大戏台",
-    sub: "三千年前古蜀文明震撼首选，工业遗址变身文创园，夜赏川剧变脸大戏台",
+    sub: "跨越千年，夜赏戏韵",
     photos: [
       { folder: "sanxingdui", slot: 1, caption: "三星堆博物馆" },
       { folder: "dongjiaojiyi", slot: 2, caption: "东郊记忆" },
@@ -616,10 +606,10 @@ const DAYS: DayData[] = [
   {
     num: 6,
     date: "9月22日",
-    weekday: "周二 · 山水禅意",
+    weekday: "周二",
     tag: "巴蜀山水",
     title: "乐山大佛 · 黄龙溪古镇一日游",
-    sub: "瞻仰千年石刻巨佛的震撼，青石板古镇榕树下品味悠然时光",
+    sub: "全天包车，轻松惬意",
     photos: [
       { folder: "leshan", slot: 1, caption: "乐山大佛" },
       { folder: "huanglongxi", slot: 1, caption: "黄龙溪古镇" },
@@ -660,10 +650,10 @@ const DAYS: DayData[] = [
   {
     num: 7,
     date: "9月23日",
-    weekday: "周三 · 慢调闲适",
+    weekday: "周三",
     tag: "慢调漫步",
     title: "武侯祠寻踪 · 芳草街 Citywalk · Winston 提前返程",
-    sub: "红墙竹影漫步武侯祠，深入老成都社区肌理，傍晚 Winston 先行飞返新加坡",
+    sub: "老友惜别，先行返程",
     photos: [
       { folder: "wuhouci-jinli", slot: 1, caption: "武侯祠红墙" },
       { folder: "fangcao-citywalk", slot: 1, caption: "芳草街 · 华姿路" },
@@ -694,10 +684,10 @@ const DAYS: DayData[] = [
   {
     num: 8,
     date: "9月24日",
-    weekday: "周四 · 满载而归",
+    weekday: "周四",
     tag: "圆满收官",
     title: "川味手信采买 · Andy SQ843 飞返新加坡",
-    sub: "满载天府香辣美味与非遗回忆，Andy 乘新航 SQ843 荣耀返抵樟宜",
+    sub: "自由半天，满载而归",
     photos: [
       { folder: "free-day", slot: 1, caption: "成都最后一天" },
       { folder: "tfu-airport", slot: 1, caption: "天府 T1 候机" },
