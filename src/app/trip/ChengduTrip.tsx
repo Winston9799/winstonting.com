@@ -957,11 +957,11 @@ export default function ChengduTrip() {
           </div>
           <div className="route-arc">
             <div className="route-arc-label">去程 · SQ 842 · 9月17日 (周四) · 4h45m 直飞</div>
-            <svg viewBox="0 0 400 90" className="route-arc-svg">
-              <path d="M 30 70 Q 200 5 370 70" fill="none" stroke="rgba(212,160,23,.35)" strokeWidth="2" strokeDasharray="1 8" strokeLinecap="round" />
-              <circle cx="30" cy="70" r="5" fill="var(--gold-bright)" />
-              <circle cx="370" cy="70" r="5" fill="var(--gold-bright)" />
-              <g transform="translate(200 37) rotate(45)">
+            <svg viewBox="0 0 400 50" className="route-arc-svg">
+              <line x1="30" y1="25" x2="370" y2="25" stroke="rgba(212,160,23,.35)" strokeWidth="2" strokeDasharray="1 8" strokeLinecap="round" />
+              <circle cx="30" cy="25" r="5" fill="var(--gold-bright)" />
+              <circle cx="370" cy="25" r="5" fill="var(--gold-bright)" />
+              <g transform="translate(200 25) rotate(90)">
                 <text x="0" y="0" fontSize="20" textAnchor="middle" dominantBaseline="middle">✈️</text>
               </g>
             </svg>
@@ -979,11 +979,11 @@ export default function ChengduTrip() {
 
           <div className="route-arc">
             <div className="route-arc-label">返程 · SQ 843 · 9月24日 (周四) · 约4h</div>
-            <svg viewBox="0 0 400 90" className="route-arc-svg">
-              <path d="M 30 70 Q 200 5 370 70" fill="none" stroke="rgba(212,160,23,.35)" strokeWidth="2" strokeDasharray="1 8" strokeLinecap="round" />
-              <circle cx="30" cy="70" r="5" fill="var(--gold-bright)" />
-              <circle cx="370" cy="70" r="5" fill="var(--gold-bright)" />
-              <g transform="translate(200 37) rotate(45)">
+            <svg viewBox="0 0 400 50" className="route-arc-svg">
+              <line x1="30" y1="25" x2="370" y2="25" stroke="rgba(212,160,23,.35)" strokeWidth="2" strokeDasharray="1 8" strokeLinecap="round" />
+              <circle cx="30" cy="25" r="5" fill="var(--gold-bright)" />
+              <circle cx="370" cy="25" r="5" fill="var(--gold-bright)" />
+              <g transform="translate(200 25) rotate(90)">
                 <text x="0" y="0" fontSize="20" textAnchor="middle" dominantBaseline="middle">✈️</text>
               </g>
             </svg>
