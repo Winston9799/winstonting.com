@@ -445,8 +445,7 @@ const DAYS: DayData[] = [
       {
         time: "傍晚",
         title: "🏨 入住 Pagoda Design Hotel (成都春熙路太古里店)",
-        desc: "机场至酒店约 50km、50 分钟。接机已通过 Agoda 预订，办理入住高楼层城景双床房。",
-        link: { label: "管理接机预订", href: "https://agoda.mozio.com/en-us/view-reservation/?id=6277e27c94fe464b9272f5e4de879fb5&ref=agoda" },
+        desc: "机场至酒店约 50km、50 分钟，办理入住高楼层城景双床房。",
       },
       {
         time: "晚餐",
