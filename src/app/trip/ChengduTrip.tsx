@@ -21,6 +21,46 @@ function nextSrc(src: string): string | null {
   return i < EXTS.length - 1 ? `${base}.${EXTS[i + 1]}` : null;
 }
 
+// ── CopyAddr: address text + a copy-to-clipboard icon button — briefly
+// swaps to a checkmark on success so tapping it gives visible feedback. ───
+function CopyAddr({ addr }: { addr: string }) {
+  const [copied, setCopied] = useState(false);
+
+  async function handleCopy() {
+    try {
+      await navigator.clipboard.writeText(addr.replace(/^📍\s*/, ""));
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    } catch {
+      // Clipboard API unavailable (no HTTPS, no permission, etc) — nothing
+      // to fall back to here, so just leave the button inert.
+    }
+  }
+
+  return (
+    <div className="a-addr-row">
+      <span className="a-addr">{addr}</span>
+      <button
+        type="button"
+        className={`a-copy-btn${copied ? " copied" : ""}`}
+        aria-label={copied ? "已复制" : "复制地址"}
+        onClick={(e) => { e.stopPropagation(); handleCopy(); }}
+      >
+        {copied ? (
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
+            <path d="M20 6L9 17l-5-5" />
+          </svg>
+        ) : (
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" />
+            <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" />
+          </svg>
+        )}
+      </button>
+    </div>
+  );
+}
+
 // ── DayGallery: click-to-lightbox grid pulling one photo from each of several
 // named folders, each with its own caption — used for the per-day header grid ──
 type GalleryItem = { folder: string; slot: number; caption: string };
@@ -236,6 +276,68 @@ function WeatherForecast() {
   );
 }
 
+// ── ExchangeRate: live SGD↔CNY rate via Frankfurter (free, no API key,
+// CORS-enabled, ECB reference rates) — refetches on mount and every 30
+// minutes, falling back to a static blurb if the request fails. ──────────
+function ExchangeRate() {
+  const [sgdToCny, setSgdToCny] = useState<number | null>(null);
+  const [error, setError] = useState(false);
+  const [updatedAt, setUpdatedAt] = useState<string | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    async function load() {
+      try {
+        const res = await fetch("https://api.frankfurter.dev/v1/latest?base=SGD&symbols=CNY");
+        if (!res.ok) throw new Error("bad response");
+        const data = await res.json();
+        if (cancelled) return;
+        const rate = data.rates?.CNY;
+        if (typeof rate !== "number") throw new Error("no rate");
+        setSgdToCny(rate);
+        setError(false);
+        setUpdatedAt(new Date().toLocaleTimeString("zh-CN", { hour: "2-digit", minute: "2-digit" }));
+      } catch {
+        if (!cancelled) setError(true);
+      }
+    }
+    load();
+    const interval = setInterval(load, 30 * 60 * 1000);
+    return () => {
+      cancelled = true;
+      clearInterval(interval);
+    };
+  }, []);
+
+  if (error) {
+    return (
+      <p style={{ flex: 1 }}>
+        新加坡出发前可在本地银行或找换店换好人民币现金；到成都后也能用支付宝/微信绑定境外卡直接扫码付款，汇率实时结算更方便。
+      </p>
+    );
+  }
+
+  if (sgdToCny === null) {
+    return <p style={{ flex: 1, color: "var(--outline)" }}>正在获取实时汇率…</p>;
+  }
+
+  return (
+    <div style={{ flex: 1 }}>
+      <div className="fx-row">
+        <div className="fx-tile">
+          <span className="fx-label">1 SGD →</span>
+          <span className="fx-value">{sgdToCny.toFixed(3)} CNY</span>
+        </div>
+        <div className="fx-tile">
+          <span className="fx-label">1 CNY →</span>
+          <span className="fx-value">{(1 / sgdToCny).toFixed(4)} SGD</span>
+        </div>
+      </div>
+      {updatedAt && <p className="weather-updated">Frankfurter 实时更新 · {updatedAt}</p>}
+    </div>
+  );
+}
+
 // ── Lightbox ──────────────────────────────────────────────────────────────────
 function Lightbox({
   imgs,
@@ -328,7 +430,7 @@ const DAYS: DayData[] = [
       {
         time: "傍晚",
         title: "🏨 入住 Pagoda Design Hotel (成都春熙路太古里店)",
-        desc: "机场至酒店约 50km，打车约 50 分钟（¥120–150），或预订酒店商务车 ¥300。办理入住高楼层城景双床房。",
+        desc: "机场至酒店约 50km，约 50 分钟。接机未预订，备选：① Klook预定机场接送　② 直接机场打车（¥120–150）。办理入住高楼层城景双床房。",
       },
       {
         time: "晚餐",
@@ -388,29 +490,45 @@ const DAYS: DayData[] = [
     date: "9月19日",
     weekday: "周六 · 文化慢活",
     tag: "巴适市井",
-    title: "老友会嘉嘉 · 宽窄巷子 · 夜市烟火",
-    sub: "老友重逢畅叙旧日情谊，古巷漫步至夜市烟火气收官",
+    title: "文殊院禅意 · 宽窄巷子采耳 · 抚琴夜市",
+    sub: "嘉嘉专属定制一日路线：古刹寻幽品茶，市井漫步采耳，夜访本地人气夜市",
     photos: [
+      { folder: "wenshu", slot: 1, caption: "文殊院红墙" },
       { folder: "jiajia", slot: 1, caption: "老友嘉嘉" },
       { folder: "kuanzhai", slot: 1, caption: "宽窄巷子夜韵" },
     ],
     activities: [
       {
-        time: "中午",
-        title: "👧 与嘉嘉见面",
-        desc: "久别重逢！嘉嘉是成都本地人，约在人民公园地铁站附近碰头，具体时间地点到时微信联系确认。",
-        badges: [{ text: "📍 人民公园地铁站附近" }],
+        time: "上午",
+        title: "🙏 文殊院",
+        addr: "📍 地铁1/6号线文殊院站K口出站",
+        desc: "10:00-11:30，免费入场，进门可领三支香。逛红墙古刹，拜文殊菩萨，感受千年古刹的宁静。",
       },
       {
-        time: "傍晚",
-        title: "🏘️ 宽窄巷子夜游",
-        addr: "📍 成都市青羊区宽巷子37号",
-        desc: "傍晚人少，历史街区，伴手礼选购。",
+        time: "上午",
+        title: "🍵 荷花茶园",
+        desc: "11:30-12:30，二选一：文殊院内传统茶馆（可看川剧变脸，民俗风情浓）；或文殊坊内荷田水铺·文殊院店（新式国潮茶馆，三楼屋顶露台拍照出片）。",
+      },
+      {
+        time: "中午",
+        title: "🍽️ 明婷饭店（外曹家巷店）",
+        desc: "12:30-14:00，成都苍蝇馆子代表，招牌脑花豆腐、奇香排骨，味道地道。",
+      },
+      {
+        time: "下午",
+        title: "🏘️ 宽窄巷子",
+        desc: "14:00-16:00，从文殊院步行或骑共享单车约15-20分钟。宽巷子、窄巷子、井巷子三巷合一，老建筑里感受老成都市井气息。",
+      },
+      {
+        time: "下午",
+        title: "👂 采耳体验 · 宽窄耳匠采耳",
+        addr: "📍 宽窄巷子附近居民楼内",
+        desc: "16:00-17:30，环境安静、技师专业，基础项目约30-60分钟，约¥100，可提前网上搜团购套餐。",
       },
       {
         time: "晚上",
-        title: "🌃 夜市探店",
-        desc: "成都夜生活正式开场，跟着人气小吃摊逐一打卡，感受地道市井烟火气。",
+        title: "🌃 抚琴夜市",
+        desc: "18:00后，从宽窄巷子打车约10分钟。本地人爱逛的人气夜市，烟火气十足，地道小吃云集，营业至深夜。",
       },
     ],
   },
@@ -637,7 +755,7 @@ const DayCard = memo(function DayCard({
             <div className="activity" key={i}>
               <span className="a-time">{a.time}</span>
               <div className="a-title">{a.title}</div>
-              {a.addr && <div className="a-addr">{a.addr}</div>}
+              {a.addr && <CopyAddr addr={a.addr} />}
               <div className="a-desc">{a.desc}</div>
               {a.badges && (
                 <div className="a-badges">
@@ -810,7 +928,7 @@ export default function ChengduTrip() {
 
       {/* ══ FLIGHT & HOTEL CARDS ══════════════════════════════════════════════ */}
       <div className="fh-section">
-        <div className="sec-h"><h2>航班酒店已准备就绪</h2><p>往返航班与入住信息，均已确认到位</p></div>
+        <div className="sec-h"><h2>航班酒店已准备就绪</h2><p>往返航班与入住信息均已确认，机场接送尚待安排</p></div>
         <div className="fh-grid">
         <div className="info-card glass">
           <div className="info-head">
@@ -846,6 +964,9 @@ export default function ChengduTrip() {
               </div>
             </div>
           </div>
+          <div className="info-list">
+            <div className="info-list-item"><span style={{ color: "var(--gold-leaf)" }}>📶</span><span>全程机上 Wi-Fi，登机后可连接；不妨点一杯经典鸡尾酒 Singapore Sling</span></div>
+          </div>
           <div className="info-foot">
             <span style={{ color: "var(--gold-leaf)", opacity: .9 }}>直飞无时差 (两地均为 UTC+8)</span>
             <span className="info-chip">提前 2.5h 抵机场候机</span>
@@ -865,7 +986,7 @@ export default function ChengduTrip() {
           <div className="info-list">
             <div className="info-list-item"><span style={{ color: "var(--gold-leaf)" }}>📍</span><span>锦江区华兴东街16号 · 步行5分钟即达远洋太古里与春熙路</span></div>
             <div className="info-list-item"><span style={{ color: "var(--gold-leaf)" }}>🛏️</span><span>高楼层城景双床房 · 9月17日–24日 (7晚连住 · 含每日双人早餐)</span></div>
-            <div className="info-list-item"><span style={{ color: "var(--gold-leaf)" }}>🚗</span><span>礼宾部已安排机场商务车专车往返接送机，无缝直达酒店</span></div>
+            <div className="info-list-item"><span style={{ color: "var(--gold-leaf)" }}>🚗</span><span>接机未预订，备选：① Klook预定机场接送　② 直接机场打车</span></div>
           </div>
           <div className="info-foot">
             <div style={{ display: "flex", gap: 8 }}>
@@ -962,6 +1083,11 @@ export default function ChengduTrip() {
             <div className="tc-head"><div className="fi">👟</div><h3>天气与穿着建议</h3></div>
             <WeatherForecast />
             <div className="card-foot"><span className="card-foot-l">薄外套 + 长裤</span><span className="info-chip">未来16天 · 可左右滑动</span></div>
+          </div>
+          <div className="tc glass">
+            <div className="tc-head"><div className="fi">💱</div><h3>新币兑人民币汇率</h3></div>
+            <ExchangeRate />
+            <div className="card-foot"><span className="card-foot-l">支付宝/微信可直接绑卡付款</span><span className="info-chip">实时汇率</span></div>
           </div>
         </div>
       </div>
