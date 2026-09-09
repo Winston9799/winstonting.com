@@ -338,6 +338,51 @@ function ExchangeRate() {
   );
 }
 
+// ── HotelMap: geocodes the hotel address live via Nominatim (OpenStreetMap's
+// free geocoding search, no API key) and embeds an OSM map centered on the
+// result — gives the hotel card the same graphic-centerpiece treatment as
+// the flight card's route arcs. Renders nothing if the lookup fails, so a
+// network hiccup just leaves the card as plain text instead of a broken
+// box. OSM's street-level coverage in China can be sparse, so the pin may
+// land on the nearest mapped road rather than the exact building. ────────
+function HotelMap({ address }: { address: string }) {
+  const [coords, setCoords] = useState<{ lat: number; lon: number } | null>(null);
+  const [failed, setFailed] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch(`https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${encodeURIComponent(address)}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (cancelled) return;
+        if (Array.isArray(data) && data[0]) {
+          setCoords({ lat: parseFloat(data[0].lat), lon: parseFloat(data[0].lon) });
+        } else {
+          setFailed(true);
+        }
+      })
+      .catch(() => {
+        if (!cancelled) setFailed(true);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [address]);
+
+  if (failed || !coords) return null;
+
+  const dLon = 0.006;
+  const dLat = 0.004;
+  const bbox = `${coords.lon - dLon},${coords.lat - dLat},${coords.lon + dLon},${coords.lat + dLat}`;
+  const src = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&marker=${coords.lat}%2C${coords.lon}&layer=mapnik`;
+
+  return (
+    <div className="hotel-map">
+      <iframe src={src} title="酒店地图位置" loading="lazy" />
+    </div>
+  );
+}
+
 // ── Lightbox ──────────────────────────────────────────────────────────────────
 function Lightbox({
   imgs,
@@ -1001,6 +1046,7 @@ export default function ChengduTrip() {
               </div>
             </div>
           </div>
+          <HotelMap address="成都市锦江区华兴东街16号" />
           <div className="info-list">
             <div className="info-list-item"><span style={{ color: "var(--gold-leaf)" }}>📍</span><span>锦江区华兴东街16号 · 步行5分钟即达远洋太古里与春熙路</span></div>
             <div className="info-list-item"><span style={{ color: "var(--gold-leaf)" }}>🛏️</span><span>高楼层城景双床房 · 9月17日–24日 (7晚连住 · 含每日双人早餐)</span></div>
