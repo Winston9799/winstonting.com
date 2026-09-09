@@ -566,4 +566,12 @@ hr.div { border: none; border-top: 1px solid var(--border-lo); max-width: 1100px
 @media (max-width: 768px) {
   .fh-section { padding-top: 40px; }
   .fh-grid { grid-template-columns: 1fr; }
+  /* Touch devices have no :hover, so the CTA's default dim outline never
+     turns into its solid gold state — show that state permanently here
+     so the button reads as tappable at a glance. */
+  .a-cta {
+    background: linear-gradient(135deg, var(--gold-leaf) 0%, var(--gold-bright) 50%, var(--gold) 100%);
+    color: var(--void);
+    border-color: var(--gold-leaf);
+  }
 }
