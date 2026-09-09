@@ -225,9 +225,23 @@
    instead, alongside the centered text. */
 .carousel-bar { text-align: center; margin-bottom: 24px; }
 .carousel-controls { display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 16px; }
+/* Below 640px the arrows just duplicate the subtitle's own "支持左右滑动
+   浏览" hint while eating ~60px of vertical space, and touch swipe already
+   works without them — hide the row entirely so mobile keeps more of the
+   viewport for the card itself. */
+@media (max-width: 639px) {
+  .carousel-controls { display: none; }
+}
 @media (min-width: 640px) {
   .carousel-bar { position: relative; }
   .carousel-controls { position: absolute; right: 0; top: 50%; transform: translateY(-50%); margin-top: 0; }
+}
+/* The food carousel only ever holds 3 cards, which is exactly one full row
+   at the 3-per-row breakpoint — nothing is left to scroll to there, so the
+   arrows (still needed at the 2-per-row tablet width, where 3 cards do
+   overflow) become dead clutter above it. */
+@media (min-width: 1024px) {
+  .food-controls { display: none; }
 }
 .nav-arrow {
   width: 44px; height: 44px; border-radius: 9999px; flex-shrink: 0;
@@ -281,6 +295,12 @@
 .day-card { scroll-snap-align: start; flex-shrink: 0; width: 100%; display: flex; }
 @media (min-width: 640px) { .day-card { width: calc((100% - 24px) / 2); } }
 @media (min-width: 1024px) { .day-card { width: calc((100% - 48px) / 3); } }
+@media (max-width: 639px) {
+  .day-card-inner { padding: 20px; gap: 14px; }
+  .day-title-wrap { min-height: 0; }
+  .gphoto { height: 64px; }
+  .activities { gap: 12px; }
+}
 
 /* Food-list carousel item wrapper — same 1/2/3-per-row breakpoints as
    .day-card, sharing the .carousel-track/.carousel-bar/.nav-arrow styles above. */

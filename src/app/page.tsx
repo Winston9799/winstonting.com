@@ -53,7 +53,7 @@ export default function HomePage() {
   return (
     <div className="bg-midnight">
       {/* ── HERO ──────────────────────────────────────────────────────────── */}
-      <section className="relative -mt-20 min-h-[92vh] flex items-center justify-center overflow-hidden" id="hero-trip">
+      <section className="relative -mt-16 min-h-[92vh] flex items-center justify-center overflow-hidden" id="hero-trip">
         {/* Cinematic background layer */}
         <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
           <div className="w-full h-full animate-hero-bg origin-center transform-gpu">
@@ -93,10 +93,6 @@ export default function HomePage() {
             <div className="flex flex-wrap items-center gap-4 pt-8">
               <a className="btn-luxury-cta px-8 py-3.5" href="/trip/chengdu-sep-2026">
                 <span>View Itinerary</span>
-                <ArrowIcon />
-              </a>
-              <a className="btn-luxury-cta px-8 py-3.5" href="/contact">
-                <span>Contact Me</span>
                 <ArrowIcon />
               </a>
             </div>

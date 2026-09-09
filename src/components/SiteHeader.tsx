@@ -44,12 +44,14 @@ function MegaMenu({ item, onClose }: { item: NavItem; onClose: () => void }) {
   if (!item.columns) return null;
   return (
     <div className="absolute left-0 top-full pt-2 z-40">
-      <div className="w-56 py-2 rounded-xl bg-surface border border-white/10 shadow-2xl shadow-black/80 backdrop-blur-xl">
+      <div className="mega-menu-in w-56 py-2 rounded-xl bg-surface border border-white/10 shadow-2xl shadow-black/80 backdrop-blur-xl origin-top-left">
         {item.columns.map((col) => (
-          <div key={col.heading} className="px-1 py-1">
-            <p className="px-3 pt-2 pb-1 text-[10px] font-semibold tracking-[2px] uppercase text-neutral-500">
-              {col.heading}
-            </p>
+          <div key={col.heading ?? col.links[0]?.href} className="px-1 py-1">
+            {col.heading && (
+              <p className="px-3 pt-2 pb-1 text-[10px] font-semibold tracking-[2px] uppercase text-neutral-500">
+                {col.heading}
+              </p>
+            )}
             {col.links.map((link) => (
               <a key={link.href} href={link.href} onClick={onClose}
                 className="block px-3 py-2 rounded-lg text-[13px] tracking-wide text-neutral-300 hover:text-gold-400 hover:bg-white/5 transition-colors">
@@ -66,7 +68,7 @@ function MegaMenu({ item, onClose }: { item: NavItem; onClose: () => void }) {
 function MobileDrawer({ onClose }: { onClose: () => void }) {
   const [expanded, setExpanded] = useState<string | null>(null);
   return (
-    <div className="fixed inset-0 top-20 z-40 overflow-y-auto glass-nav">
+    <div className="fixed inset-0 top-16 z-40 overflow-y-auto glass-nav">
       <nav className="max-w-7xl mx-auto px-6 py-4">
         {NAV.map((item) => (
           <div key={item.label} className="border-b border-white/[0.08]">
@@ -82,10 +84,12 @@ function MobileDrawer({ onClose }: { onClose: () => void }) {
                 {expanded === item.label && (
                   <div className="pb-4 space-y-5">
                     {item.columns.map((col) => (
-                      <div key={col.heading}>
-                        <p className="text-[10px] font-semibold tracking-[2px] uppercase text-neutral-500 mb-2 px-2">
-                          {col.heading}
-                        </p>
+                      <div key={col.heading ?? col.links[0]?.href}>
+                        {col.heading && (
+                          <p className="text-[10px] font-semibold tracking-[2px] uppercase text-neutral-500 mb-2 px-2">
+                            {col.heading}
+                          </p>
+                        )}
                         {col.links.map((link) => (
                           <a key={link.href} href={link.href} onClick={onClose}
                             className="block px-2 py-1.5 rounded-lg text-[14px] text-neutral-300 hover:text-gold-400 hover:bg-white/5 transition-colors">
@@ -126,7 +130,7 @@ export default function SiteHeader() {
   return (
     <>
       <header ref={navRef} className="sticky top-0 z-50 glass-nav border-b border-white/[0.08]">
-        <div className="max-w-7xl mx-auto px-6 md:px-10 h-20 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-6 md:px-10 h-16 flex items-center justify-between">
 
           {/* Brand & primary nav */}
           <div className="flex items-center space-x-12">

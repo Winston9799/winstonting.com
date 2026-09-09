@@ -14,6 +14,4 @@ export const SOCIALS: Social[] = [
   { name: "Instagram", href: "#", icon: "instagram" },
   { name: "Facebook",  href: "#", icon: "facebook"  },
   { name: "LinkedIn",  href: "#", icon: "linkedin"  },
-  { name: "YouTube",   href: "#", icon: "youtube"   },
-  { name: "TikTok",    href: "#", icon: "tiktok"    },
 ];
