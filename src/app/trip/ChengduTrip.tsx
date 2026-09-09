@@ -983,7 +983,7 @@ export default function ChengduTrip() {
               <line x1="30" y1="25" x2="370" y2="25" stroke="rgba(212,160,23,.35)" strokeWidth="2" strokeDasharray="1 8" strokeLinecap="round" />
               <circle cx="30" cy="25" r="5" fill="var(--gold-bright)" />
               <circle cx="370" cy="25" r="5" fill="var(--gold-bright)" />
-              <g transform="translate(200 25) scale(0.85) translate(-12,-12)">
+              <g transform="translate(200 25) rotate(-150) scale(0.85) translate(-12,-12)">
                 <path d="M2,21L23,12L2,3V10L17,12L2,14V21Z" fill="var(--gold-bright)" />
               </g>
             </svg>
