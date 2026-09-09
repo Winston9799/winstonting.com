@@ -178,7 +178,7 @@
 .route-arc { margin-bottom: 4px; }
 .route-arc-label { font-size: 11px; color: var(--outline); margin-bottom: 2px; }
 .route-arc-svg { width: 100%; height: auto; display: block; }
-.route-arc-labels { display: flex; justify-content: space-between; margin-top: -18px; padding: 0 6px; }
+.route-arc-labels { display: flex; justify-content: space-between; margin-top: -12px; padding: 0 6px; }
 .route-arc-node { display: flex; flex-direction: column; }
 .route-arc-code { font-size: 18px; font-weight: 700; color: #fff; }
 .route-arc-time { font-size: 11px; color: var(--gold-leaf); font-weight: 600; }
