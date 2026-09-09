@@ -151,6 +151,18 @@ body {
   .btn-luxury-cta .btn-icon {
     color: #0A0B0E;
   }
+  /* Opt-out for buttons that shouldn't visually compete for taps — a
+     placeholder card and a secondary contact link — so they stay in the
+     dim, un-emphasized state even on mobile. */
+  .btn-luxury-cta.btn-dim-mobile {
+    background: rgba(18, 20, 26, 0.85);
+    border-color: rgba(255, 255, 255, 0.15);
+    color: rgba(255, 255, 255, 0.85);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  }
+  .btn-luxury-cta.btn-dim-mobile .btn-icon {
+    color: rgba(255, 255, 255, 0.7);
+  }
 }
 
 /* Nav mega-menu entrance — grows from its top-left corner (right under the
