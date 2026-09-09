@@ -862,6 +862,9 @@ export default function ChengduTrip() {
               </div>
             </div>
           </div>
+          <div className="info-list">
+            <div className="info-list-item"><span style={{ color: "var(--gold-leaf)" }}>📶</span><span>全程机上 Wi-Fi，登机后可连接；不妨点一杯经典鸡尾酒 Singapore Sling</span></div>
+          </div>
           <div className="info-foot">
             <span style={{ color: "var(--gold-leaf)", opacity: .9 }}>直飞无时差 (两地均为 UTC+8)</span>
             <span className="info-chip">提前 2.5h 抵机场候机</span>
