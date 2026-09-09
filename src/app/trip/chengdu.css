@@ -236,6 +236,13 @@
   .carousel-bar { position: relative; }
   .carousel-controls { position: absolute; right: 0; top: 50%; transform: translateY(-50%); margin-top: 0; }
 }
+/* The food carousel only ever holds 3 cards, which is exactly one full row
+   at the 3-per-row breakpoint — nothing is left to scroll to there, so the
+   arrows (still needed at the 2-per-row tablet width, where 3 cards do
+   overflow) become dead clutter above it. */
+@media (min-width: 1024px) {
+  .food-controls { display: none; }
+}
 .nav-arrow {
   width: 44px; height: 44px; border-radius: 9999px; flex-shrink: 0;
   display: flex; align-items: center; justify-content: center;

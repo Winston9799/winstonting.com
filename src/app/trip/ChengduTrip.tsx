@@ -1061,7 +1061,7 @@ export default function ChengduTrip() {
             <h2 className="carousel-h2">必吃美食清单</h2>
             <p style={{ fontSize: 14, color: "var(--outline)", marginTop: 6 }}>辣而不燥、鲜香醇厚的天府味觉探索 · 支持左右滑动浏览</p>
           </div>
-          <div className="carousel-controls">
+          <div className="carousel-controls food-controls">
             <button aria-label="上一组美食" className="nav-arrow" disabled={foodAtStart} onClick={() => scrollFoodCarousel(-1)}>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round"><path d="M15 6l-6 6 6 6" /></svg>
             </button>
