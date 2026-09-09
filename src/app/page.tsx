@@ -127,12 +127,14 @@ export default function HomePage() {
                 desc: "Your next adventure goes here. Add a new page in nav.ts to catalog future journeys around the globe.",
                 href: "#",
                 cta: "Learn more",
+                noMobileGold: true,
               },
               {
                 title: "Contact Me",
                 desc: "Questions, collaborations, or just a hello. Drop an inquiry or discuss bespoke travel itineraries.",
                 href: "/contact",
                 cta: "Reach out",
+                noMobileGold: true,
               },
             ].map((card) => (
               <article key={card.title}
@@ -146,7 +148,7 @@ export default function HomePage() {
                   </p>
                 </div>
                 <div className="pt-8">
-                  <a className="btn-luxury-cta px-6 py-2.5" href={card.href}>
+                  <a className={`btn-luxury-cta px-6 py-2.5${card.noMobileGold ? " btn-dim-mobile" : ""}`} href={card.href}>
                     <span>{card.cta}</span>
                     <ArrowIcon />
                   </a>
