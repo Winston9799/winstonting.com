@@ -940,30 +940,48 @@ export default function ChengduTrip() {
               </div>
             </div>
           </div>
-          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            <div className="flight-leg">
-              <div className="flight-leg-top">
-                <span className="flight-leg-num">去程 · SQ 842</span>
-                <span className="flight-leg-when">9月17日 (周四) · 4h 45m</span>
+          <div className="route-arc">
+            <div className="route-arc-label">去程 · SQ 842 · 9月17日 (周四) · 4h45m 直飞</div>
+            <svg viewBox="0 0 400 90" className="route-arc-svg">
+              <path d="M 30 70 Q 200 5 370 70" fill="none" stroke="rgba(212,160,23,.35)" strokeWidth="2" strokeDasharray="1 8" strokeLinecap="round" />
+              <circle cx="30" cy="70" r="5" fill="var(--gold-bright)" />
+              <circle cx="370" cy="70" r="5" fill="var(--gold-bright)" />
+              <g transform="translate(200 37) rotate(45)">
+                <text x="0" y="0" fontSize="20" textAnchor="middle" dominantBaseline="middle">✈️</text>
+              </g>
+            </svg>
+            <div className="route-arc-labels">
+              <div className="route-arc-node">
+                <span className="route-arc-code">SIN</span>
+                <span className="route-arc-time">12:25</span>
               </div>
-              <div className="flight-leg-route">
-                <span>🇸🇬 SIN 樟宜 T3 <span style={{ color: "var(--gold-leaf)", fontWeight: 400, fontSize: 11 }}>12:25</span></span>
-                <span style={{ color: "var(--outline)" }}>➔</span>
-                <span>🇨🇳 TFU 天府 T1 <span style={{ color: "var(--gold-leaf)", fontWeight: 400, fontSize: 11 }}>17:10</span></span>
-              </div>
-            </div>
-            <div className="flight-leg">
-              <div className="flight-leg-top">
-                <span className="flight-leg-num">返程 · SQ 843</span>
-                <span className="flight-leg-when">9月24日 (周四) · 约 4h</span>
-              </div>
-              <div className="flight-leg-route">
-                <span>🇨🇳 TFU 天府 T1</span>
-                <span style={{ color: "var(--outline)" }}>➔</span>
-                <span>🇸🇬 SIN 樟宜 T3</span>
+              <div className="route-arc-node" style={{ alignItems: "flex-end" }}>
+                <span className="route-arc-code">TFU</span>
+                <span className="route-arc-time">17:10</span>
               </div>
             </div>
           </div>
+
+          <div className="route-arc">
+            <div className="route-arc-label">返程 · SQ 843 · 9月24日 (周四) · 约4h</div>
+            <svg viewBox="0 0 400 90" className="route-arc-svg">
+              <path d="M 30 70 Q 200 5 370 70" fill="none" stroke="rgba(212,160,23,.35)" strokeWidth="2" strokeDasharray="1 8" strokeLinecap="round" />
+              <circle cx="30" cy="70" r="5" fill="var(--gold-bright)" />
+              <circle cx="370" cy="70" r="5" fill="var(--gold-bright)" />
+              <g transform="translate(200 37) rotate(45)">
+                <text x="0" y="0" fontSize="20" textAnchor="middle" dominantBaseline="middle">✈️</text>
+              </g>
+            </svg>
+            <div className="route-arc-labels">
+              <div className="route-arc-node">
+                <span className="route-arc-code">TFU</span>
+              </div>
+              <div className="route-arc-node" style={{ alignItems: "flex-end" }}>
+                <span className="route-arc-code">SIN</span>
+              </div>
+            </div>
+          </div>
+
           <div className="info-list">
             <div className="info-list-item"><span style={{ color: "var(--gold-leaf)" }}>📶</span><span>全程机上 Wi-Fi，登机后可连接；不妨点一杯经典鸡尾酒 Singapore Sling</span></div>
           </div>
@@ -979,7 +997,7 @@ export default function ChengduTrip() {
               <span className="info-icon">🏨</span>
               <div>
                 <div className="info-title">Pagoda君亭设计酒店 (成都春熙路太古里店)</div>
-                <div className="info-sub">Pagoda Design Hotel Chengdu</div>
+                <div className="info-sub">🛬 抵达 TFU 天府机场后入住</div>
               </div>
             </div>
           </div>
