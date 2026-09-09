@@ -281,6 +281,18 @@
 .day-card { scroll-snap-align: start; flex-shrink: 0; width: 100%; display: flex; }
 @media (min-width: 640px) { .day-card { width: calc((100% - 24px) / 2); } }
 @media (min-width: 1024px) { .day-card { width: calc((100% - 48px) / 3); } }
+/* Below 640px only one card is ever on screen at a time (full-width, one
+   swipe away from the next) — so unlike the 2/3-per-row desktop grid,
+   there's no visual benefit to forcing every card to the height of the
+   tallest day. Letting each card size to its own content keeps the
+   shorter days short instead of padding them out to match the longest. */
+@media (max-width: 639px) {
+  .day-track { align-items: flex-start; }
+  .day-card-inner { padding: 20px; gap: 14px; }
+  .day-title-wrap { min-height: 0; }
+  .gphoto { height: 64px; }
+  .activities { gap: 12px; }
+}
 
 /* Food-list carousel item wrapper — same 1/2/3-per-row breakpoints as
    .day-card, sharing the .carousel-track/.carousel-bar/.nav-arrow styles above. */
