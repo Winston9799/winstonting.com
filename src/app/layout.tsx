@@ -9,6 +9,7 @@ import Script from "next/script";
 import "./globals.css";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
+import ButtonClickTracker from "@/components/ButtonClickTracker";
 
 // ─── EDIT ANALYTICS ID ────────────────────────────────────────────────────────
 const GA_MEASUREMENT_ID = "G-ZJ0TTRNBV4";
@@ -72,6 +73,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             gtag('config', '${GA_MEASUREMENT_ID}');
           `}
         </Script>
+        <ButtonClickTracker />
         <SiteHeader />
         <main className="flex-1">{children}</main>
         <SiteFooter />
