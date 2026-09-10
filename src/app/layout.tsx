@@ -5,9 +5,14 @@
 import type { Metadata } from "next";
 import { Noto_Sans_SC } from "next/font/google";
 import localFont from "next/font/local";
+import Script from "next/script";
 import "./globals.css";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
+
+// ─── EDIT ANALYTICS ID ────────────────────────────────────────────────────────
+const GA_MEASUREMENT_ID = "G-ZJ0TTRNBV4";
+// ─────────────────────────────────────────────────────────────────────────────
 
 // Self-hosted variable-width Open Sans (English body copy)
 const openSans = localFont({
@@ -40,6 +45,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={`${openSans.variable} ${notoSansSC.variable}`}>
       <head />
       <body className="min-h-screen flex flex-col bg-[var(--background)]">
+        <Script src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`} strategy="afterInteractive" />
+        <Script id="ga4-init" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${GA_MEASUREMENT_ID}');
+          `}
+        </Script>
         <SiteHeader />
         <main className="flex-1">{children}</main>
         <SiteFooter />
