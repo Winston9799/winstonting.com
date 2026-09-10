@@ -5,6 +5,11 @@
 // trip/chengdu-sep-2026/page.tsx, and page.tsx do it) and render <JsonLd
 // data={SEO.<key>.jsonLd} /> somewhere in its JSX.
 //
+// Every field below is optional — leave any of them out (or delete a whole
+// line) and that piece just falls back cleanly instead of breaking anything:
+// title/description fall back to the site-wide default in layout.tsx,
+// keywords/canonical/jsonLd are simply omitted from the page if left blank.
+//
 // Note: the site is currently set to noindex (see layout.tsx's `robots`) —
 // none of this affects search rankings until that's turned off, but title/
 // description still show in the browser tab and in link previews (social,
@@ -14,12 +19,12 @@
 export const SITE_URL = "https://winstonting.com";
 
 export interface PageSeo {
-  title: string;
-  description: string;
-  keywords: string[];
+  title?: string;
+  description?: string;
+  keywords?: string[];
   /** Path only, e.g. "/" or "/contact" — SITE_URL is prepended for you. */
-  path: string;
-  jsonLd: Record<string, unknown>;
+  path?: string;
+  jsonLd?: Record<string, unknown>;
 }
 
 export const SEO = {
@@ -70,12 +75,15 @@ export const SEO = {
 // ── Next.js <Metadata> builder ────────────────────────────────────────────────
 // Converts one SEO entry into the shape app/**/page.tsx's `metadata` export
 // wants — keeps that conversion logic in one place instead of repeating it
-// per page.
+// per page. Leaving title/description undefined lets Next inherit the
+// site-wide default from layout.tsx instead of rendering something blank;
+// leaving keywords/path empty just omits that tag rather than rendering an
+// empty or incorrect one.
 export function toMetadata(page: PageSeo) {
   return {
-    title: page.title,
-    description: page.description,
-    keywords: page.keywords,
-    alternates: { canonical: `${SITE_URL}${page.path}` },
+    title: page.title || undefined,
+    description: page.description || undefined,
+    keywords: page.keywords?.length ? page.keywords : undefined,
+    alternates: page.path ? { canonical: `${SITE_URL}${page.path}` } : undefined,
   };
 }
