@@ -1,10 +1,14 @@
-import type { Metadata } from "next";
+import { SEO, toMetadata } from "@/lib/seo";
+import JsonLd from "@/components/JsonLd";
 import ContactClient from "./ContactClient";
 
-export const metadata: Metadata = {
-  title: "Contact Me",
-};
+export const metadata = toMetadata(SEO.contact);
 
 export default function ContactPage() {
-  return <ContactClient />;
+  return (
+    <>
+      <JsonLd data={SEO.contact.jsonLd} />
+      <ContactClient />
+    </>
+  );
 }
