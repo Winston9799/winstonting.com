@@ -700,7 +700,7 @@ const DayCard = memo(function DayCard({
   openLb: (imgs: string[], idx: number, caps: string[]) => void;
 }) {
   return (
-    <div className="day-card">
+    <div className="day-card" id={`day-${day.num}`}>
       <div
         className={`day-card-inner glass${isActive ? " active" : ""}`}
         onClick={() => onSelect(day.num)}
@@ -857,6 +857,19 @@ export default function ChengduTrip() {
   // unaffected cards — an inline arrow function recreated on every render
   // would defeat it just as much as skipping memo() entirely.
   const onSelectDay = useCallback((num: number) => setActiveDay(num), []);
+
+  // Deep-link support for the header search (e.g. "#day-3") — jump straight
+  // to that day's card and mark it active, instead of always landing on Day 1.
+  useEffect(() => {
+    const match = window.location.hash.match(/^#day-(\d+)$/);
+    if (!match) return;
+    const num = Number(match[1]);
+    if (!DAYS.some((d) => d.num === num)) return;
+    setActiveDay(num);
+    requestAnimationFrame(() => {
+      document.getElementById(`day-${num}`)?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+    });
+  }, []);
 
   const openLb = useCallback((imgs: string[], idx: number, caps: string[]) =>
     setLb({ open: true, imgs, idx, caps }), []);
