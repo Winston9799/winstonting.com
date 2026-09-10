@@ -8,6 +8,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { NAV, NavItem } from "@/lib/nav";
+import SearchModal from "./SearchModal";
 
 // ─── EDIT SITE IDENTITY ───────────────────────────────────────────────────────
 const SITE_NAME = "Winston";
@@ -117,6 +118,7 @@ function MobileDrawer({ onClose }: { onClose: () => void }) {
 export default function SiteHeader() {
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
   const navRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -174,6 +176,7 @@ export default function SiteHeader() {
               aria-label="Search"
               className="hidden md:flex items-center gap-2.5 text-sm text-neutral-400 hover:text-white px-3.5 py-1.5 rounded-full hover:bg-white/5 border border-transparent hover:border-white/10 transition-all duration-200"
               type="button"
+              onClick={() => setSearchOpen(true)}
             >
               <IconSearch />
               <span className="text-xs tracking-wide font-normal">Search</span>
@@ -191,6 +194,7 @@ export default function SiteHeader() {
       </header>
 
       {mobileOpen && <MobileDrawer onClose={() => setMobileOpen(false)} />}
+      <SearchModal open={searchOpen} onClose={() => setSearchOpen(false)} />
     </>
   );
 }
