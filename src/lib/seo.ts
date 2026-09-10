@@ -16,7 +16,7 @@
 // iMessage, etc.) regardless of indexing.
 // ─────────────────────────────────────────────────────────────────────────────
 
-export const SITE_URL = "https://winstonting.com";
+export const SITE_URL = "https://www.winstonting.com";
 
 export interface PageSeo {
   title?: string;
