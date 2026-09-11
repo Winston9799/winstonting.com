@@ -159,49 +159,28 @@ export default function HomeClient() {
         </div>
       </section>
 
-      {/* ── HOTEL SHOWCASE ────────────────────────────────────────────────── */}
-      <section className="relative py-24 bg-deepslate border-t border-white/[0.06] overflow-hidden" id="hotel-showcase">
-        <div className="absolute right-10 top-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gold-500/10 rounded-full blur-[140px] pointer-events-none" />
-        <div className="max-w-7xl mx-auto px-6 md:px-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-            <div className="lg:col-span-6 space-y-6">
-              <div className="space-y-2">
-                <h2 className="text-3xl md:text-4xl font-semibold tracking-tight leading-tight bg-[linear-gradient(120deg,#fff_0%,#f3e7c4_25%,#f6be39_60%,#d4a017_90%)] bg-clip-text text-transparent">
-                  旅居之选
-                </h2>
-                <p className="text-sm text-neutral-400">
-                  每一程，用心挑选落脚之处
-                </p>
-              </div>
-              <div className="grid grid-cols-2 gap-4 pt-2">
-                <div className="p-4 rounded-2xl glass-card backdrop-blur-md border border-white/5">
-                  <div className="text-xs text-neutral-400">地理位置</div>
-                  <div className="text-sm font-semibold text-white mt-1">步行可达当地精华</div>
-                </div>
-                <div className="p-4 rounded-2xl glass-card backdrop-blur-md border border-white/5">
-                  <div className="text-xs text-neutral-400">住宿体验</div>
-                  <div className="text-sm font-semibold text-white mt-1">舒适惬意的居停体验</div>
-                </div>
-              </div>
-              <div className="pt-4">
-                <a className="btn-luxury-cta px-8 py-3.5" href="/trip/chengdu-sep-2026">
-                  <span>查看行程详情</span>
-                  <ArrowIcon />
-                </a>
-              </div>
-            </div>
-
-            <div className="lg:col-span-6">
-              <div className="relative group mx-auto max-w-xl lg:max-w-none aspect-[16/10]">
-                <FallbackImg
-                  src="/images/pagoda-hotel/1.jpg"
-                  alt="A well-appointed hotel room at night"
-                  className="hotel-photo-blend w-full h-full object-cover object-center filter contrast-[1.05] transition-transform duration-700 ease-out group-hover:scale-105"
-                />
-              </div>
-            </div>
-          </div>
+      {/* ── STAY SHOWCASE ─────────────────────────────────────────────────── */}
+      <section className="relative py-32 md:py-40 min-h-[420px] flex items-center justify-center overflow-hidden" id="hotel-showcase">
+        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+          <FallbackImg
+            src="/images/stay-showcase/1.png"
+            alt="Aerial view of a snow-covered coastal city at night"
+            className="absolute inset-0 w-full h-full object-cover scale-105 filter blur-[2px] brightness-[0.55] contrast-[1.05]"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-midnight via-midnight/20 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-b from-midnight/50 via-transparent to-transparent" />
         </div>
+
+        <div className="relative z-10 max-w-7xl w-full mx-auto px-6 md:px-10 text-center">
+          <h2 className="text-3xl md:text-4xl font-semibold tracking-tight leading-tight bg-[linear-gradient(120deg,#fff_0%,#f3e7c4_25%,#f6be39_60%,#d4a017_90%)] bg-clip-text text-transparent">
+            旅居之选
+          </h2>
+          <p className="text-sm text-neutral-300 mt-2">
+            每一程，用心挑选落脚之处
+          </p>
+        </div>
+
+        <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-midnight to-transparent pointer-events-none" />
       </section>
     </div>
   );
