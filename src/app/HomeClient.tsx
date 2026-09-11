@@ -80,17 +80,17 @@ export default function HomeClient() {
           <div className="dust-particle w-1.5 h-1.5 bg-amber-200/60 blur-[0.5px] top-[48%] left-[78%]" style={{ animationDelay: "1.5s" }} />
         </div>
 
-        <div className="relative z-10 max-w-7xl w-full mx-auto px-6 md:px-10 py-16 flex flex-col justify-center md:justify-end min-h-[75vh]">
+        <div className="relative z-10 max-w-7xl w-full mx-auto px-6 md:px-10 py-16 flex flex-col items-center justify-center text-center min-h-[75vh]">
           <div className="max-w-3xl space-y-6">
             <div className="space-y-6">
               <h1 className="text-4xl sm:text-5xl md:text-6xl font-semibold text-white tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.9)]">
                 Winston&rsquo;s Adventure
               </h1>
-              <p className="text-lg sm:text-xl text-neutral-300 font-medium max-w-2xl leading-relaxed">
+              <p className="text-lg sm:text-xl text-neutral-300 font-medium max-w-2xl mx-auto leading-relaxed">
                 Next Adventure - Chengdu, China, a city full of heritage, culinary artistry, and modern design culture.
               </p>
             </div>
-            <div className="flex flex-wrap items-center gap-4 pt-8">
+            <div className="flex flex-wrap items-center justify-center gap-4 pt-8">
               <a className="btn-luxury-cta px-8 py-3.5" href="/trip/chengdu-sep-2026">
                 <span>View Itinerary</span>
                 <ArrowIcon />
