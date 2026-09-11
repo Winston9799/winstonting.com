@@ -160,7 +160,7 @@ export default function HomeClient() {
       </section>
 
       {/* ── STAY SHOWCASE ─────────────────────────────────────────────────── */}
-      <section className="relative py-32 md:py-40 min-h-[420px] flex items-center justify-center overflow-hidden" id="hotel-showcase">
+      <section className="relative py-40 md:py-56 min-h-[560px] flex items-center justify-center overflow-hidden" id="hotel-showcase">
         <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
           <FallbackImg
             src="/images/stay-showcase/1.png"
