@@ -167,25 +167,25 @@ export default function HomeClient() {
             <div className="lg:col-span-6 space-y-6">
               <div className="space-y-2">
                 <h2 className="text-3xl md:text-4xl font-semibold tracking-tight leading-tight bg-[linear-gradient(120deg,#fff_0%,#f3e7c4_25%,#f6be39_60%,#d4a017_90%)] bg-clip-text text-transparent">
-                  Pagoda君亭设计酒店
+                  旅居之选
                 </h2>
                 <p className="text-sm text-neutral-400">
-                  成都春熙路太古里店
+                  每一程，用心挑选落脚之处
                 </p>
               </div>
               <div className="grid grid-cols-2 gap-4 pt-2">
                 <div className="p-4 rounded-2xl glass-card backdrop-blur-md border border-white/5">
                   <div className="text-xs text-neutral-400">地理位置</div>
-                  <div className="text-sm font-semibold text-white mt-1">春熙路 / 太古里商业圈</div>
+                  <div className="text-sm font-semibold text-white mt-1">步行可达当地精华</div>
                 </div>
                 <div className="p-4 rounded-2xl glass-card backdrop-blur-md border border-white/5">
-                  <div className="text-xs text-neutral-400">客房景致</div>
-                  <div className="text-sm font-semibold text-white mt-1">高楼层城景房</div>
+                  <div className="text-xs text-neutral-400">住宿体验</div>
+                  <div className="text-sm font-semibold text-white mt-1">舒适惬意的居停体验</div>
                 </div>
               </div>
               <div className="pt-4">
                 <a className="btn-luxury-cta px-8 py-3.5" href="/trip/chengdu-sep-2026">
-                  <span>查看完整每日入住安排</span>
+                  <span>查看行程详情</span>
                   <ArrowIcon />
                 </a>
               </div>
@@ -195,7 +195,7 @@ export default function HomeClient() {
               <div className="relative group mx-auto max-w-xl lg:max-w-none aspect-[16/10]">
                 <FallbackImg
                   src="/images/pagoda-hotel/1.jpg"
-                  alt="Pagoda Design Hotel Chengdu Taikoo Li"
+                  alt="A well-appointed hotel room at night"
                   className="hotel-photo-blend w-full h-full object-cover object-center filter contrast-[1.05] transition-transform duration-700 ease-out group-hover:scale-105"
                 />
               </div>
