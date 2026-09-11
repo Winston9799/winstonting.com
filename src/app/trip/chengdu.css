@@ -258,18 +258,22 @@
 }
 .nav-arrow:disabled { opacity: .3; cursor: not-allowed; border-color: rgba(255,255,255,.1); color: var(--outline); }
 
-/* Apple-style page dots — the position cue that replaces the nav-arrow row
-   on mobile (hidden above at max-width: 639px). Desktop keeps the arrows
-   instead, so these stay hidden there. */
-.carousel-dots { display: none; }
-@media (max-width: 639px) {
-  .carousel-dots { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 16px; }
-  .carousel-dot {
-    width: 6px; height: 6px; border-radius: 9999px; padding: 0; border: none;
-    background: rgba(255, 255, 255, .25); cursor: pointer;
-    transition: background-color .25s ease;
-  }
-  .carousel-dot.active { background: var(--gold-bright); }
+/* Apple-style page dots — shown at every width for the 8-day carousel,
+   alongside the nav-arrow buttons on desktop as an extra at-a-glance
+   position cue, and as mobile's only position cue once those arrows are
+   hidden. */
+.carousel-dots { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 16px; }
+.carousel-dot {
+  width: 6px; height: 6px; border-radius: 9999px; padding: 0; border: none;
+  background: rgba(255, 255, 255, .25); cursor: pointer;
+  transition: background-color .25s ease;
+}
+.carousel-dot.active { background: var(--gold-bright); }
+/* The food carousel only has 3 cards — not enough to make a position dot
+   row worthwhile once more than one is visible per row, so it's mobile-only
+   (unlike the day carousel's dots, which stay visible at every width). */
+@media (min-width: 640px) {
+  .food-dots { display: none; }
 }
 
 /* padding-top keeps the active card's top border/glow ring from getting
