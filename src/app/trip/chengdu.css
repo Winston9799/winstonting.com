@@ -258,6 +258,20 @@
 }
 .nav-arrow:disabled { opacity: .3; cursor: not-allowed; border-color: rgba(255,255,255,.1); color: var(--outline); }
 
+/* Apple-style page dots — the position cue that replaces the nav-arrow row
+   on mobile (hidden above at max-width: 639px). Desktop keeps the arrows
+   instead, so these stay hidden there. */
+.carousel-dots { display: none; }
+@media (max-width: 639px) {
+  .carousel-dots { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 16px; }
+  .carousel-dot {
+    width: 6px; height: 6px; border-radius: 9999px; padding: 0; border: none;
+    background: rgba(255, 255, 255, .25); cursor: pointer;
+    transition: background-color .25s ease;
+  }
+  .carousel-dot.active { background: var(--gold-bright); }
+}
+
 /* padding-top keeps the active card's top border/glow ring from getting
    clipped by the scroll boundary. mandatory (not proximity) makes a swipe
    always settle on exactly one card. -webkit-overflow-scrolling keeps the
