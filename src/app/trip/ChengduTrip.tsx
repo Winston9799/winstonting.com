@@ -857,13 +857,15 @@ function CarouselDots({
   count,
   activeIndex,
   onSelect,
+  className,
 }: {
   count: number;
   activeIndex: number;
   onSelect: (index: number) => void;
+  className?: string;
 }) {
   return (
-    <div className="carousel-dots" role="tablist" aria-label="滑动位置">
+    <div className={`carousel-dots${className ? ` ${className}` : ""}`} role="tablist" aria-label="滑动位置">
       {Array.from({ length: count }, (_, i) => (
         <button
           key={i}
@@ -1144,7 +1146,7 @@ export default function ChengduTrip() {
             </div>
           ))}
         </div>
-        <CarouselDots count={FOOD_ITEMS.length} activeIndex={foodIndex} onSelect={goToFood} />
+        <CarouselDots count={FOOD_ITEMS.length} activeIndex={foodIndex} onSelect={goToFood} className="food-dots" />
       </div>
 
       {/* ══ TIPS ══════════════════════════════════════════════════════════════ */}
