@@ -887,7 +887,7 @@ export default function ChengduTrip() {
   const onDayIndexChange = useCallback((index: number) => {
     setActiveDay(DAYS[Math.min(DAYS.length - 1, index)].num);
   }, []);
-  const { trackRef, atStart, atEnd, onScroll: onTrackScroll, scrollByPage: scrollCarousel } = useCarousel(".day-card", onDayIndexChange);
+  const { trackRef, onScroll: onTrackScroll } = useCarousel(".day-card", onDayIndexChange);
   const [foodIndex, setFoodIndex] = useState(0);
   const onFoodIndexChange = useCallback((index: number) => {
     setFoodIndex(Math.min(FOOD_ITEMS.length - 1, index));
@@ -897,12 +897,36 @@ export default function ChengduTrip() {
   const goToDay = useCallback((i: number) => {
     const num = DAYS[i].num;
     setActiveDay(num);
-    document.getElementById(`day-${num}`)?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+    document.getElementById(`day-${num}`)?.scrollIntoView({ behavior: "smooth", inline: "start", block: "nearest" });
   }, []);
   const goToFood = useCallback((i: number) => {
     setFoodIndex(i);
     document.getElementById(`food-${i}`)?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
   }, []);
+
+  // How many day cards are visible per row at the current breakpoint (see
+  // .day-card's width rules in chengdu.css: 1/2/3 at </640px, 640-1023px,
+  // 1024px+) — drives the dot count below so each dot represents one full
+  // screen of cards to jump to, not one individual (often already-visible
+  // alongside its neighbors) day.
+  const [dayItemsPerView, setDayItemsPerView] = useState(1);
+  useEffect(() => {
+    const mq1024 = window.matchMedia("(min-width: 1024px)");
+    const mq640 = window.matchMedia("(min-width: 640px)");
+    const update = () => setDayItemsPerView(mq1024.matches ? 3 : mq640.matches ? 2 : 1);
+    update();
+    mq1024.addEventListener("change", update);
+    mq640.addEventListener("change", update);
+    return () => {
+      mq1024.removeEventListener("change", update);
+      mq640.removeEventListener("change", update);
+    };
+  }, []);
+  const dayPageCount = Math.ceil(DAYS.length / dayItemsPerView);
+  const dayActivePage = Math.min(dayPageCount - 1, Math.floor(dayIndex / dayItemsPerView));
+  const goToDayPage = useCallback((page: number) => {
+    goToDay(Math.min(DAYS.length - 1, page * dayItemsPerView));
+  }, [dayItemsPerView, goToDay]);
   // Stable references so DayCard's memo() actually bails out re-rendering
   // unaffected cards — an inline arrow function recreated on every render
   // would defeat it just as much as skipping memo() entirely.
@@ -917,7 +941,7 @@ export default function ChengduTrip() {
     if (!DAYS.some((d) => d.num === num)) return;
     setActiveDay(num);
     requestAnimationFrame(() => {
-      document.getElementById(`day-${num}`)?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+      document.getElementById(`day-${num}`)?.scrollIntoView({ behavior: "smooth", inline: "start", block: "nearest" });
     });
   }, []);
 
@@ -1089,18 +1113,8 @@ export default function ChengduTrip() {
       {/* ══ ITINERARY CAROUSEL ════════════════════════════════════════════════ */}
       <div className="sec">
         <div className="carousel-bar">
-          <div>
-            <h2 className="carousel-h2">每日行程规划</h2>
-            <p style={{ fontSize: 14, color: "var(--outline)", marginTop: 6 }}>一览 8 天 7 夜精彩安排｜左右滑动浏览</p>
-          </div>
-          <div className="carousel-controls">
-            <button aria-label="上一页行程" className="nav-arrow" disabled={atStart} onClick={() => scrollCarousel(-1)}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round"><path d="M15 6l-6 6 6 6" /></svg>
-            </button>
-            <button aria-label="下一页行程" className="nav-arrow" disabled={atEnd} onClick={() => scrollCarousel(1)}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 6l6 6-6 6" /></svg>
-            </button>
-          </div>
+          <h2 className="carousel-h2">每日行程规划</h2>
+          <p style={{ fontSize: 14, color: "var(--outline)", marginTop: 6 }}>一览 8 天 7 夜精彩安排｜左右滑动浏览</p>
         </div>
 
         <div className="carousel-track" ref={trackRef} onScroll={onTrackScroll}>
@@ -1114,7 +1128,7 @@ export default function ChengduTrip() {
             />
           ))}
         </div>
-        <CarouselDots count={DAYS.length} activeIndex={dayIndex} onSelect={goToDay} />
+        <CarouselDots count={dayPageCount} activeIndex={dayActivePage} onSelect={goToDayPage} />
       </div>
 
       {/* ══ FOOD LIST ═════════════════════════════════════════════════════════ */}
