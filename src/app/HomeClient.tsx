@@ -167,8 +167,7 @@ export default function HomeClient() {
             alt="Aerial view of a snow-covered coastal city at night"
             className="absolute inset-0 w-full h-full object-cover scale-105 filter blur-[2px] brightness-[0.55] contrast-[1.05]"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-midnight via-midnight/20 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-b from-midnight/50 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-midnight/35" />
         </div>
 
         <div className="relative z-10 max-w-7xl w-full mx-auto px-6 md:px-10 text-center">
@@ -180,6 +179,7 @@ export default function HomeClient() {
           </p>
         </div>
 
+        <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-b from-midnight to-transparent pointer-events-none" />
         <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-midnight to-transparent pointer-events-none" />
       </section>
     </div>
