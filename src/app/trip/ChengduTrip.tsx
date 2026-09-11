@@ -677,6 +677,12 @@ const DAYS: DayData[] = [
   },
 ];
 
+const FOOD_ITEMS: [icon: string, name: string, desc: string, addr: string, folder: string][] = [
+  ["🍄", "爱尚菌野生菌火锅", "17号晚首选！菌子季鲜味绝顶，清鲜暖胃，完美第一晚。", "📍锦江区东大街388号香槟广场3楼（春熙路太古里店）", "food-junzi"],
+  ["🥟", "经典成都名小吃", "甜水面劲道甜辣、抄手鲜香、蛋烘糕（一定要加肉松！），推荐龙抄手总店。", "📍锦江区春熙路南段6-8号龙抄手总店（近中山广场，地铁2/3号线春熙路站D口）", "food-longchaoshou"],
+  ["🍲", "正宗川菜佳肴", "层次丰富、百菜百味，回味悠长，推荐陈麻婆豆腐、陶德砂锅、吃客三家老字号。", "📍陈麻婆豆腐：青羊区东华门街51号 · 陶德砂锅：锦江区总府路8号鸿德春熙中心3F · 吃客：锦江区致民路48号", "food-mapo"],
+];
+
 // ── One day's card, memoized ────────────────────────────────────────────────
 // The itinerary carousel updates activeDay on every scroll frame that
 // crosses a card boundary (see useCarousel's onLeadingIndexChange below).
@@ -844,6 +850,34 @@ function useCarousel(itemSelector: string, onLeadingIndexChange?: (index: number
   return { trackRef, atStart, atEnd, onScroll, scrollByPage };
 }
 
+// ── Mobile-only page-dot indicator (Apple-style) for the day/food carousels —
+// the nav-arrow buttons are hidden below 640px, so this is the only position
+// cue left once the row header/subtitle scrolls out of view. ────────────────
+function CarouselDots({
+  count,
+  activeIndex,
+  onSelect,
+}: {
+  count: number;
+  activeIndex: number;
+  onSelect: (index: number) => void;
+}) {
+  return (
+    <div className="carousel-dots" role="tablist" aria-label="滑动位置">
+      {Array.from({ length: count }, (_, i) => (
+        <button
+          key={i}
+          role="tab"
+          aria-selected={i === activeIndex}
+          aria-label={`第 ${i + 1} 项`}
+          className={`carousel-dot${i === activeIndex ? " active" : ""}`}
+          onClick={() => onSelect(i)}
+        />
+      ))}
+    </div>
+  );
+}
+
 // ── Main ChengduTrip component ────────────────────────────────────────────────
 export default function ChengduTrip() {
   const [lb, setLb] = useState({ open: false, imgs: [] as string[], idx: 0, caps: [] as string[] });
@@ -852,7 +886,21 @@ export default function ChengduTrip() {
     setActiveDay(DAYS[Math.min(DAYS.length - 1, index)].num);
   }, []);
   const { trackRef, atStart, atEnd, onScroll: onTrackScroll, scrollByPage: scrollCarousel } = useCarousel(".day-card", onDayIndexChange);
-  const { trackRef: foodTrackRef, atStart: foodAtStart, atEnd: foodAtEnd, onScroll: onFoodTrackScroll, scrollByPage: scrollFoodCarousel } = useCarousel(".food-card");
+  const [foodIndex, setFoodIndex] = useState(0);
+  const onFoodIndexChange = useCallback((index: number) => {
+    setFoodIndex(Math.min(FOOD_ITEMS.length - 1, index));
+  }, []);
+  const { trackRef: foodTrackRef, atStart: foodAtStart, atEnd: foodAtEnd, onScroll: onFoodTrackScroll, scrollByPage: scrollFoodCarousel } = useCarousel(".food-card", onFoodIndexChange);
+  const dayIndex = DAYS.findIndex((d) => d.num === activeDay);
+  const goToDay = useCallback((i: number) => {
+    const num = DAYS[i].num;
+    setActiveDay(num);
+    document.getElementById(`day-${num}`)?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+  }, []);
+  const goToFood = useCallback((i: number) => {
+    setFoodIndex(i);
+    document.getElementById(`food-${i}`)?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+  }, []);
   // Stable references so DayCard's memo() actually bails out re-rendering
   // unaffected cards — an inline arrow function recreated on every render
   // would defeat it just as much as skipping memo() entirely.
@@ -1064,6 +1112,7 @@ export default function ChengduTrip() {
             />
           ))}
         </div>
+        <CarouselDots count={DAYS.length} activeIndex={dayIndex} onSelect={goToDay} />
       </div>
 
       {/* ══ FOOD LIST ═════════════════════════════════════════════════════════ */}
@@ -1084,12 +1133,8 @@ export default function ChengduTrip() {
           </div>
         </div>
         <div className="carousel-track" ref={foodTrackRef} onScroll={onFoodTrackScroll}>
-          {[
-            ["🍄","爱尚菌野生菌火锅","17号晚首选！菌子季鲜味绝顶，清鲜暖胃，完美第一晚。","📍锦江区东大街388号香槟广场3楼（春熙路太古里店）","food-junzi"],
-            ["🥟","经典成都名小吃","甜水面劲道甜辣、抄手鲜香、蛋烘糕（一定要加肉松！），推荐龙抄手总店。","📍锦江区春熙路南段6-8号龙抄手总店（近中山广场，地铁2/3号线春熙路站D口）","food-longchaoshou"],
-            ["🍲","正宗川菜佳肴","层次丰富、百菜百味，回味悠长，推荐陈麻婆豆腐、陶德砂锅、吃客三家老字号。","📍陈麻婆豆腐：青羊区东华门街51号 · 陶德砂锅：锦江区总府路8号鸿德春熙中心3F · 吃客：锦江区致民路48号","food-mapo"],
-          ].map(([icon, name, desc, addr, folder]) => (
-            <div className="food-card" key={name}>
+          {FOOD_ITEMS.map(([icon, name, desc, addr, folder], i) => (
+            <div className="food-card" id={`food-${i}`} key={name}>
               <div className="fc glass">
                 <div className="fc-head"><div className="fi">{icon}</div><h3>{name}</h3></div>
                 <p style={{ flex: 1 }}>{desc}</p>
@@ -1099,6 +1144,7 @@ export default function ChengduTrip() {
             </div>
           ))}
         </div>
+        <CarouselDots count={FOOD_ITEMS.length} activeIndex={foodIndex} onSelect={goToFood} />
       </div>
 
       {/* ══ TIPS ══════════════════════════════════════════════════════════════ */}
